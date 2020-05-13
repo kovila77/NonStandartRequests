@@ -28,7 +28,6 @@ namespace TranslationColumns
         private readonly string strColumnName = "column_name";
         private readonly string strTableName = "table_name";
         private readonly string strTranslation = "translation";
-        private bool needReload = false;
 
         public fTranslationColumns()
         {
@@ -65,6 +64,7 @@ namespace TranslationColumns
 
         public void ComplementTable()
         {
+            dataGridView1.EndEdit();
             dataGridView1.Rows.Clear();
             using (var liteConn = new SQLiteConnection(sLiteConn))
             {
@@ -183,7 +183,6 @@ namespace TranslationColumns
                 }
             }
             if (!dataGridView1.IsCurrentCellDirty) return;
-            //if (RmvExtrSpaces(e.FormattedValue.ToString()) != oldCellValue)
             using (var liteConn = new SQLiteConnection(sLiteConn))
             {
                 liteConn.Open();
@@ -194,9 +193,8 @@ namespace TranslationColumns
                 cmd.Parameters.AddWithValue("tn", row.Cells[strTableName].Value);
                 cmd.Parameters.AddWithValue("tr", RmvExtrSpaces(e.FormattedValue.ToString()));
                 cmd.ExecuteNonQuery().ToString();
-                //MessageBox.Show(cmd.ExecuteNonQuery().ToString());
             }
-            needReload = cell.Style.BackColor == Color.Red;
+            if (cell.Style.BackColor == Color.Red) cell.Style.BackColor = dataGridView1.DefaultCellStyle.BackColor;
         }
 
         public string RmvExtrSpaces(string str)
@@ -217,11 +215,11 @@ namespace TranslationColumns
             {
                 cell.Value = cellFormatedValue;
             }
-            if (needReload)
-            {
-                needReload = false;
-                ComplementTable();
-            }
+        }
+
+        private void загрузитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ComplementTable();
         }
     }
 }
