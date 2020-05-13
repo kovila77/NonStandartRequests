@@ -23,7 +23,15 @@ namespace NonStandartRequests
             Password = dbSettings.Default.Password,
         }.ConnectionString;
 
-       
+        string sLiteConn = new SQLiteConnectionStringBuilder()
+        {
+            DataSource = "transcription.sqlite",
+        }.ConnectionString;
+
+        private readonly string strColumnName = "column_name";
+        private readonly string strTableName = "table_name";
+        private readonly string strTranslation = "translation";
+
         public fNonStandartRequests()
         {
             InitializeComponent();
@@ -43,8 +51,8 @@ namespace NonStandartRequests
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    lvAllFields.Items.Add(new ListViewItem((string)reader["outpost_name"]));
-                    //listBox1.Items.Add((string)reader["outpost_name"]);
+                    //lvAllFields.Items.Add(new ListViewItem((string)reader["outpost_name"]));
+                    listBox1.Items.Add((string)reader["outpost_name"]);
                 }
             }
         }

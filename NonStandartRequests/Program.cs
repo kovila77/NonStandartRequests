@@ -17,6 +17,7 @@ namespace NonStandartRequests
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new fNonStandartRequests());
+            Application.Run(new fNonStandartRequests());
         }
     }
 }

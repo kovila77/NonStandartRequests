@@ -10,22 +10,15 @@ using System.Windows.Forms;
 using System.Data.SQLite;
 using Npgsql;
 using TranslationColumns.Properties;
-using NonStandartRequests;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Xml;
 
 namespace TranslationColumns
 {
     public partial class fTranslationColumns : Form
     {
-        string sPostgresConn = new NpgsqlConnectionStringBuilder()
-        {
-            Database = dbSettings.Default.DatabaseName,
-            Host = dbSettings.Default.Host,
-            Port = dbSettings.Default.Port,
-            Username = dbSettings.Default.User,
-            Password = dbSettings.Default.Password,
-        }.ConnectionString;
+        string sPostgresConn;
 
         string sLiteConn = new SQLiteConnectionStringBuilder()
         {
@@ -40,6 +33,28 @@ namespace TranslationColumns
         public fTranslationColumns()
         {
             InitializeComponent();
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(@"NonStandartRequests.exe.config");
+            var settings = doc.ChildNodes.Cast<XmlNode>()
+                .FirstOrDefault(x => x.Name == "configuration").ChildNodes.Cast<XmlNode>()
+                .FirstOrDefault(x => x.Name == "userSettings").Cast<XmlNode>()
+                .FirstOrDefault(x => x.Name == "NonStandartRequests.Settings").ChildNodes.Cast<XmlNode>()
+                .Select(x => new
+                {
+                    Name = x.Attributes.Cast<XmlAttribute>().FirstOrDefault(y => y.Name == "name").FirstChild.Value,
+                    Value = x.FirstChild.FirstChild.Value
+                });
+
+            sPostgresConn = new NpgsqlConnectionStringBuilder()
+            {
+                Database = settings.FirstOrDefault(x => x.Name == "DatabaseName").Value,
+                Host = settings.FirstOrDefault(x => x.Name == "Host").Value,
+                Port = Convert.ToInt32(settings.FirstOrDefault(x => x.Name == "Port").Value),
+                Username = settings.FirstOrDefault(x => x.Name == "User").Value,
+                Password = settings.FirstOrDefault(x => x.Name == "Password").Value,
+            }.ConnectionString;
+
             dataGridView1.Columns[dataGridView1.Columns.Add(strColumnName, "Название поля")].ReadOnly = true;
             dataGridView1.Columns[dataGridView1.Columns.Add(strTableName, "Название таблицы")].ReadOnly = true;
             dataGridView1.Columns[dataGridView1.Columns.Add(strTranslation, "Переведённое название")].ValueType = typeof(string);
