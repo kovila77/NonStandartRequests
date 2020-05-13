@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{740F7111-4C3E-4AA0-B2F6-E895A0718A51}</ProjectGuid>
+    <ProjectGuid>{5A46C697-A467-4F73-88DA-47AB9E3A23E4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>NonStandartRequests</RootNamespace>
-    <AssemblyName>NonStandartRequests</AssemblyName>
+    <RootNamespace>TranslationColumns</RootNamespace>
+    <AssemblyName>TranslationColumns</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -82,21 +82,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="fNonStandartRequests.cs">
+    <Compile Include="fTranslationColumns.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="fNonStandartRequests.Designer.cs">
-      <DependentUpon>fNonStandartRequests.cs</DependentUpon>
+    <Compile Include="fTranslationColumns.Designer.cs">
+      <DependentUpon>fTranslationColumns.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="dbSettings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>dbSettings.settings</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="fNonStandartRequests.resx">
-      <DependentUpon>fNonStandartRequests.cs</DependentUpon>
+    <EmbeddedResource Include="fTranslationColumns.resx">
+      <DependentUpon>fTranslationColumns.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -107,6 +102,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="..\NonStandartRequests\dbSettings.settings">
+      <Link>dbSettings.settings</Link>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -117,13 +115,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="dbSettings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>dbSettings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NonStandartRequests\NonStandartRequests.csproj">
+      <Project>{740F7111-4C3E-4AA0-B2F6-E895A0718A51}</Project>
+      <Name>NonStandartRequests</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.112.2\build\net40\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.112.2\build\net40\System.Data.SQLite.Core.targets')" />

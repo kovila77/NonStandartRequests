@@ -30,6 +30,8 @@
         {
             this.tcQuery = new System.Windows.Forms.TabControl();
             this.tpFields = new System.Windows.Forms.TabPage();
+            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.btAllLeftFieldFields = new System.Windows.Forms.Button();
             this.btAllRightFieldFields = new System.Windows.Forms.Button();
             this.btLeftFieldFields = new System.Windows.Forms.Button();
@@ -94,6 +96,8 @@
             // 
             // tpFields
             // 
+            this.tpFields.Controls.Add(this.listBox2);
+            this.tpFields.Controls.Add(this.listBox1);
             this.tpFields.Controls.Add(this.btAllLeftFieldFields);
             this.tpFields.Controls.Add(this.btAllRightFieldFields);
             this.tpFields.Controls.Add(this.btLeftFieldFields);
@@ -110,6 +114,22 @@
             this.tpFields.Text = "Поля";
             this.tpFields.UseVisualStyleBackColor = true;
             // 
+            // listBox2
+            // 
+            this.listBox2.FormattingEnabled = true;
+            this.listBox2.Location = new System.Drawing.Point(375, 33);
+            this.listBox2.Name = "listBox2";
+            this.listBox2.Size = new System.Drawing.Size(151, 147);
+            this.listBox2.TabIndex = 9;
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(12, 33);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(122, 147);
+            this.listBox1.TabIndex = 8;
+            // 
             // btAllLeftFieldFields
             // 
             this.btAllLeftFieldFields.Location = new System.Drawing.Point(210, 134);
@@ -118,6 +138,7 @@
             this.btAllLeftFieldFields.TabIndex = 7;
             this.btAllLeftFieldFields.Text = "<<";
             this.btAllLeftFieldFields.UseVisualStyleBackColor = true;
+            this.btAllLeftFieldFields.Click += new System.EventHandler(this.btAllLeftFieldFields_Click);
             // 
             // btAllRightFieldFields
             // 
@@ -127,6 +148,7 @@
             this.btAllRightFieldFields.TabIndex = 6;
             this.btAllRightFieldFields.Text = ">>";
             this.btAllRightFieldFields.UseVisualStyleBackColor = true;
+            this.btAllRightFieldFields.Click += new System.EventHandler(this.btAllRightFieldFields_Click);
             // 
             // btLeftFieldFields
             // 
@@ -136,6 +158,7 @@
             this.btLeftFieldFields.TabIndex = 5;
             this.btLeftFieldFields.Text = "<";
             this.btLeftFieldFields.UseVisualStyleBackColor = true;
+            this.btLeftFieldFields.Click += new System.EventHandler(this.btLeftFieldFields_Click);
             // 
             // btRightFieldFields
             // 
@@ -145,13 +168,14 @@
             this.btRightFieldFields.TabIndex = 4;
             this.btRightFieldFields.Text = ">";
             this.btRightFieldFields.UseVisualStyleBackColor = true;
+            this.btRightFieldFields.Click += new System.EventHandler(this.btRightFieldFields_Click);
             // 
             // lvSelectedFields1
             // 
             this.lvSelectedFields1.HideSelection = false;
-            this.lvSelectedFields1.Location = new System.Drawing.Point(320, 23);
+            this.lvSelectedFields1.Location = new System.Drawing.Point(281, 7);
             this.lvSelectedFields1.Name = "lvSelectedFields1";
-            this.lvSelectedFields1.Size = new System.Drawing.Size(221, 167);
+            this.lvSelectedFields1.Size = new System.Drawing.Size(58, 47);
             this.lvSelectedFields1.TabIndex = 3;
             this.lvSelectedFields1.UseCompatibleStateImageBehavior = false;
             // 
@@ -176,11 +200,12 @@
             // lvAllFields
             // 
             this.lvAllFields.HideSelection = false;
-            this.lvAllFields.Location = new System.Drawing.Point(8, 23);
+            this.lvAllFields.Location = new System.Drawing.Point(140, 10);
             this.lvAllFields.Name = "lvAllFields";
-            this.lvAllFields.Size = new System.Drawing.Size(170, 167);
+            this.lvAllFields.Size = new System.Drawing.Size(64, 44);
             this.lvAllFields.TabIndex = 0;
             this.lvAllFields.UseCompatibleStateImageBehavior = false;
+            this.lvAllFields.View = System.Windows.Forms.View.List;
             // 
             // tpCondition
             // 
@@ -578,6 +603,8 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ListView lvSelectedFields2;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox listBox2;
     }
 }
 

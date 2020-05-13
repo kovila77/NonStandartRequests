@@ -6,7 +6,7 @@
       <Value Profile="(Default)">outpost</Value>
     </Setting>
     <Setting Name="Host" Type="System.String" Scope="User">
-      <Value Profile="(Default)">192.168.88.100</Value>
+      <Value Profile="(Default)">192.168.88.101</Value>
     </Setting>
     <Setting Name="Port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5432</Value>
