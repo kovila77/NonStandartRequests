@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TranslationColumns;
 
 namespace NonStandartRequests
 {
@@ -16,7 +17,9 @@ namespace NonStandartRequests
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new fNonStandartRequests());
+            var tf = new fTranslationColumns(fTranslationColumns.FormType.NeedExit) { Visible = false };
+            //Application.Run(tf);
+            tf.Dispose();
             Application.Run(new fNonStandartRequests());
         }
     }

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Npgsql;
+using TranslationColumns;
 
 namespace NonStandartRequests
 {
@@ -25,12 +26,14 @@ namespace NonStandartRequests
 
         string sLiteConn = new SQLiteConnectionStringBuilder()
         {
-            DataSource = "transcription.sqlite",
+            DataSource = dbSettings.Default.TranslationPath,
         }.ConnectionString;
 
         private readonly string strColumnName = "column_name";
         private readonly string strTableName = "table_name";
         private readonly string strTranslation = "translation";
+
+        MyFieldController myFieldController;
 
         public fNonStandartRequests()
         {
@@ -39,22 +42,27 @@ namespace NonStandartRequests
 
         private void fNonStandartRequests_Load(object sender, EventArgs e)
         {
-            using (var conn = new NpgsqlConnection(sPostgresConn))
+            myFieldController = new MyFieldController();
+            foreach (var item in myFieldController.Fields)
             {
-                conn.Open();
-
-                var command = new NpgsqlCommand()
-                {
-                    Connection = conn,
-                    CommandText = "select outpost_name from outposts",
-                };
-                var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    //lvAllFields.Items.Add(new ListViewItem((string)reader["outpost_name"]));
-                    listBox1.Items.Add((string)reader["outpost_name"]);
-                }
+                listBox1.Items.Add(item.Name);
             }
+            //using (var conn = new NpgsqlConnection(sPostgresConn))
+            //{
+            //    conn.Open();
+
+            //    var command = new NpgsqlCommand()
+            //    {
+            //        Connection = conn,
+            //        CommandText = "select outpost_name from outposts",
+            //    };
+            //    var reader = command.ExecuteReader();
+            //    while (reader.Read())
+            //    {
+            //        //lvAllFields.Items.Add(new ListViewItem((string)reader["outpost_name"]));
+            //        listBox1.Items.Add((string)reader["outpost_name"]);
+            //    }
+            //}
         }
 
         private void btRightFieldFields_Click(object sender, EventArgs e)
@@ -85,6 +93,13 @@ namespace NonStandartRequests
             foreach (var itm in listBox2.Items)
                 listBox1.Items.Add(itm);
             listBox2.Items.Clear();
+        }
+
+        private void btTransl_Click(object sender, EventArgs e)
+        {
+            throw new Exception("Отключенный модуль");
+            var tf = new fTranslationColumns(fTranslationColumns.FormType.NeedChanges);
+            tf.Show();
         }
     }
 }

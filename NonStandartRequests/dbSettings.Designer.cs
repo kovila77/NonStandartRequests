@@ -13,7 +13,7 @@ namespace NonStandartRequests {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.5.0.0")]
-    public sealed partial class dbSettings : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class dbSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static dbSettings defaultInstance = ((dbSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new dbSettings())));
         
@@ -80,6 +80,18 @@ namespace NonStandartRequests {
             }
             set {
                 this["Password"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\35498\\source\\repos\\NonStandartRequests\\transcription.sqlite")]
+        public string TranslationPath {
+            get {
+                return ((string)(this["TranslationPath"]));
+            }
+            set {
+                this["TranslationPath"] = value;
             }
         }
     }

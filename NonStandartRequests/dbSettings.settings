@@ -17,5 +17,8 @@
     <Setting Name="Password" Type="System.String" Scope="User">
       <Value Profile="(Default)">kovila77</Value>
     </Setting>
+    <Setting Name="TranslationPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\35498\source\repos\NonStandartRequests\transcription.sqlite</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

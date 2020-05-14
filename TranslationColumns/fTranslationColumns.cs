@@ -20,30 +20,37 @@ namespace TranslationColumns
     {
         string sPostgresConn;
 
-        string sLiteConn = new SQLiteConnectionStringBuilder()
-        {
-            DataSource = "transcription.sqlite",
-        }.ConnectionString;
+        string sLiteConn;
 
         private readonly string strColumnName = "column_name";
         private readonly string strTableName = "table_name";
         private readonly string strTranslation = "translation";
 
-        public fTranslationColumns()
+        public enum FormType
         {
+            NeedExit,
+            NeedChanges
+        }
+        FormType formType;
+
+        public fTranslationColumns(FormType ft)
+        {
+            formType = ft;
             InitializeComponent();
 
             XmlDocument doc = new XmlDocument();
-            doc.Load(@"NonStandartRequests.exe.config");
+            //doc.Load(@"NonStandartRequests.exe.config"); 
+            //doc.Load(@"C:\Users\35498\source\repos\NonStandartRequests\NonStandartRequests\bin\Debug\NonStandartRequests.exe.config");
+            doc.Load(conficN.Default.nonstandartrequestConfigPath);
             var settings = doc.ChildNodes.Cast<XmlNode>()
-                .FirstOrDefault(x => x.Name == "configuration").ChildNodes.Cast<XmlNode>()
-                .FirstOrDefault(x => x.Name == "userSettings").Cast<XmlNode>()
-                .FirstOrDefault(x => x.Name == "NonStandartRequests.Settings").ChildNodes.Cast<XmlNode>()
-                .Select(x => new
-                {
-                    Name = x.Attributes.Cast<XmlAttribute>().FirstOrDefault(y => y.Name == "name").FirstChild.Value,
-                    Value = x.FirstChild.FirstChild.Value
-                });
+              .FirstOrDefault(x => x.Name == "configuration").ChildNodes.Cast<XmlNode>()
+              .FirstOrDefault(x => x.Name == "userSettings").Cast<XmlNode>()
+              .FirstOrDefault(x => x.Name == "NonStandartRequests.Settings").ChildNodes.Cast<XmlNode>()
+              .Select(x => new
+              {
+                  Name = x.Attributes.Cast<XmlAttribute>().FirstOrDefault(y => y.Name.ToLower() == "name").FirstChild.Value,
+                  Value = x.FirstChild.FirstChild.Value,
+              });
 
             sPostgresConn = new NpgsqlConnectionStringBuilder()
             {
@@ -52,6 +59,11 @@ namespace TranslationColumns
                 Port = Convert.ToInt32(settings.FirstOrDefault(x => x.Name == "Port").Value),
                 Username = settings.FirstOrDefault(x => x.Name == "User").Value,
                 Password = settings.FirstOrDefault(x => x.Name == "Password").Value,
+            }.ConnectionString;
+
+            sLiteConn = new SQLiteConnectionStringBuilder()
+            {
+                DataSource = settings.FirstOrDefault(x => x.Name == "TranslationPath").Value,
             }.ConnectionString;
 
             dataGridView1.Columns[dataGridView1.Columns.Add(strColumnName, "Название поля")].ReadOnly = true;
@@ -118,6 +130,8 @@ namespace TranslationColumns
                                         if (row1.Cells[strTranslation].FormattedValue.ToString() == column)
                                         {
                                             MessageBox.Show("Значение перевода уже существует! Измените его и повторно запустите процесс!");
+                                            this.Visible = true;
+                                            formType = FormType.NeedChanges;
                                             dataGridView1.ClearSelection();
                                             dataGridView1[dataGridView1.Columns[strTranslation].Index, row1.Index].Selected = true;
                                             dataGridView1[dataGridView1.Columns[strTranslation].Index, row1.Index].Style.BackColor = Color.Red;
@@ -136,29 +150,22 @@ namespace TranslationColumns
                             }
                             if (index == -1) throw new Exception("Такого не должно было случиться!");
                             var row = dataGridView1.Rows[index];
-                            //foreach (DataGridViewRow row in dataGridView1.Rows)
-                            //{
                             cmd.Parameters.AddWithValue("cn", row.Cells[strColumnName].FormattedValue.ToString());
                             cmd.Parameters.AddWithValue("tn", row.Cells[strTableName].FormattedValue.ToString());
                             cmd.Parameters.AddWithValue("tr", row.Cells[strTranslation].FormattedValue.ToString());
 
-                            //cmd.CommandText = @"SELECT 1 FROM translation WHERE column_name = @cn AND table_name = @tn;";
-                            //if (cmd.ExecuteScalar() != null)
-                            //{
-                            //    cmd.CommandText = @"UPDATE translation SET translation = @tr WHERE column_name = @cn AND table_name = @tn;";
-                            //}
-                            //else
-                            //{
-                            // cmd.CommandText = @"INSERT INTO translation (column_name, table_name, translation) VALUES (@cn, @tn, @tr);";
-                            //}
+
                             cmd.ExecuteNonQuery();
-                            //}
                         }
                     }
                 }
 
                 cmd.CommandText = @"COMMIT;";
                 cmd.ExecuteNonQuery();
+            }
+            if (formType == FormType.NeedExit)
+            {
+                this.Close();
             }
         }
 

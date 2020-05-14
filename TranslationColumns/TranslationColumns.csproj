@@ -85,6 +85,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="conficN.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>conficN.settings</DependentUpon>
+    </Compile>
     <Compile Include="fTranslationColumns.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +110,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="conficN.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>conficN.Designer.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

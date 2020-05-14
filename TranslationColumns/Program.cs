@@ -16,7 +16,7 @@ namespace TranslationColumns
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new fTranslationColumns());
+            Application.Run(new fTranslationColumns(fTranslationColumns.FormType.NeedChanges));
         }
     }
 }
