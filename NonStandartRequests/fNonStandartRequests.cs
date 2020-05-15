@@ -32,6 +32,7 @@ namespace NonStandartRequests
         private string sqlQuery;
 
         NpgsqlCommandBuilder npgsqlCommandBuilder = new NpgsqlCommandBuilder();
+        private ColumnHeader sortingColumn = null;
 
         private readonly string strColumnName = "column_name";
         private readonly string strTableName = "table_name";
@@ -220,17 +221,20 @@ namespace NonStandartRequests
             //                    where lbSelectedFieldsFields.Items.Contains(field.Name)
             //                    select npgsqlCommandBuilder.QuoteIdentifier(field.TableName) + "." +
             //                    npgsqlCommandBuilder.QuoteIdentifier(field.ColumnName)).ToArray();
-            List<string> tempForColumns = new List<string>();
-            for (int i = 0; i < lbSelectedFieldsFields.Items.Count; i++)
-            {
-                var field = myFieldController.Fields.FirstOrDefault(x => x.Name == lbSelectedFieldsFields.Items[i].ToString());
-                tempForColumns.Add(npgsqlCommandBuilder.QuoteIdentifier(field.TableName) + "." +
-                            npgsqlCommandBuilder.QuoteIdentifier(field.ColumnName));
-            }
-            string[] columns = tempForColumns.ToArray();
-            string[] tables = (from field in myFieldController.Fields
-                               where lbSelectedFieldsFields.Items.Contains(field.Name)
-                               select (field.TableName)).Distinct().ToArray();
+            //List<string> tempForColumns = new List<string>();
+            //for (int i = 0; i < lbSelectedFieldsFields.Items.Count; i++)
+            //{
+            //    var field = myFieldController.Fields.FirstOrDefault(x => x.Name == lbSelectedFieldsFields.Items[i].ToString());
+            //    tempForColumns.Add(npgsqlCommandBuilder.QuoteIdentifier(field.TableName) + "." +
+            //                npgsqlCommandBuilder.QuoteIdentifier(field.ColumnName));
+            //}
+            //string[] columns = tempForColumns.ToArray();
+            string[] columns = lbSelectedFieldsFields.Items.Cast<MyField>().Select(x => npgsqlCommandBuilder.QuoteIdentifier(x.TableName) + "." +
+                            npgsqlCommandBuilder.QuoteIdentifier(x.ColumnName)).ToArray();
+            //string[] tables = (from field in myFieldController.Fields
+            //                   where lbSelectedFieldsFields.Items.Contains(field.Name)
+            //                   select (field.TableName)).Distinct().ToArray();
+            string[] tables = lbSelectedFieldsFields.Items.Cast<MyField>().Select(x => x.TableName).Distinct().ToArray();
 
             if (columns.Length < 1 || tables.Length < 1)
             {
@@ -258,6 +262,7 @@ namespace NonStandartRequests
             }
 
             lvResult.Clear();
+            sortingColumn = null;
             for (int i = 0; i < lbSelectedFieldsFields.Items.Count; i++)
             {
                 lvResult.Columns.Add(lbSelectedFieldsFields.Items[i].ToString());
@@ -292,22 +297,72 @@ namespace NonStandartRequests
                 lvResult.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
+
+
+        private void lvResult_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            ColumnHeader newSortingColumn = lvResult.Columns[e.Column];
+
+
+            SortOrder sortOrder;
+            if (sortingColumn == null || sortingColumn != newSortingColumn || (SortOrder)sortingColumn.Tag == SortOrder.Descending)
+            {
+                sortOrder = SortOrder.Ascending;
+                newSortingColumn.Tag = SortOrder.Ascending;
+            }
+            else
+            {
+                sortOrder = SortOrder.Descending;
+                newSortingColumn.Tag = SortOrder.Descending;
+            }
+
+            sortingColumn = newSortingColumn;
+            lvResult.ListViewItemSorter =
+                new ListViewComparer(e.Column, sortOrder);
+            lvResult.Sort();
+        }
+
+        public class ListViewComparer : System.Collections.IComparer
+        {
+            private int ColumnNumber;
+            private SortOrder SortOrder;
+
+            public ListViewComparer(int column_number, SortOrder sort_order)
+            {
+                ColumnNumber = column_number;
+                SortOrder = sort_order;
+            }
+
+            public int Compare(object x, object y)
+            {
+                ListViewItem itemFirst = x as ListViewItem;
+                ListViewItem itemSecond = y as ListViewItem;
+
+                string string_x = itemFirst.SubItems[ColumnNumber].Text;
+
+                string string_y = itemSecond.SubItems[ColumnNumber].Text;
+
+                int result;
+                double double_x, double_y;
+                if (double.TryParse(string_x, out double_x) && double.TryParse(string_y, out double_y))
+                {
+                    result = double_x.CompareTo(double_y);
+                }
+                else
+                {
+                    DateTime date_x, date_y;
+                    if (DateTime.TryParse(string_x, out date_x) && DateTime.TryParse(string_y, out date_y))
+                    {
+                        result = date_x.CompareTo(date_y);
+                    }
+                    else
+                    {
+                        result = string_x.CompareTo(string_y);
+                    }
+                }
+
+                return SortOrder == SortOrder.Ascending ? result : -result;
+            }
+        }
     }
 }
-
-
-
-//SELECT table_constraints.table_name        AS tn1,
-//       key_column_usage.column_name AS cn1,
-//       constraint_column_usage.table_name AS tn2,
-//       constraint_column_usage.column_name AS cn2
-//FROM information_schema.table_constraints
-//         JOIN information_schema.key_column_usage
-//              ON table_constraints.constraint_name = key_column_usage.constraint_name
-//                  AND table_constraints.table_schema = key_column_usage.table_schema
-//         JOIN information_schema.constraint_column_usage
-//              ON constraint_column_usage.constraint_name = table_constraints.constraint_name
-//                  AND constraint_column_usage.constraint_schema = table_constraints.constraint_schema
-//                  AND constraint_column_usage.table_name IN ('outposts', 'outpost_missions')
-//WHERE table_constraints.table_name IN ('outposts', 'outpost_missions')
-//  AND constraint_type = 'FOREIGN KEY';
