@@ -29,6 +29,10 @@ namespace NonStandartRequests
             DataSource = dbSettings.Default.TranslationPath,
         }.ConnectionString;
 
+        private string sqlQuery;
+
+        NpgsqlCommandBuilder npgsqlCommandBuilder = new NpgsqlCommandBuilder();
+
         private readonly string strColumnName = "column_name";
         private readonly string strTableName = "table_name";
         private readonly string strTranslation = "translation";
@@ -45,8 +49,9 @@ namespace NonStandartRequests
             myFieldController = new MyFieldController();
             foreach (var item in myFieldController.Fields)
             {
-                listBox1.Items.Add(item.Name);
+                lbAllFields.Items.Add(item.Name);
             }
+            lbAllFields.Sorted = true;
             //using (var conn = new NpgsqlConnection(sPostgresConn))
             //{
             //    conn.Open();
@@ -64,42 +69,236 @@ namespace NonStandartRequests
             //    }
             //}
         }
+        private void lbAllFields_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            btRightFieldFields_Click(null, null);
+        }
+
+        private void lbSelectedFieldsFields_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            btLeftFieldFields_Click(null, null);
+        }
 
         private void btRightFieldFields_Click(object sender, EventArgs e)
         {
-            if (listBox1.SelectedItem == null) return;
-            var tmp = listBox1.SelectedItem;
-            listBox1.Items.Remove(tmp);
-            listBox2.Items.Add(tmp);
+            if (lbAllFields.SelectedItem == null) return;
+            var tmp = lbAllFields.SelectedItem;
+            lbAllFields.Items.Remove(tmp);
+            lbSelectedFieldsFields.Items.Add(tmp);
         }
 
         private void btLeftFieldFields_Click(object sender, EventArgs e)
         {
-            if (listBox2.SelectedItem == null) return;
-            var tmp = listBox2.SelectedItem;
-            listBox2.Items.Remove(tmp);
-            listBox1.Items.Add(tmp);
+            if (lbSelectedFieldsFields.SelectedItem == null) return;
+            var tmp = lbSelectedFieldsFields.SelectedItem;
+            lbSelectedFieldsFields.Items.Remove(tmp);
+            lbAllFields.Items.Add(tmp);
         }
 
         private void btAllRightFieldFields_Click(object sender, EventArgs e)
         {
-            foreach (var itm in listBox1.Items)
-                listBox2.Items.Add(itm);
-            listBox1.Items.Clear();
+            foreach (var itm in lbAllFields.Items)
+                lbSelectedFieldsFields.Items.Add(itm);
+            lbAllFields.Items.Clear();
         }
 
         private void btAllLeftFieldFields_Click(object sender, EventArgs e)
         {
-            foreach (var itm in listBox2.Items)
-                listBox1.Items.Add(itm);
-            listBox2.Items.Clear();
+            foreach (var itm in lbSelectedFieldsFields.Items)
+                lbAllFields.Items.Add(itm);
+            lbSelectedFieldsFields.Items.Clear();
         }
 
-        private void btTransl_Click(object sender, EventArgs e)
+        //private void btTransl_Click(object sender, EventArgs e)
+        //{
+        //    throw new Exception("Отключенный модуль");
+        //    var tf = new fTranslationColumns(fTranslationColumns.FormType.NeedChanges);
+        //    tf.Show();
+        //}
+
+        private void btShowSQL_Click(object sender, EventArgs e) => createQuery(false);
+
+        private void btExecute_Click(object sender, EventArgs e) => createQuery(true);
+
+        private string GetColumnsToSelect(string[] columns)
         {
-            throw new Exception("Отключенный модуль");
-            var tf = new fTranslationColumns(fTranslationColumns.FormType.NeedChanges);
-            tf.Show();
+            string strColumns = "";
+            for (int i = 0; i < columns.Length; i++)
+            {
+                // strColumns += columns[i] + " AS " + npgsqlCommandBuilder.QuoteIdentifier(columns[i]) + (i == columns.Length - 1 ? "" : ", ");
+                strColumns += columns[i] + (i == columns.Length - 1 ? "" : ", ");
+            }
+            return strColumns;
+        }
+
+        private string GetAreaFrom(string[] tables)
+        {
+            string result = "FROM ";
+            for (int i = 0; i < tables.Length; i++)
+            {
+                result += npgsqlCommandBuilder.QuoteIdentifier(tables[i]) + (i == tables.Length - 1 ? " " : ", ");
+            }
+            return result;
+        }
+
+        private string GetTablesRulesConnection(string[] tables)
+        {
+            List<MyTableFKeyLinked> myTableFKeyLinkeds = new List<MyTableFKeyLinked>();
+
+            using (var pCon = new NpgsqlConnection(sPostgresConn))
+            {
+                pCon.Open();
+                var cmd = new NpgsqlCommand() { Connection = pCon };
+
+                cmd.CommandText = $@"
+            SELECT table_constraints.table_name         AS tn1,
+                    key_column_usage.column_name        AS cn1,
+                    constraint_column_usage.table_name  AS tn2,
+                    constraint_column_usage.column_name AS cn2
+            FROM information_schema.table_constraints
+                        JOIN information_schema.key_column_usage
+                            ON table_constraints.constraint_name = key_column_usage.constraint_name
+                                AND table_constraints.table_schema = key_column_usage.table_schema
+                        JOIN information_schema.constraint_column_usage
+                            ON constraint_column_usage.constraint_name = table_constraints.constraint_name
+                                AND constraint_column_usage.constraint_schema = table_constraints.constraint_schema
+                                AND constraint_column_usage.table_name = ANY (@tables)
+            WHERE table_constraints.table_name = ANY (@tables)
+                AND constraint_type = 'FOREIGN KEY';";
+
+                cmd.Parameters.Add(new NpgsqlParameter("@tables", DbType.Object) { Value = tables });
+
+
+                using (var rd = cmd.ExecuteReader())
+                {
+                    string res = "";
+                    while (rd.Read())
+                    {
+                        res += rd["tn1"].ToString() + " " + rd["cn1"].ToString() + " " + rd["tn2"].ToString() + " " + rd["cn2"].ToString() + "\n";
+                        myTableFKeyLinkeds.Add(new MyTableFKeyLinked()
+                        {
+                            TableFirstName = rd["tn1"].ToString(),
+                            TableSecondName = rd["tn2"].ToString(),
+                            ColumnFirstName = rd["cn1"].ToString(),
+                            ColumnSecondName = rd["cn2"].ToString(),
+                        });
+                    }
+                }
+            }
+
+            var ribs = myTableFKeyLinkeds.Select(x => new Rib(x.TableFirstName, x.TableSecondName)).ToList();
+            if (ribs.Count < 1) return "";
+            var ostoveTree = OstoveTree.GetOstoveListToConnect(ribs);
+
+            string rulesConnection = "";
+
+            for (int i = 0; i < ostoveTree.Count; i++)
+            {
+                var myTableLink = myTableFKeyLinkeds
+                    .FirstOrDefault(x => x.TableFirstName == ostoveTree[i].from && x.TableSecondName == ostoveTree[i].to
+                                        || x.TableFirstName == ostoveTree[i].to && x.TableSecondName == ostoveTree[i].from);
+
+                rulesConnection += myTableLink.GetStringToLink(npgsqlCommandBuilder)
+                    + (i == ostoveTree.Count - 1 ? " " : " AND ");
+            }
+
+            return rulesConnection;
+        }
+
+        private void createQuery(bool executeQuery)
+        {
+            //string[] columns = (from field in myFieldController.Fields
+            //                    where lbSelectedFieldsFields.Items.Contains(field.Name)
+            //                    select npgsqlCommandBuilder.QuoteIdentifier(field.TableName) + "." +
+            //                    npgsqlCommandBuilder.QuoteIdentifier(field.ColumnName)).ToArray();
+            List<string> tempForColumns = new List<string>();
+            for (int i = 0; i < lbSelectedFieldsFields.Items.Count; i++)
+            {
+                var field = myFieldController.Fields.FirstOrDefault(x => x.Name == lbSelectedFieldsFields.Items[i].ToString());
+                tempForColumns.Add(npgsqlCommandBuilder.QuoteIdentifier(field.TableName) + "." +
+                            npgsqlCommandBuilder.QuoteIdentifier(field.ColumnName));
+            }
+            string[] columns = tempForColumns.ToArray();
+            string[] tables = (from field in myFieldController.Fields
+                               where lbSelectedFieldsFields.Items.Contains(field.Name)
+                               select (field.TableName)).Distinct().ToArray();
+
+            if (columns.Length < 1 || tables.Length < 1)
+            {
+                MessageBox.Show("Вы ничего не выбрали на вкладке \nПоля\n");
+                return;
+            }
+
+            sqlQuery = "SELECT " + GetColumnsToSelect(columns) + " ";
+
+            sqlQuery += GetAreaFrom(tables);
+
+            if (tables.Count() > 1)
+            {
+                string rules = GetTablesRulesConnection(tables);
+                if (!string.IsNullOrWhiteSpace(rules))
+                {
+                    sqlQuery += "WHERE ";
+                    sqlQuery += rules;
+                }
+            }
+            if (!executeQuery)
+            {
+                MessageBox.Show(sqlQuery);
+                return;
+            }
+
+            lvResult.Clear();
+            for (int i = 0; i < lbSelectedFieldsFields.Items.Count; i++)
+            {
+                lvResult.Columns.Add(lbSelectedFieldsFields.Items[i].ToString());
+            }
+
+            using (var pConn = new NpgsqlConnection(sPostgresConn))
+            {
+                pConn.Open();
+                var cmd = new NpgsqlCommand() { Connection = pConn };
+                cmd.CommandText = sqlQuery;
+
+                using (var rd = cmd.ExecuteReader())
+                {
+                    while (rd.Read())
+                    {
+                        List<string> fields = new List<string>();
+                        //foreach (var field_name in columns)
+                        //{
+                        //    fields.Add(rd[field_name] == null || rd[field_name] == DBNull.Value ? "" : rd[field_name].ToString());
+                        //}
+                        for (int i = 0; i < columns.Length; i++)
+                        {
+                            var val = rd[i];
+                            fields.Add(val == null || val == DBNull.Value ? "" : val.ToString());
+                        }
+                        lvResult.Items.Add(new ListViewItem(fields.ToArray()));
+                    }
+                }
+
+                tcQuery.SelectTab(tcQuery.TabPages.Count - 1);
+                lvResult.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                lvResult.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
         }
     }
 }
+
+
+
+//SELECT table_constraints.table_name        AS tn1,
+//       key_column_usage.column_name AS cn1,
+//       constraint_column_usage.table_name AS tn2,
+//       constraint_column_usage.column_name AS cn2
+//FROM information_schema.table_constraints
+//         JOIN information_schema.key_column_usage
+//              ON table_constraints.constraint_name = key_column_usage.constraint_name
+//                  AND table_constraints.table_schema = key_column_usage.table_schema
+//         JOIN information_schema.constraint_column_usage
+//              ON constraint_column_usage.constraint_name = table_constraints.constraint_name
+//                  AND constraint_column_usage.constraint_schema = table_constraints.constraint_schema
+//                  AND constraint_column_usage.table_name IN ('outposts', 'outpost_missions')
+//WHERE table_constraints.table_name IN ('outposts', 'outpost_missions')
+//  AND constraint_type = 'FOREIGN KEY';

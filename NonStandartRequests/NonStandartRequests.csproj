@@ -94,6 +94,8 @@
     <Compile Include="FreshFieldLoader.cs" />
     <Compile Include="MyField.cs" />
     <Compile Include="MyFieldController.cs" />
+    <Compile Include="MyTableFKeyLinked.cs" />
+    <Compile Include="OstoveTree.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="dbSettings.Designer.cs">

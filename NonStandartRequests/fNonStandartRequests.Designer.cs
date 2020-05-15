@@ -30,8 +30,8 @@
         {
             this.tcQuery = new System.Windows.Forms.TabControl();
             this.tpFields = new System.Windows.Forms.TabPage();
-            this.listBox2 = new System.Windows.Forms.ListBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.lbSelectedFieldsFields = new System.Windows.Forms.ListBox();
+            this.lbAllFields = new System.Windows.Forms.ListBox();
             this.btAllLeftFieldFields = new System.Windows.Forms.Button();
             this.btAllRightFieldFields = new System.Windows.Forms.Button();
             this.btLeftFieldFields = new System.Windows.Forms.Button();
@@ -73,11 +73,13 @@
             this.btCancel = new System.Windows.Forms.Button();
             this.btExecute = new System.Windows.Forms.Button();
             this.btShowSQL = new System.Windows.Forms.Button();
+            this.lvResult = new System.Windows.Forms.ListView();
             this.tcQuery.SuspendLayout();
             this.tpFields.SuspendLayout();
             this.tpCondition.SuspendLayout();
             this.tpOrder.SuspendLayout();
             this.gbOrder.SuspendLayout();
+            this.tpRestult.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,8 +98,8 @@
             // 
             // tpFields
             // 
-            this.tpFields.Controls.Add(this.listBox2);
-            this.tpFields.Controls.Add(this.listBox1);
+            this.tpFields.Controls.Add(this.lbSelectedFieldsFields);
+            this.tpFields.Controls.Add(this.lbAllFields);
             this.tpFields.Controls.Add(this.btAllLeftFieldFields);
             this.tpFields.Controls.Add(this.btAllRightFieldFields);
             this.tpFields.Controls.Add(this.btLeftFieldFields);
@@ -114,21 +116,23 @@
             this.tpFields.Text = "Поля";
             this.tpFields.UseVisualStyleBackColor = true;
             // 
-            // listBox2
+            // lbSelectedFieldsFields
             // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(375, 33);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(151, 147);
-            this.listBox2.TabIndex = 9;
+            this.lbSelectedFieldsFields.FormattingEnabled = true;
+            this.lbSelectedFieldsFields.Location = new System.Drawing.Point(307, 33);
+            this.lbSelectedFieldsFields.Name = "lbSelectedFieldsFields";
+            this.lbSelectedFieldsFields.Size = new System.Drawing.Size(219, 147);
+            this.lbSelectedFieldsFields.TabIndex = 9;
+            this.lbSelectedFieldsFields.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectedFieldsFields_MouseDoubleClick);
             // 
-            // listBox1
+            // lbAllFields
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 33);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(122, 147);
-            this.listBox1.TabIndex = 8;
+            this.lbAllFields.FormattingEnabled = true;
+            this.lbAllFields.Location = new System.Drawing.Point(12, 33);
+            this.lbAllFields.Name = "lbAllFields";
+            this.lbAllFields.Size = new System.Drawing.Size(176, 147);
+            this.lbAllFields.TabIndex = 8;
+            this.lbAllFields.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbAllFields_MouseDoubleClick);
             // 
             // btAllLeftFieldFields
             // 
@@ -173,9 +177,9 @@
             // lvSelectedFields1
             // 
             this.lvSelectedFields1.HideSelection = false;
-            this.lvSelectedFields1.Location = new System.Drawing.Point(281, 7);
+            this.lvSelectedFields1.Location = new System.Drawing.Point(250, 3);
             this.lvSelectedFields1.Name = "lvSelectedFields1";
-            this.lvSelectedFields1.Size = new System.Drawing.Size(58, 47);
+            this.lvSelectedFields1.Size = new System.Drawing.Size(35, 34);
             this.lvSelectedFields1.TabIndex = 3;
             this.lvSelectedFields1.UseCompatibleStateImageBehavior = false;
             // 
@@ -200,9 +204,9 @@
             // lvAllFields
             // 
             this.lvAllFields.HideSelection = false;
-            this.lvAllFields.Location = new System.Drawing.Point(140, 10);
+            this.lvAllFields.Location = new System.Drawing.Point(209, 7);
             this.lvAllFields.Name = "lvAllFields";
-            this.lvAllFields.Size = new System.Drawing.Size(64, 44);
+            this.lvAllFields.Size = new System.Drawing.Size(35, 27);
             this.lvAllFields.TabIndex = 0;
             this.lvAllFields.UseCompatibleStateImageBehavior = false;
             this.lvAllFields.View = System.Windows.Forms.View.List;
@@ -488,6 +492,7 @@
             // 
             // tpRestult
             // 
+            this.tpRestult.Controls.Add(this.lvResult);
             this.tpRestult.Location = new System.Drawing.Point(4, 22);
             this.tpRestult.Name = "tpRestult";
             this.tpRestult.Size = new System.Drawing.Size(547, 196);
@@ -523,6 +528,7 @@
             this.btExecute.TabIndex = 1;
             this.btExecute.Text = "Выполнить запрос";
             this.btExecute.UseVisualStyleBackColor = true;
+            this.btExecute.Click += new System.EventHandler(this.btExecute_Click);
             // 
             // btShowSQL
             // 
@@ -532,6 +538,18 @@
             this.btShowSQL.TabIndex = 0;
             this.btShowSQL.Text = "Показать SQL";
             this.btShowSQL.UseVisualStyleBackColor = true;
+            this.btShowSQL.Click += new System.EventHandler(this.btShowSQL_Click);
+            // 
+            // lvResult
+            // 
+            this.lvResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvResult.GridLines = true;
+            this.lvResult.Location = new System.Drawing.Point(0, 0);
+            this.lvResult.Name = "lvResult";
+            this.lvResult.Size = new System.Drawing.Size(547, 196);
+            this.lvResult.TabIndex = 0;
+            this.lvResult.UseCompatibleStateImageBehavior = false;
+            this.lvResult.View = System.Windows.Forms.View.Details;
             // 
             // fNonStandartRequests
             // 
@@ -553,6 +571,7 @@
             this.tpOrder.PerformLayout();
             this.gbOrder.ResumeLayout(false);
             this.gbOrder.PerformLayout();
+            this.tpRestult.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -603,8 +622,9 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ListView lvSelectedFields2;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.ListBox lbAllFields;
+        private System.Windows.Forms.ListBox lbSelectedFieldsFields;
+        private System.Windows.Forms.ListView lvResult;
     }
 }
 
