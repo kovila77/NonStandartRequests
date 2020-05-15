@@ -55,7 +55,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.lvConditions = new System.Windows.Forms.ListView();
             this.tpOrder = new System.Windows.Forms.TabPage();
             this.gbOrder = new System.Windows.Forms.GroupBox();
             this.ebDecreasing = new System.Windows.Forms.RadioButton();
@@ -227,7 +227,7 @@
             this.tpCondition.Controls.Add(this.label5);
             this.tpCondition.Controls.Add(this.label4);
             this.tpCondition.Controls.Add(this.label3);
-            this.tpCondition.Controls.Add(this.listView1);
+            this.tpCondition.Controls.Add(this.lvConditions);
             this.tpCondition.Location = new System.Drawing.Point(4, 22);
             this.tpCondition.Name = "tpCondition";
             this.tpCondition.Padding = new System.Windows.Forms.Padding(3);
@@ -358,14 +358,14 @@
             this.label3.TabIndex = 1;
             this.label3.Text = "Имя поля";
             // 
-            // listView1
+            // lvConditions
             // 
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(6, 29);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(535, 93);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.lvConditions.HideSelection = false;
+            this.lvConditions.Location = new System.Drawing.Point(6, 29);
+            this.lvConditions.Name = "lvConditions";
+            this.lvConditions.Size = new System.Drawing.Size(535, 93);
+            this.lvConditions.TabIndex = 0;
+            this.lvConditions.UseCompatibleStateImageBehavior = false;
             // 
             // tpOrder
             // 
@@ -610,7 +610,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView lvConditions;
         private System.Windows.Forms.GroupBox gbOrder;
         private System.Windows.Forms.RadioButton ebDecreasing;
         private System.Windows.Forms.RadioButton rbIncreasing;

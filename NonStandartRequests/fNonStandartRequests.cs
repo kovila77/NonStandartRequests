@@ -47,27 +47,16 @@ namespace NonStandartRequests
         private void fNonStandartRequests_Load(object sender, EventArgs e)
         {
             myFieldController = new MyFieldController();
+            //foreach (var item in myFieldController.Fields)
+            //{
+            //    lbAllFields.Items.Add(item.Name);
+            //}
             foreach (var item in myFieldController.Fields)
             {
-                lbAllFields.Items.Add(item.Name);
+                lbAllFields.Items.Add(item);
             }
             lbAllFields.Sorted = true;
-            //using (var conn = new NpgsqlConnection(sPostgresConn))
-            //{
-            //    conn.Open();
 
-            //    var command = new NpgsqlCommand()
-            //    {
-            //        Connection = conn,
-            //        CommandText = "select outpost_name from outposts",
-            //    };
-            //    var reader = command.ExecuteReader();
-            //    while (reader.Read())
-            //    {
-            //        //lvAllFields.Items.Add(new ListViewItem((string)reader["outpost_name"]));
-            //        listBox1.Items.Add((string)reader["outpost_name"]);
-            //    }
-            //}
         }
         private void lbAllFields_MouseDoubleClick(object sender, MouseEventArgs e)
         {
