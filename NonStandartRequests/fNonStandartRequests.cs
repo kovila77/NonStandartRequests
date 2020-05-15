@@ -187,22 +187,42 @@ namespace NonStandartRequests
             }
 
             var ribs = myTableFKeyLinkeds.Select(x => new Rib(x.TableFirstName, x.TableSecondName)).ToList();
-            if (ribs.Count < 1) return "";
-            var ostoveTree = OstoveTree.GetOstoveListToConnect(ribs);
-
             string rulesConnection = "";
 
-            for (int i = 0; i < ostoveTree.Count; i++)
-            {
-                var myTableLink = myTableFKeyLinkeds
-                    .FirstOrDefault(x => x.TableFirstName == ostoveTree[i].from && x.TableSecondName == ostoveTree[i].to
-                                        || x.TableFirstName == ostoveTree[i].to && x.TableSecondName == ostoveTree[i].from);
+            //if (ribs.Count < 1) return rulesConnection;
 
-                rulesConnection += myTableLink.GetStringToLink(npgsqlCommandBuilder)
-                    + (i == ostoveTree.Count - 1 ? " " : " AND ");
+            while (ribs.Count > 0)
+            {
+                var ostoveTree = OstoveTree.GetOstoveListToConnect(ribs);
+
+                for (int i = 0; i < ostoveTree.Count; i++)
+                {
+                    var myTableLink = myTableFKeyLinkeds
+                        .FirstOrDefault(x => x.TableFirstName == ostoveTree[i].from && x.TableSecondName == ostoveTree[i].to
+                                            || x.TableFirstName == ostoveTree[i].to && x.TableSecondName == ostoveTree[i].from);
+
+                    rulesConnection += myTableLink.GetStringToLink(npgsqlCommandBuilder)
+                        + " AND ";
+
+                    var fordel = ribs.Where(x => x.from == ostoveTree[i].from && x.to == ostoveTree[i].to
+                                            || x.from == ostoveTree[i].to && x.to == ostoveTree[i].from).ToArray();
+                    if (fordel.Count() > 0)
+                        foreach (var item in fordel)
+                            ribs.Remove(item);
+                }
             }
+            if (rulesConnection.Length > 1) return rulesConnection.Remove(rulesConnection.Length - 4);
 
             return rulesConnection;
+        }
+
+        private string GetFormattedValue(object val)
+        {
+            //val == null || val == DBNull.Value ? "" : val.ToString();
+            if (val == null || val == DBNull.Value) return "";
+            if (val.GetType() == typeof(byte[])) return Convert.ToBase64String((byte[])val);
+
+            return val.ToString();
         }
 
         private void createQuery(bool executeQuery)
@@ -272,7 +292,7 @@ namespace NonStandartRequests
                         for (int i = 0; i < columns.Length; i++)
                         {
                             var val = rd[i];
-                            fields.Add(val == null || val == DBNull.Value ? "" : val.ToString());
+                            fields.Add(GetFormattedValue(val));
                         }
                         lvResult.Items.Add(new ListViewItem(fields.ToArray()));
                     }
