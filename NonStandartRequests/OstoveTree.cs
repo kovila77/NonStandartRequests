@@ -19,7 +19,7 @@ namespace NonStandartRequests
 
     static class OstoveTree
     {
-       private static string[] possibleRib(string node, List<Rib> allWays)
+       private static string[] reachableVertices(string node, List<Rib> allWays)
         {
             return allWays.Where(x => x.from == node).Select(x => x.to).Union(allWays.Where(x => x.to == node).Select(x => x.from)).ToArray();
         }
@@ -35,8 +35,8 @@ namespace NonStandartRequests
             while (queue.Count > 0)
             {
                 string node = queue.Dequeue();
-                var pr = possibleRib(node, allWays);
-                foreach (var child in pr)
+                var rv = reachableVertices(node, allWays);
+                foreach (var child in rv)
                 {
                     if (!visited.Contains(child))
                     {
