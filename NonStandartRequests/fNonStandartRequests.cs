@@ -112,22 +112,26 @@ namespace NonStandartRequests
 
         private string GetColumnsToSelect(string[] columns)
         {
+            if (columns.Length < 1) return "";
             string strColumns = "";
-            for (int i = 0; i < columns.Length; i++)
+            for (int i = 0; i < columns.Length - 1; i++)
             {
                 // strColumns += columns[i] + " AS " + npgsqlCommandBuilder.QuoteIdentifier(columns[i]) + (i == columns.Length - 1 ? "" : ", ");
-                strColumns += columns[i] + (i == columns.Length - 1 ? "" : ", ");
+                strColumns += columns[i] + ", ";
             }
+            strColumns += columns[columns.Length - 1];
             return strColumns;
         }
 
         private string GetAreaFrom(string[] tables)
         {
-            string result = "FROM ";
-            for (int i = 0; i < tables.Length; i++)
+            if (tables.Length < 1) return "";
+            string result = "";
+            for (int i = 0; i < tables.Length - 1; i++)
             {
-                result += npgsqlCommandBuilder.QuoteIdentifier(tables[i]) + (i == tables.Length - 1 ? " " : ", ");
+                result += npgsqlCommandBuilder.QuoteIdentifier(tables[i]) + ", ";
             }
+            result += npgsqlCommandBuilder.QuoteIdentifier(tables[tables.Length - 1]);
             return result;
         }
 
@@ -139,6 +143,22 @@ namespace NonStandartRequests
             {
                 pCon.Open();
                 var cmd = new NpgsqlCommand() { Connection = pCon };
+
+            //    cmd.CommandText = $@"
+            //SELECT table_constraints.table_name         AS tn1,
+            //        key_column_usage.column_name        AS cn1,
+            //        constraint_column_usage.table_name  AS tn2,
+            //        constraint_column_usage.column_name AS cn2
+            //FROM information_schema.table_constraints
+            //            JOIN information_schema.key_column_usage
+            //                ON table_constraints.constraint_name = key_column_usage.constraint_name
+            //                    AND table_constraints.table_schema = key_column_usage.table_schema
+            //            JOIN information_schema.constraint_column_usage
+            //                ON constraint_column_usage.constraint_name = table_constraints.constraint_name
+            //                    AND constraint_column_usage.constraint_schema = table_constraints.constraint_schema
+            //                    AND constraint_column_usage.table_name = ANY (@tables)
+            //WHERE table_constraints.table_name = ANY (@tables)
+            //    AND constraint_type = 'FOREIGN KEY';";
 
                 cmd.CommandText = $@"
             SELECT table_constraints.table_name         AS tn1,
@@ -152,9 +172,7 @@ namespace NonStandartRequests
                         JOIN information_schema.constraint_column_usage
                             ON constraint_column_usage.constraint_name = table_constraints.constraint_name
                                 AND constraint_column_usage.constraint_schema = table_constraints.constraint_schema
-                                AND constraint_column_usage.table_name = ANY (@tables)
-            WHERE table_constraints.table_name = ANY (@tables)
-                AND constraint_type = 'FOREIGN KEY';";
+            WHERE constraint_type = 'FOREIGN KEY';";
 
                 cmd.Parameters.Add(new NpgsqlParameter("@tables", DbType.Object) { Value = tables });
 
@@ -238,13 +256,13 @@ namespace NonStandartRequests
 
             if (columns.Length < 1 || tables.Length < 1)
             {
-                MessageBox.Show("Вы ничего не выбрали на вкладке \nПоля\n");
+                MessageBox.Show("Вы ничего не выбрали на вкладке \"Поля\"");
                 return;
             }
 
             sqlQuery = "SELECT " + GetColumnsToSelect(columns) + " ";
 
-            sqlQuery += GetAreaFrom(tables);
+            sqlQuery += "FROM " + GetAreaFrom(tables) + " ";
 
             if (tables.Count() > 1)
             {

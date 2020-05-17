@@ -46,7 +46,20 @@ namespace NonStandartRequests
             {
                 liteConn.Open();
 
-                var cmd = new SQLiteCommand() { Connection = liteConn };
+                var cmd = new SQLiteCommand() { Connection = liteConn, CommandText = @"SELECT 1 FROM sqlite_master WHERE type = 'table' AND tbl_name = 'translation';" };
+
+                if (cmd.ExecuteScalar() == null)
+                {
+                    cmd.CommandText = "CREATE TABLE translation"
+                                      + "("
+                                      + "    column_name text,"
+                                      + "    table_name  text,"
+                                      + "    translation text,"
+                                      + "     constraint translation_pk"
+                                      + "        primary key(column_name, table_name)"
+                                      + ")";
+                    cmd.ExecuteNonQuery();
+                }
 
                 cmd.CommandText = @"SELECT translation FROM translation WHERE column_name = @cn AND table_name = @tn;";
 
@@ -57,19 +70,22 @@ namespace NonStandartRequests
                     var pCom = new NpgsqlCommand()
                     {
                         Connection = postConn,
-                        CommandText = @"SELECT column_name, table_name
-                                    FROM information_schema.columns
-                                    WHERE table_schema = 'public'
-                                      AND NOT exists(SELECT 1
-                                            FROM information_schema.table_constraints AS tc
-                                                    JOIN information_schema.key_column_usage AS kcu
-                                                        ON tc.constraint_name = kcu.constraint_name
-                                                            AND tc.table_schema = kcu.table_schema
-                                                    JOIN information_schema.constraint_column_usage AS ccu
-                                                        ON ccu.constraint_name = tc.constraint_name
-                                                            AND ccu.table_schema = tc.table_schema
-                                            WHERE tc.constraint_type = 'FOREIGN KEY'
-                                            AND ccu.column_name = columns.column_name AND columns.table_name <> ccu.table_name);",
+                        //CommandText = @"SELECT column_name, table_name
+                        //            FROM information_schema.columns
+                        //            WHERE table_schema = 'public'
+                        //              AND NOT exists(SELECT 1
+                        //                    FROM information_schema.table_constraints AS tc
+                        //                            JOIN information_schema.key_column_usage AS kcu
+                        //                                ON tc.constraint_name = kcu.constraint_name
+                        //                                    AND tc.table_schema = kcu.table_schema
+                        //                            JOIN information_schema.constraint_column_usage AS ccu
+                        //                                ON ccu.constraint_name = tc.constraint_name
+                        //                                    AND ccu.table_schema = tc.table_schema
+                        //                    WHERE tc.constraint_type = 'FOREIGN KEY'
+                        //                    AND ccu.column_name = columns.column_name AND columns.table_name <> ccu.table_name);",
+                        CommandText = @"SELECT DISTINCT column_name, table_name
+                                        FROM information_schema.columns
+                                        WHERE table_schema NOT IN ('information_schema', 'pg_catalog');",
                     };
                     using (var rdr = pCom.ExecuteReader())
                     {
