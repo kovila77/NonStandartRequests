@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using Npgsql;
 using TranslationColumns;
 
@@ -34,6 +35,8 @@ namespace NonStandartRequests
         NpgsqlCommandBuilder npgsqlCommandBuilder = new NpgsqlCommandBuilder();
         private ColumnHeader sortingColumn = null;
 
+        private List<MyTableFKeyLinked> allMyTableFKeyLinked;
+
         private readonly string strColumnName = "column_name";
         private readonly string strTableName = "table_name";
         private readonly string strTranslation = "translation";
@@ -47,6 +50,7 @@ namespace NonStandartRequests
 
         private void fNonStandartRequests_Load(object sender, EventArgs e)
         {
+            allMyTableFKeyLinked = new List<MyTableFKeyLinked>();
             myFieldController = new MyFieldController();
             //foreach (var item in myFieldController.Fields)
             //{
@@ -137,6 +141,7 @@ namespace NonStandartRequests
 
         private string GetTablesRulesConnection(string[] tables)
         {
+            throw new NotImplementedException();
             List<MyTableFKeyLinked> myTableFKeyLinkeds = new List<MyTableFKeyLinked>();
 
             using (var pCon = new NpgsqlConnection(sPostgresConn))
@@ -144,21 +149,21 @@ namespace NonStandartRequests
                 pCon.Open();
                 var cmd = new NpgsqlCommand() { Connection = pCon };
 
-            //    cmd.CommandText = $@"
-            //SELECT table_constraints.table_name         AS tn1,
-            //        key_column_usage.column_name        AS cn1,
-            //        constraint_column_usage.table_name  AS tn2,
-            //        constraint_column_usage.column_name AS cn2
-            //FROM information_schema.table_constraints
-            //            JOIN information_schema.key_column_usage
-            //                ON table_constraints.constraint_name = key_column_usage.constraint_name
-            //                    AND table_constraints.table_schema = key_column_usage.table_schema
-            //            JOIN information_schema.constraint_column_usage
-            //                ON constraint_column_usage.constraint_name = table_constraints.constraint_name
-            //                    AND constraint_column_usage.constraint_schema = table_constraints.constraint_schema
-            //                    AND constraint_column_usage.table_name = ANY (@tables)
-            //WHERE table_constraints.table_name = ANY (@tables)
-            //    AND constraint_type = 'FOREIGN KEY';";
+                //    cmd.CommandText = $@"
+                //SELECT table_constraints.table_name         AS tn1,
+                //        key_column_usage.column_name        AS cn1,
+                //        constraint_column_usage.table_name  AS tn2,
+                //        constraint_column_usage.column_name AS cn2
+                //FROM information_schema.table_constraints
+                //            JOIN information_schema.key_column_usage
+                //                ON table_constraints.constraint_name = key_column_usage.constraint_name
+                //                    AND table_constraints.table_schema = key_column_usage.table_schema
+                //            JOIN information_schema.constraint_column_usage
+                //                ON constraint_column_usage.constraint_name = table_constraints.constraint_name
+                //                    AND constraint_column_usage.constraint_schema = table_constraints.constraint_schema
+                //                    AND constraint_column_usage.table_name = ANY (@tables)
+                //WHERE table_constraints.table_name = ANY (@tables)
+                //    AND constraint_type = 'FOREIGN KEY';";
 
                 cmd.CommandText = $@"
             SELECT table_constraints.table_name         AS tn1,
@@ -224,6 +229,258 @@ namespace NonStandartRequests
             return rulesConnection;
         }
 
+
+        private void RefreshAllMyTableFKeyLinked()
+        {
+            allMyTableFKeyLinked.Clear();
+            using (var pCon = new NpgsqlConnection(sPostgresConn))
+            {
+                pCon.Open();
+                var cmd = new NpgsqlCommand() { Connection = pCon };
+
+                cmd.CommandText = $@"
+        SELECT table_constraints.table_name        AS tn1,
+               key_column_usage.column_name        AS cn1,
+               constraint_column_usage.table_name  AS tn2,
+               constraint_column_usage.column_name AS cn2
+        FROM information_schema.table_constraints
+                 JOIN information_schema.key_column_usage
+                      ON table_constraints.constraint_name = key_column_usage.constraint_name
+                          AND table_constraints.table_schema = key_column_usage.table_schema
+                 JOIN information_schema.constraint_column_usage
+                      ON constraint_column_usage.constraint_name = table_constraints.constraint_name
+                          AND constraint_column_usage.constraint_schema = table_constraints.constraint_schema
+        WHERE constraint_type = 'FOREIGN KEY';";
+
+                // cmd.Parameters.Add(new NpgsqlParameter("@tn", DbType.Object) { Value = table });
+
+                using (var rd = cmd.ExecuteReader())
+                {
+                    //string res = "";
+                    while (rd.Read())
+                    {
+                        //res += rd["tn1"].ToString() + " " + rd["cn1"].ToString() + " " + rd["tn2"].ToString() + " " + rd["cn2"].ToString() + "\n";
+                        allMyTableFKeyLinked.Add(new MyTableFKeyLinked()
+                        {
+                            TableFirstName = rd["tn1"].ToString(),
+                            TableSecondName = rd["tn2"].ToString(),
+                            ColumnFirstName = rd["cn1"].ToString(),
+                            ColumnSecondName = rd["cn2"].ToString(),
+                        });
+                    }
+                }
+            }
+        }
+
+        private List<MyTableFKeyLinked> GetPossibleRibs(string table)
+        {
+            List<MyTableFKeyLinked> posibleRibs = new List<MyTableFKeyLinked>();
+
+            foreach (var item in allMyTableFKeyLinked)
+            {
+                if (item.TableFirstName == table)
+                {
+                    posibleRibs.Add(item);
+                }
+                else if (item.TableSecondName == table)
+                {
+                    posibleRibs.Add(item.GetSwaped());
+                }
+            }
+            return posibleRibs;
+        }
+
+
+        class MyGroupTables
+        {
+            public List<string> tables;
+            public List<MyTableFKeyLinked> fKeyLinkeds;
+            public MyGroupTables()
+            {
+                tables = new List<string>();
+                fKeyLinkeds = new List<MyTableFKeyLinked>();
+            }
+            public bool ExistsTable(string table)
+            {
+                return table.Contains(table);
+            }
+        }
+
+        //private bool GetWayToGroupTable(List<MyGroupTables> myGroupsTables, MyGroupTables curGroup, List<string> visited, List<MyTableFKeyLinked> way)
+        //{
+        //    //List<string> visited = new List<string>();
+        //    string curTable;
+        //    //Queue<string> queue = new Queue<string>();
+
+        //    //queue.Clear();
+        //    visited.Clear();
+        //    foreach (var x in myGroupsTables[0].tables)
+        //    {
+        //        queue.Enqueue(x);
+        //        visited.Add(x);
+        //    }
+
+        //    while (queue.Count > 0)
+        //    {
+        //        curTable = queue.Dequeue();
+        //        var possibleRibs = GetPossibleRibs(curTable);
+        //        foreach (var rib in possibleRibs)
+        //        {
+        //            if (myGroupsTables[1].tables.Contains(rib.TableSecondName))
+        //            {
+
+        //                break;
+        //            }
+        //            if (!visited.Contains(rib.TableSecondName))
+        //            {
+        //                queue.Enqueue(rib.TableSecondName);
+        //            }
+        //        }
+        //    }
+        //}
+
+        class MyWay
+        {
+            public List<string> tables = new List<string>();
+            public List<MyTableFKeyLinked> fKeyLinkeds = new List<MyTableFKeyLinked>();
+            public string curTable;
+            //public MyWay() { }
+            //public MyWay(MyWay existsWay, string table)
+            //{
+            //    tables.AddRange(existsWay.tables);
+            //    fKeyLinkeds.AddRange(existsWay.fKeyLinkeds);
+            //    curTable = table;
+            //}
+        }
+
+        private string GetTablesRulesConnectionV2(ref string[] tablesArray)
+        {
+            string rulesConnection = "";
+            if (tablesArray.Length < 1) return rulesConnection;
+
+            List<string> tables = ((string[])tablesArray.Clone()).ToList();
+
+            List<MyGroupTables> myGroupsTables = new List<MyGroupTables>();
+
+            List<string> visited = new List<string>();
+            string curTable;
+            MyGroupTables myGroupTables;
+            //visited = new List<string>();
+            //visited.Add(curTable);
+            Queue<string> queue1 = new Queue<string>();
+
+            while (tables.Count > 0)
+            {
+                myGroupTables = new MyGroupTables();
+                curTable = tables.First();
+                //visited.Add(curTable);
+                //tables.Remove(curTable);
+                //myGroupTables.tables.Add(curTable);
+
+                queue1.Clear();
+                queue1.Enqueue(curTable);
+                myGroupTables.tables.Add(curTable);
+
+                while (queue1.Count > 0)
+                {
+                    curTable = queue1.Dequeue();
+                    var possibleRibs = GetPossibleRibs(curTable);
+                    foreach (var rib in possibleRibs)
+                    {
+                        if (myGroupTables.fKeyLinkeds.FirstOrDefault(x => x.EqualSomeSide(rib)) == null && tables.Contains(rib.TableSecondName))
+                        {
+                            if (!myGroupTables.tables.Contains(rib.TableSecondName))
+                            {
+                                queue1.Enqueue(rib.TableSecondName);
+                                myGroupTables.tables.Add(rib.TableSecondName);
+                                //myGroupTables.tables.Add(rib.TableSecondName);
+                            }
+                            //visited.Add(rib.TableSecondName);
+                            //tables.Remove(rib.TableSecondName);
+                            myGroupTables.fKeyLinkeds.Add(rib);
+                        }
+                    }
+                }
+                foreach (var tbl in myGroupTables.tables)
+                    tables.Remove(tbl);
+                myGroupsTables.Add(myGroupTables);
+            }
+
+            Queue<MyWay> queue2 = new Queue<MyWay>();
+            List<KeyValuePair<string, MyGroupTables>> AllTablesInOtherGroup = new List<KeyValuePair<string, MyGroupTables>>();
+            MyWay curWay;
+            for (int i = 0; i < myGroupsTables.Count() - 1; i++)
+            {
+                queue2.Clear();
+                visited.Clear();
+                AllTablesInOtherGroup.Clear();
+                foreach (var item in myGroupsTables.Where(x => myGroupsTables.IndexOf(x) > i))
+                    AllTablesInOtherGroup.AddRange(item.tables.Select(x => new KeyValuePair<string, MyGroupTables>(x, item)));
+                var curGroup = myGroupsTables[i];
+                foreach (var x in curGroup.tables)
+                {
+                    curWay = new MyWay();
+                    //curWay.tables.Add(x);
+                    curWay.curTable = x;
+
+                    queue2.Enqueue(curWay);
+                    visited.Add(x);
+                }
+
+                bool ready = false;
+                while (queue2.Count > 0)
+                {
+                    curWay = queue2.Dequeue();
+                    curTable = curWay.curTable;
+
+                    var possibleRibs = GetPossibleRibs(curTable);
+                    foreach (var rib in possibleRibs)
+                    {
+                        if (AllTablesInOtherGroup.Select(x => x.Key).Contains(rib.TableSecondName))
+                        {
+                            var secondGroup = AllTablesInOtherGroup.FirstOrDefault(x => x.Key == rib.TableSecondName).Value;
+                            curGroup.fKeyLinkeds.AddRange(curWay.fKeyLinkeds);
+                            curGroup.fKeyLinkeds.Add(rib);
+                            curGroup.tables.AddRange(secondGroup.tables);
+                            curGroup.tables.AddRange(curWay.tables);
+                            //curGroup.tables.Add(curTable);
+                            curGroup.fKeyLinkeds.AddRange(secondGroup.fKeyLinkeds);
+                            myGroupsTables.Remove(secondGroup);
+                            ready = true;
+                            i--;
+                            break;
+                        }
+                        if (!visited.Contains(rib.TableSecondName))
+                        {
+                            visited.Add(curTable);
+                            var newWay = new MyWay();
+                            newWay.tables.AddRange(curWay.tables);
+                            newWay.tables.Add(rib.TableSecondName);
+                            newWay.fKeyLinkeds.AddRange(curWay.fKeyLinkeds);
+                            newWay.fKeyLinkeds.Add(rib);
+                            newWay.curTable = rib.TableSecondName;
+                            queue2.Enqueue(newWay);
+                        }
+                    }
+                    if (ready) break;
+                }
+            }
+
+
+            foreach (var group in myGroupsTables)
+            {
+                foreach (var myTableLink in group.fKeyLinkeds)
+                {
+                    rulesConnection += myTableLink.GetStringToLink(npgsqlCommandBuilder)
+                        + " AND ";
+                }
+                tables.AddRange(group.tables);
+            }
+            tablesArray = tables.ToArray();
+            if (rulesConnection.Length > 1) return rulesConnection.Remove(rulesConnection.Length - 4);
+            return rulesConnection;
+        }
+
         private string GetFormattedValue(object val)
         {
             //val == null || val == DBNull.Value ? "" : val.ToString();
@@ -262,17 +519,24 @@ namespace NonStandartRequests
 
             sqlQuery = "SELECT " + GetColumnsToSelect(columns) + " ";
 
-            sqlQuery += "FROM " + GetAreaFrom(tables) + " ";
+
+            RefreshAllMyTableFKeyLinked();
 
             if (tables.Count() > 1)
             {
-                string rules = GetTablesRulesConnection(tables);
+                string rules = GetTablesRulesConnectionV2(ref tables);
+                sqlQuery += "FROM " + GetAreaFrom(tables) + " ";
                 if (!string.IsNullOrWhiteSpace(rules))
                 {
                     sqlQuery += "WHERE ";
                     sqlQuery += rules;
                 }
             }
+            else
+            {
+                sqlQuery += "FROM " + GetAreaFrom(tables) + " ";
+            }
+
             if (!executeQuery)
             {
                 MessageBox.Show(sqlQuery);
