@@ -74,6 +74,7 @@
             this.btCancel = new System.Windows.Forms.Button();
             this.btExecute = new System.Windows.Forms.Button();
             this.btShowSQL = new System.Windows.Forms.Button();
+            this.btConfigurateTranslation = new System.Windows.Forms.Button();
             this.tcQuery.SuspendLayout();
             this.tpFields.SuspendLayout();
             this.tpCondition.SuspendLayout();
@@ -515,6 +516,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btConfigurateTranslation);
             this.panel1.Controls.Add(this.btCancel);
             this.panel1.Controls.Add(this.btExecute);
             this.panel1.Controls.Add(this.btShowSQL);
@@ -552,6 +554,16 @@
             this.btShowSQL.Text = "Показать SQL";
             this.btShowSQL.UseVisualStyleBackColor = true;
             this.btShowSQL.Click += new System.EventHandler(this.btShowSQL_Click);
+            // 
+            // btConfigurateTranslation
+            // 
+            this.btConfigurateTranslation.Location = new System.Drawing.Point(3, 7);
+            this.btConfigurateTranslation.Name = "btConfigurateTranslation";
+            this.btConfigurateTranslation.Size = new System.Drawing.Size(179, 23);
+            this.btConfigurateTranslation.TabIndex = 3;
+            this.btConfigurateTranslation.Text = "Редактировать названия полей";
+            this.btConfigurateTranslation.UseVisualStyleBackColor = true;
+            this.btConfigurateTranslation.Click += new System.EventHandler(this.btConfigurateTranslation_Click);
             // 
             // fNonStandartRequests
             // 
@@ -627,6 +639,7 @@
         private System.Windows.Forms.ListBox lbAllFields;
         private System.Windows.Forms.ListBox lbSelectedFieldsFields;
         private System.Windows.Forms.ListView lvResult;
+        private System.Windows.Forms.Button btConfigurateTranslation;
     }
 }
 

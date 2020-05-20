@@ -7,7 +7,7 @@ using Npgsql;
 
 namespace NonStandartRequests
 {
-    class MyTableFKeyLinked
+    class MyTableFLink
     {
         public string TableFirstName;
         public string TableSecondName;
@@ -19,10 +19,9 @@ namespace NonStandartRequests
         //    (TableFirstName, ColumnFirstName, TableSecondName, ColumnSecondName) = (TableSecondName, ColumnSecondName, TableFirstName, ColumnFirstName);
         //}
 
-        public MyTableFKeyLinked GetSwaped()
+        public MyTableFLink GetSwaped()
         {
-            //(TableFirstName, ColumnFirstName, TableSecondName, ColumnSecondName) = (TableSecondName, ColumnSecondName, TableFirstName, ColumnFirstName);
-            return new MyTableFKeyLinked()
+            return new MyTableFLink()
             {
                 TableFirstName = TableSecondName,
                 ColumnFirstName = ColumnSecondName,
@@ -31,7 +30,7 @@ namespace NonStandartRequests
             };
         }
 
-        public bool EqualSomeSide(MyTableFKeyLinked myTableFKeyLinked)
+        public bool EqualSomeSide(MyTableFLink myTableFKeyLinked)
         {
             return this.TableFirstName == myTableFKeyLinked.TableSecondName
                 && this.TableSecondName == myTableFKeyLinked.TableFirstName

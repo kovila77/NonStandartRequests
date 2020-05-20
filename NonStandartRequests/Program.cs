@@ -17,9 +17,9 @@ namespace NonStandartRequests
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            var tf = new fTranslationColumns(fTranslationColumns.FormType.NeedExit) { Visible = false };
+            //var tf = new fTranslationColumns(fTranslationColumns.FormType.NeedExit) { Visible = false };
             //Application.Run(tf);
-            tf.Dispose();
+            //tf.Dispose();
             Application.Run(new fNonStandartRequests());
         }
     }

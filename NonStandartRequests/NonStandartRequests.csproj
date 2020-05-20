@@ -95,6 +95,7 @@
     <Compile Include="MyField.cs" />
     <Compile Include="MyFieldController.cs" />
     <Compile Include="MyTableFKeyLinked.cs" />
+    <Compile Include="MyWay.cs" />
     <Compile Include="OstoveTree.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,6 +104,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>dbSettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ListViewComparer.cs" />
     <EmbeddedResource Include="fNonStandartRequests.resx">
       <DependentUpon>fNonStandartRequests.cs</DependentUpon>
     </EmbeddedResource>
