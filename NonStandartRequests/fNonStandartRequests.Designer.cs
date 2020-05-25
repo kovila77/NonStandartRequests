@@ -332,6 +332,7 @@
             this.lvConditions.TabIndex = 0;
             this.lvConditions.UseCompatibleStateImageBehavior = false;
             this.lvConditions.View = System.Windows.Forms.View.Details;
+            this.lvConditions.Click += new System.EventHandler(this.lvConditions_Click);
             // 
             // tpOrder
             // 

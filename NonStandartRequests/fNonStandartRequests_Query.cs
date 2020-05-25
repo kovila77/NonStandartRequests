@@ -240,24 +240,26 @@ namespace NonStandartRequests
         private string GetWhereConditions(out List<NpgsqlParameter> parametrs)
         {
             parametrs = new List<NpgsqlParameter>();
-            string res = "";
 
-            foreach (ListViewItem lvi in lvConditions.Items)
+            if (lvConditions.Items.Count < 1) return "";
+            string res = "(";
+
+            for (int i = 0; i < lvConditions.Items.Count; i++)
             {
+                ListViewItem lvi = lvConditions.Items[i];
                 var column = ((KeyValuePair<MyField, object>)lvi.Tag).Key.TableName
                     + "."
                     + ((KeyValuePair<MyField, object>)lvi.Tag).Key.ColumnName;
                 var param = new NpgsqlParameter("@param" + (parametrs.Count() + 1), DbType.Object) { Value = ((MyValueHandle)((KeyValuePair<MyField, object>)lvi.Tag).Value).Value };
                 res += column + " " +
                     (lvi.SubItems[1].Text == "=" ? "IS NOT DISTINCT FROM" : (lvi.SubItems[1].Text == "<>" ? "IS DISTINCT FROM" : lvi.SubItems[1].Text))
-                    + " " + param.ParameterName + " AND ";
+                    + " " + param.ParameterName 
+                    + (i < lvConditions.Items.Count - 1 ? (lvi.SubItems[3].Text == "ИЛИ" ? " OR " : " AND ") : "");
                 parametrs.Add(param);
             }
 
-            if (lvConditions.Items.Count > 0)
-                return res.Remove(res.Length - 4);
-            else
-                return res;
+            return res + ")";
+            //return res.Remove(res.Length - (lvConditions.Items[lvConditions.Items.Count - 1].SubItems[3].Text == "ИЛИ" ? 3 : 4)) + ")";
         }
 
         private void CreateQuery(bool executeQuery)

@@ -60,12 +60,12 @@ namespace NonStandartRequests
                 cbFieldName.Items.Add(item);
             }
             lbAllFields.Sorted = true;
-            cbLigament.Items.Add("И");
-            cbLigament.SelectedIndex = 0;
-            cbLigament.Items.Add("ИЛИ");
+            //cbLigament.Items.Add("И");
+            //cbLigament.Items.Add("");
+            //cbLigament.SelectedIndex = 0;
+            //cbLigament.Items.Add("ИЛИ");
 
             cbFieldName.Sorted = true;
-            //cbExpression.Sorted = true;
 
             lvConditions.Columns.Add("Имя поля");
             lvConditions.Columns.Add("Критерий");
@@ -145,5 +145,7 @@ namespace NonStandartRequests
                 MessageBox.Show("Ты чо забыл??!?!??!?!?!");
             }
         }
+
+       
     }
 }
