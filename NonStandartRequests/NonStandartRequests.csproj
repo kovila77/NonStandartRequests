@@ -91,10 +91,20 @@
     <Compile Include="fNonStandartRequests.Designer.cs">
       <DependentUpon>fNonStandartRequests.cs</DependentUpon>
     </Compile>
+    <Compile Include="fNonStandartRequests_Conditions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fNonStandartRequests_Query.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fNonStandartRequests_Result.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FreshFieldLoader.cs" />
     <Compile Include="MyField.cs" />
     <Compile Include="MyFieldController.cs" />
     <Compile Include="MyTableFKeyLinked.cs" />
+    <Compile Include="MyValueHandle.cs" />
     <Compile Include="MyWay.cs" />
     <Compile Include="OstoveTree.cs" />
     <Compile Include="Program.cs" />

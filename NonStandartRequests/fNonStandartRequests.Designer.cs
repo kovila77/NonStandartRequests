@@ -51,10 +51,6 @@
             this.cbFieldName = new System.Windows.Forms.ComboBox();
             this.btDeleteCondition = new System.Windows.Forms.Button();
             this.btAddCondition = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.lvConditions = new System.Windows.Forms.ListView();
             this.tpOrder = new System.Windows.Forms.TabPage();
             this.gbOrder = new System.Windows.Forms.GroupBox();
@@ -71,10 +67,10 @@
             this.tpRestult = new System.Windows.Forms.TabPage();
             this.lvResult = new System.Windows.Forms.ListView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btConfigurateTranslation = new System.Windows.Forms.Button();
             this.btCancel = new System.Windows.Forms.Button();
             this.btExecute = new System.Windows.Forms.Button();
             this.btShowSQL = new System.Windows.Forms.Button();
-            this.btConfigurateTranslation = new System.Windows.Forms.Button();
             this.tcQuery.SuspendLayout();
             this.tpFields.SuspendLayout();
             this.tpCondition.SuspendLayout();
@@ -224,10 +220,6 @@
             this.tpCondition.Controls.Add(this.cbFieldName);
             this.tpCondition.Controls.Add(this.btDeleteCondition);
             this.tpCondition.Controls.Add(this.btAddCondition);
-            this.tpCondition.Controls.Add(this.label6);
-            this.tpCondition.Controls.Add(this.label5);
-            this.tpCondition.Controls.Add(this.label4);
-            this.tpCondition.Controls.Add(this.label3);
             this.tpCondition.Controls.Add(this.lvConditions);
             this.tpCondition.Location = new System.Drawing.Point(4, 22);
             this.tpCondition.Name = "tpCondition";
@@ -249,7 +241,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(256, 123);
+            this.label9.Location = new System.Drawing.Point(290, 123);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(66, 13);
             this.label9.TabIndex = 13;
@@ -258,7 +250,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(162, 123);
+            this.label8.Location = new System.Drawing.Point(217, 123);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(55, 13);
             this.label8.TabIndex = 12;
@@ -275,6 +267,7 @@
             // 
             // cbLigament
             // 
+            this.cbLigament.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLigament.FormattingEnabled = true;
             this.cbLigament.Location = new System.Drawing.Point(420, 139);
             this.cbLigament.Name = "cbLigament";
@@ -283,27 +276,31 @@
             // 
             // cbExpression
             // 
+            this.cbExpression.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbExpression.FormattingEnabled = true;
-            this.cbExpression.Location = new System.Drawing.Point(259, 139);
+            this.cbExpression.Location = new System.Drawing.Point(278, 139);
             this.cbExpression.Name = "cbExpression";
-            this.cbExpression.Size = new System.Drawing.Size(121, 21);
+            this.cbExpression.Size = new System.Drawing.Size(136, 21);
             this.cbExpression.TabIndex = 9;
             // 
             // cbCriterion
             // 
+            this.cbCriterion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCriterion.FormattingEnabled = true;
-            this.cbCriterion.Location = new System.Drawing.Point(165, 139);
+            this.cbCriterion.Location = new System.Drawing.Point(220, 139);
             this.cbCriterion.Name = "cbCriterion";
-            this.cbCriterion.Size = new System.Drawing.Size(56, 21);
+            this.cbCriterion.Size = new System.Drawing.Size(52, 21);
             this.cbCriterion.TabIndex = 8;
             // 
             // cbFieldName
             // 
+            this.cbFieldName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFieldName.FormattingEnabled = true;
-            this.cbFieldName.Location = new System.Drawing.Point(6, 139);
+            this.cbFieldName.Location = new System.Drawing.Point(8, 139);
             this.cbFieldName.Name = "cbFieldName";
-            this.cbFieldName.Size = new System.Drawing.Size(121, 21);
+            this.cbFieldName.Size = new System.Drawing.Size(206, 21);
             this.cbFieldName.TabIndex = 7;
+            this.cbFieldName.SelectedIndexChanged += new System.EventHandler(this.cbFieldName_SelectedIndexChanged);
             // 
             // btDeleteCondition
             // 
@@ -313,6 +310,7 @@
             this.btDeleteCondition.TabIndex = 6;
             this.btDeleteCondition.Text = "Удалить";
             this.btDeleteCondition.UseVisualStyleBackColor = true;
+            this.btDeleteCondition.Click += new System.EventHandler(this.btDeleteCondition_Click);
             // 
             // btAddCondition
             // 
@@ -322,51 +320,18 @@
             this.btAddCondition.TabIndex = 5;
             this.btAddCondition.Text = "Добавить";
             this.btAddCondition.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(486, 7);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(44, 13);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "Связка";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(191, 7);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(55, 13);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "Значение";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(130, 7);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(55, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Критерий";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 7);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Имя поля";
+            this.btAddCondition.Click += new System.EventHandler(this.btAddCondition_Click);
             // 
             // lvConditions
             // 
+            this.lvConditions.FullRowSelect = true;
             this.lvConditions.HideSelection = false;
-            this.lvConditions.Location = new System.Drawing.Point(6, 29);
+            this.lvConditions.Location = new System.Drawing.Point(6, 6);
             this.lvConditions.Name = "lvConditions";
-            this.lvConditions.Size = new System.Drawing.Size(535, 93);
+            this.lvConditions.Size = new System.Drawing.Size(535, 116);
             this.lvConditions.TabIndex = 0;
             this.lvConditions.UseCompatibleStateImageBehavior = false;
+            this.lvConditions.View = System.Windows.Forms.View.Details;
             // 
             // tpOrder
             // 
@@ -526,6 +491,16 @@
             this.panel1.Size = new System.Drawing.Size(555, 34);
             this.panel1.TabIndex = 1;
             // 
+            // btConfigurateTranslation
+            // 
+            this.btConfigurateTranslation.Location = new System.Drawing.Point(3, 7);
+            this.btConfigurateTranslation.Name = "btConfigurateTranslation";
+            this.btConfigurateTranslation.Size = new System.Drawing.Size(179, 23);
+            this.btConfigurateTranslation.TabIndex = 3;
+            this.btConfigurateTranslation.Text = "Редактировать названия полей";
+            this.btConfigurateTranslation.UseVisualStyleBackColor = true;
+            this.btConfigurateTranslation.Click += new System.EventHandler(this.btConfigurateTranslation_Click);
+            // 
             // btCancel
             // 
             this.btCancel.Location = new System.Drawing.Point(468, 7);
@@ -554,16 +529,6 @@
             this.btShowSQL.Text = "Показать SQL";
             this.btShowSQL.UseVisualStyleBackColor = true;
             this.btShowSQL.Click += new System.EventHandler(this.btShowSQL_Click);
-            // 
-            // btConfigurateTranslation
-            // 
-            this.btConfigurateTranslation.Location = new System.Drawing.Point(3, 7);
-            this.btConfigurateTranslation.Name = "btConfigurateTranslation";
-            this.btConfigurateTranslation.Size = new System.Drawing.Size(179, 23);
-            this.btConfigurateTranslation.TabIndex = 3;
-            this.btConfigurateTranslation.Text = "Редактировать названия полей";
-            this.btConfigurateTranslation.UseVisualStyleBackColor = true;
-            this.btConfigurateTranslation.Click += new System.EventHandler(this.btConfigurateTranslation_Click);
             // 
             // fNonStandartRequests
             // 
@@ -620,10 +585,6 @@
         private System.Windows.Forms.ComboBox cbFieldName;
         private System.Windows.Forms.Button btDeleteCondition;
         private System.Windows.Forms.Button btAddCondition;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListView lvConditions;
         private System.Windows.Forms.GroupBox gbOrder;
         private System.Windows.Forms.RadioButton ebDecreasing;
