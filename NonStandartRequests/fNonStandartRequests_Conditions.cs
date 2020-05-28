@@ -105,6 +105,22 @@ namespace NonStandartRequests
             return res;
         }
 
+        class MyCondition
+        {
+            public readonly MyField Field;
+            public readonly MyValueHandle Expression;
+            public readonly string Criterion;
+            public readonly string Ligament;
+
+            public MyCondition(MyField Field, MyValueHandle Expression, string Criterion, string Ligament)
+            {
+                this.Field = Field;
+                this.Expression = Expression;
+                this.Criterion = Criterion;
+                this.Ligament = Ligament;
+            }
+        }
+
         private void btAddCondition_Click(object sender, EventArgs e)
         {
             if (cbFieldName.SelectedItem == null)
@@ -134,8 +150,9 @@ namespace NonStandartRequests
                 cbExpression.SelectedItem.ToString(),
                 cbLigament.SelectedItem == null? "":cbLigament.SelectedItem.ToString()
             });
-            //newLvi.Tag = cbFieldName.SelectedItem;
-            newLvi.Tag = new KeyValuePair<MyField, object>((MyField)cbFieldName.SelectedItem, cbExpression.SelectedItem);
+            //newLvi.Tag = cbFieldName.SelectedffffffffItem;
+            //newLvi.Tag = new KeyValuePair<MyField, object>((MyField)cbFieldName.SelectedItem, cbExpression.SelectedItem);
+            newLvi.Tag = new MyCondition((MyField)cbFieldName.SelectedItem, (MyValueHandle)cbExpression.SelectedItem, (string)cbCriterion.SelectedItem, cbLigament.SelectedItem == null ? "" : (string)cbLigament.SelectedItem);
             //newLvi.Tag = new
             //{
             //    Field = (MyField)cbFieldName.SelectedItem,
@@ -227,14 +244,25 @@ namespace NonStandartRequests
 
         private void lvConditions_Click(object sender, EventArgs e)
         {
-            if (lvConditions.SelectedItems == null) return;
+            //if (lvConditions.SelectedItems == null) return;
 
-            var selectedLvi = lvConditions.SelectedItems[0];
+            //MyCondition myCnd = (MyCondition)lvConditions.SelectedItems[0].Tag;
 
-            cbFieldName.SelectedItem = ((KeyValuePair<MyField, object>)selectedLvi.Tag).Key;
-            cbCriterion.SelectedItem = selectedLvi.SubItems[1].Text;
-            cbExpression.SelectedItem = selectedLvi.SubItems[1].;sdfrgtawerwgaedrth
-            cbLigament.SelectedItem = selectedLvi.SubItems[3];
+            //cbFieldName.SelectedItem = myCnd.Field;
+            //cbCriterion.SelectedItem = myCnd.Criterion;
+
+            //for (int i = 0; i < cbExpression.Items.Count; i++)
+            //{
+            //    var exp = (MyValueHandle)cbExpression.Items[i];
+            //    if (exp.Value == myCnd.Expression.Value)
+            //    {
+            //        cbExpression.SelectedIndex = i;
+            //        return;
+            //    }
+            //}
+
+            ////cbExpression.SelectedItem = (object)myCnd.Expression;
+            //cbLigament.SelectedItem = myCnd.Ligament;
         }
     }
 }
