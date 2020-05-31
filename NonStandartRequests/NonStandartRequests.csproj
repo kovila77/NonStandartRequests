@@ -94,6 +94,9 @@
     <Compile Include="fNonStandartRequests_Conditions.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="fNonStandartRequests_Order.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="fNonStandartRequests_Query.cs">
       <SubType>Form</SubType>
     </Compile>

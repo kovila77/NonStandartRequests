@@ -31,10 +31,14 @@ namespace NonStandartRequests
         }.ConnectionString;
 
         private string sqlQuery;
+        ListViewItem lvConditionSelectedItem = null;
 
         NpgsqlCommandBuilder npgsqlCommandBuilder = new NpgsqlCommandBuilder();
         private ColumnHeader sortingColumn = null;
 
+        delegate void myFieldDelegate(MyField deletedItem);
+        event myFieldDelegate SelectedItemAdded;
+        event myFieldDelegate SelectedItemRemoved;
 
         private readonly string strColumnName = "column_name";
         private readonly string strTableName = "table_name";
@@ -64,6 +68,9 @@ namespace NonStandartRequests
             //cbLigament.Items.Add("");
             //cbLigament.SelectedIndex = 0;
             //cbLigament.Items.Add("ИЛИ");
+            SelectedItemAdded += FieldAddTo_LBSelectedFieldsOrder;
+            SelectedItemRemoved += FieldRemoveFrom_LBSelectedFieldsOrder;
+            SelectedItemRemoved += FieldRemoveFrom_LBOrder;
 
             cbFieldName.Sorted = true;
 
@@ -88,6 +95,8 @@ namespace NonStandartRequests
             var tmp = lbAllFields.SelectedItem;
             lbAllFields.Items.Remove(tmp);
             lbSelectedFieldsFields.Items.Add(tmp);
+
+            SelectedItemAdded?.Invoke((MyField)tmp);
         }
 
         private void btLeftFieldFields_Click(object sender, EventArgs e)
@@ -96,19 +105,27 @@ namespace NonStandartRequests
             var tmp = lbSelectedFieldsFields.SelectedItem;
             lbSelectedFieldsFields.Items.Remove(tmp);
             lbAllFields.Items.Add(tmp);
+
+            SelectedItemRemoved?.Invoke((MyField)tmp);
         }
 
         private void btAllRightFieldFields_Click(object sender, EventArgs e)
         {
             foreach (var itm in lbAllFields.Items)
+            {
                 lbSelectedFieldsFields.Items.Add(itm);
+                SelectedItemAdded?.Invoke((MyField)itm);
+            }
             lbAllFields.Items.Clear();
         }
 
         private void btAllLeftFieldFields_Click(object sender, EventArgs e)
         {
             foreach (var itm in lbSelectedFieldsFields.Items)
+            {
                 lbAllFields.Items.Add(itm);
+                SelectedItemRemoved?.Invoke((MyField)itm);
+            }
             lbSelectedFieldsFields.Items.Clear();
         }
 
@@ -146,6 +163,5 @@ namespace NonStandartRequests
             }
         }
 
-       
     }
 }

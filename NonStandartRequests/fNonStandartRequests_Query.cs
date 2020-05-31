@@ -247,10 +247,10 @@ namespace NonStandartRequests
             for (int i = 0; i < lvConditions.Items.Count; i++)
             {
                 ListViewItem lvi = lvConditions.Items[i];
-                var column = ((KeyValuePair<MyField, object>)lvi.Tag).Key.TableName
+                var column = ((MyCondition)lvi.Tag).Field.TableName
                     + "."
-                    + ((KeyValuePair<MyField, object>)lvi.Tag).Key.ColumnName;
-                var param = new NpgsqlParameter("@param" + (parametrs.Count() + 1), DbType.Object) { Value = ((MyValueHandle)((KeyValuePair<MyField, object>)lvi.Tag).Value).Value };
+                    + ((MyCondition)lvi.Tag).Field.ColumnName;
+                var param = new NpgsqlParameter("@param" + (parametrs.Count() + 1), DbType.Object) { Value = (((MyCondition)lvi.Tag).Expression).Value };
                 res += column + " " +
                     (lvi.SubItems[1].Text == "=" ? "IS NOT DISTINCT FROM" : (lvi.SubItems[1].Text == "<>" ? "IS DISTINCT FROM" : lvi.SubItems[1].Text))
                     + " " + param.ParameterName 
@@ -266,7 +266,7 @@ namespace NonStandartRequests
         {
             string[] columns = lbSelectedFieldsFields.Items.Cast<MyField>().Select(x => npgsqlCommandBuilder.QuoteIdentifier(x.TableName) + "." +
                             npgsqlCommandBuilder.QuoteIdentifier(x.ColumnName)).ToArray();
-            string[] tables = lbSelectedFieldsFields.Items.Cast<MyField>().Select(x => x.TableName).Union(lvConditions.Items.Cast<ListViewItem>().Select(x => ((KeyValuePair<MyField, object>)x.Tag).Key.TableName)).Distinct().ToArray();
+            string[] tables = lbSelectedFieldsFields.Items.Cast<MyField>().Select(x => x.TableName).Union(lvConditions.Items.Cast<ListViewItem>().Select(x => ((MyCondition)x.Tag).Field.TableName)).Distinct().ToArray();
 
             if (columns.Length < 1 || tables.Length < 1)
             {

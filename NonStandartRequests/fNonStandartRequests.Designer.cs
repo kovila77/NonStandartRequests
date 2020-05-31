@@ -36,10 +36,8 @@
             this.btAllRightFieldFields = new System.Windows.Forms.Button();
             this.btLeftFieldFields = new System.Windows.Forms.Button();
             this.btRightFieldFields = new System.Windows.Forms.Button();
-            this.lvSelectedFields1 = new System.Windows.Forms.ListView();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.lvAllFields = new System.Windows.Forms.ListView();
             this.tpCondition = new System.Windows.Forms.TabPage();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -53,6 +51,8 @@
             this.btAddCondition = new System.Windows.Forms.Button();
             this.lvConditions = new System.Windows.Forms.ListView();
             this.tpOrder = new System.Windows.Forms.TabPage();
+            this.lbOrder = new System.Windows.Forms.ListBox();
+            this.lbSelectedFieldsOrder = new System.Windows.Forms.ListBox();
             this.gbOrder = new System.Windows.Forms.GroupBox();
             this.ebDecreasing = new System.Windows.Forms.RadioButton();
             this.rbIncreasing = new System.Windows.Forms.RadioButton();
@@ -60,10 +60,8 @@
             this.btAllRightFieldOrder = new System.Windows.Forms.Button();
             this.btLeftFieldOrder = new System.Windows.Forms.Button();
             this.btRightFieldOrder = new System.Windows.Forms.Button();
-            this.lvOrder = new System.Windows.Forms.ListView();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.lvSelectedFields2 = new System.Windows.Forms.ListView();
             this.tpRestult = new System.Windows.Forms.TabPage();
             this.lvResult = new System.Windows.Forms.ListView();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -101,10 +99,8 @@
             this.tpFields.Controls.Add(this.btAllRightFieldFields);
             this.tpFields.Controls.Add(this.btLeftFieldFields);
             this.tpFields.Controls.Add(this.btRightFieldFields);
-            this.tpFields.Controls.Add(this.lvSelectedFields1);
             this.tpFields.Controls.Add(this.label2);
             this.tpFields.Controls.Add(this.label1);
-            this.tpFields.Controls.Add(this.lvAllFields);
             this.tpFields.Location = new System.Drawing.Point(4, 22);
             this.tpFields.Name = "tpFields";
             this.tpFields.Padding = new System.Windows.Forms.Padding(3);
@@ -171,15 +167,6 @@
             this.btRightFieldFields.UseVisualStyleBackColor = true;
             this.btRightFieldFields.Click += new System.EventHandler(this.btRightFieldFields_Click);
             // 
-            // lvSelectedFields1
-            // 
-            this.lvSelectedFields1.HideSelection = false;
-            this.lvSelectedFields1.Location = new System.Drawing.Point(250, 3);
-            this.lvSelectedFields1.Name = "lvSelectedFields1";
-            this.lvSelectedFields1.Size = new System.Drawing.Size(35, 34);
-            this.lvSelectedFields1.TabIndex = 3;
-            this.lvSelectedFields1.UseCompatibleStateImageBehavior = false;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -197,16 +184,6 @@
             this.label1.Size = new System.Drawing.Size(53, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Все поля";
-            // 
-            // lvAllFields
-            // 
-            this.lvAllFields.HideSelection = false;
-            this.lvAllFields.Location = new System.Drawing.Point(209, 7);
-            this.lvAllFields.Name = "lvAllFields";
-            this.lvAllFields.Size = new System.Drawing.Size(35, 27);
-            this.lvAllFields.TabIndex = 0;
-            this.lvAllFields.UseCompatibleStateImageBehavior = false;
-            this.lvAllFields.View = System.Windows.Forms.View.List;
             // 
             // tpCondition
             // 
@@ -300,7 +277,6 @@
             this.cbFieldName.Name = "cbFieldName";
             this.cbFieldName.Size = new System.Drawing.Size(206, 21);
             this.cbFieldName.TabIndex = 7;
-            this.cbFieldName.SelectedIndexChanged += new System.EventHandler(this.cbFieldName_SelectedIndexChanged);
             // 
             // btDeleteCondition
             // 
@@ -336,21 +312,37 @@
             // 
             // tpOrder
             // 
+            this.tpOrder.Controls.Add(this.lbOrder);
+            this.tpOrder.Controls.Add(this.lbSelectedFieldsOrder);
             this.tpOrder.Controls.Add(this.gbOrder);
             this.tpOrder.Controls.Add(this.btAllLeftFieldOrder);
             this.tpOrder.Controls.Add(this.btAllRightFieldOrder);
             this.tpOrder.Controls.Add(this.btLeftFieldOrder);
             this.tpOrder.Controls.Add(this.btRightFieldOrder);
-            this.tpOrder.Controls.Add(this.lvOrder);
             this.tpOrder.Controls.Add(this.label11);
             this.tpOrder.Controls.Add(this.label12);
-            this.tpOrder.Controls.Add(this.lvSelectedFields2);
             this.tpOrder.Location = new System.Drawing.Point(4, 22);
             this.tpOrder.Name = "tpOrder";
             this.tpOrder.Size = new System.Drawing.Size(547, 196);
             this.tpOrder.TabIndex = 2;
             this.tpOrder.Text = "Порядок";
             this.tpOrder.UseVisualStyleBackColor = true;
+            // 
+            // lbOrder
+            // 
+            this.lbOrder.FormattingEnabled = true;
+            this.lbOrder.Location = new System.Drawing.Point(243, 23);
+            this.lbOrder.Name = "lbOrder";
+            this.lbOrder.Size = new System.Drawing.Size(171, 160);
+            this.lbOrder.TabIndex = 18;
+            // 
+            // lbSelectedFieldsOrder
+            // 
+            this.lbSelectedFieldsOrder.FormattingEnabled = true;
+            this.lbSelectedFieldsOrder.Location = new System.Drawing.Point(8, 23);
+            this.lbSelectedFieldsOrder.Name = "lbSelectedFieldsOrder";
+            this.lbSelectedFieldsOrder.Size = new System.Drawing.Size(178, 160);
+            this.lbSelectedFieldsOrder.TabIndex = 17;
             // 
             // gbOrder
             // 
@@ -393,6 +385,7 @@
             this.btAllLeftFieldOrder.TabIndex = 15;
             this.btAllLeftFieldOrder.Text = "<<";
             this.btAllLeftFieldOrder.UseVisualStyleBackColor = true;
+            this.btAllLeftFieldOrder.Click += new System.EventHandler(this.btAllLeftFieldOrder_Click);
             // 
             // btAllRightFieldOrder
             // 
@@ -402,6 +395,7 @@
             this.btAllRightFieldOrder.TabIndex = 14;
             this.btAllRightFieldOrder.Text = ">>";
             this.btAllRightFieldOrder.UseVisualStyleBackColor = true;
+            this.btAllRightFieldOrder.Click += new System.EventHandler(this.btAllRightFieldOrder_Click);
             // 
             // btLeftFieldOrder
             // 
@@ -411,6 +405,7 @@
             this.btLeftFieldOrder.TabIndex = 13;
             this.btLeftFieldOrder.Text = "<";
             this.btLeftFieldOrder.UseVisualStyleBackColor = true;
+            this.btLeftFieldOrder.Click += new System.EventHandler(this.btLeftFieldOrder_Click);
             // 
             // btRightFieldOrder
             // 
@@ -420,15 +415,7 @@
             this.btRightFieldOrder.TabIndex = 12;
             this.btRightFieldOrder.Text = ">";
             this.btRightFieldOrder.UseVisualStyleBackColor = true;
-            // 
-            // lvOrder
-            // 
-            this.lvOrder.HideSelection = false;
-            this.lvOrder.Location = new System.Drawing.Point(255, 23);
-            this.lvOrder.Name = "lvOrder";
-            this.lvOrder.Size = new System.Drawing.Size(149, 167);
-            this.lvOrder.TabIndex = 11;
-            this.lvOrder.UseCompatibleStateImageBehavior = false;
+            this.btRightFieldOrder.Click += new System.EventHandler(this.btRightFieldOrder_Click);
             // 
             // label11
             // 
@@ -447,15 +434,6 @@
             this.label12.Size = new System.Drawing.Size(93, 13);
             this.label12.TabIndex = 9;
             this.label12.Text = "Выбранные поля";
-            // 
-            // lvSelectedFields2
-            // 
-            this.lvSelectedFields2.HideSelection = false;
-            this.lvSelectedFields2.Location = new System.Drawing.Point(7, 23);
-            this.lvSelectedFields2.Name = "lvSelectedFields2";
-            this.lvSelectedFields2.Size = new System.Drawing.Size(170, 167);
-            this.lvSelectedFields2.TabIndex = 8;
-            this.lvSelectedFields2.UseCompatibleStateImageBehavior = false;
             // 
             // tpRestult
             // 
@@ -569,12 +547,10 @@
         private System.Windows.Forms.TabPage tpOrder;
         private System.Windows.Forms.TabPage tpRestult;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListView lvAllFields;
         private System.Windows.Forms.Button btAllLeftFieldFields;
         private System.Windows.Forms.Button btAllRightFieldFields;
         private System.Windows.Forms.Button btLeftFieldFields;
         private System.Windows.Forms.Button btRightFieldFields;
-        private System.Windows.Forms.ListView lvSelectedFields1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
@@ -594,14 +570,14 @@
         private System.Windows.Forms.Button btAllRightFieldOrder;
         private System.Windows.Forms.Button btLeftFieldOrder;
         private System.Windows.Forms.Button btRightFieldOrder;
-        private System.Windows.Forms.ListView lvOrder;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.ListView lvSelectedFields2;
         private System.Windows.Forms.ListBox lbAllFields;
         private System.Windows.Forms.ListBox lbSelectedFieldsFields;
         private System.Windows.Forms.ListView lvResult;
         private System.Windows.Forms.Button btConfigurateTranslation;
+        private System.Windows.Forms.ListBox lbOrder;
+        private System.Windows.Forms.ListBox lbSelectedFieldsOrder;
     }
 }
 

@@ -14,30 +14,19 @@ namespace NonStandartRequests
         private void cbFieldName_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbFieldName.SelectedItem == null) return;
+
+            lvConditionSelectedItem = null;
+            btAddCondition.Text = "Добавить";
+
+            PrepareCBCriterionAndExpression();
+        }
+
+        private void PrepareCBCriterionAndExpression()
+        {
             cbCriterion.Items.Clear();
-            //cbExpression.Items.Clear();
             cbCriterion.Items.Add("=");
             cbCriterion.Items.Add("<>");
             cbCriterion.SelectedIndex = 0;
-
-            //    string fieldType;
-            //    using (var pCon = new NpgsqlConnection(sPostgresConn))
-            //    {
-            //        pCon.Open();
-            //        var cmd = new NpgsqlCommand() { Connection = pCon };
-
-            //        cmd.CommandText = $@"
-            //SELECT data_type
-            //FROM information_schema.columns
-            //WHERE table_schema NOT IN ('information_schema', 'pg_catalog')
-            //  AND table_name = @tn
-            //  AND column_name = @cn;";
-
-            //        cmd.Parameters.Add(new NpgsqlParameter("@tn", ((MyField)cbFieldName.SelectedItem).TableName));
-            //        cmd.Parameters.Add(new NpgsqlParameter("@cn", ((MyField)cbFieldName.SelectedItem).ColumnName));
-
-            //        fieldType = cmd.ExecuteScalar().ToString().ToLower();
-            //    }
 
             string fieldType;
             List<object> expressionList =
@@ -52,23 +41,9 @@ namespace NonStandartRequests
                 cbCriterion.Items.Add("<");
                 cbCriterion.Items.Add("<=");
             }
-
-            //if (fieldType == "date")
-            //{
-            //    foreach (var date in expressionList.Cast<DateTime>())
-            //    {
-            //        date.for
-            //    }
-            //}
-
-            //cbExpression.Items.Clear();
+            
             expressionList.Sort(new MyComparerForFields(SortOrder.Ascending, fieldType));
             cbExpression.DataSource = expressionList.Select(x => new MyValueHandle(x, fieldType)).ToList();
-
-            //foreach (var item in expressionList)
-            //{
-            //    cbExpression.Items.Add(new MyValueHandle(item, fieldType));
-            //}
         }
 
         private List<object> GetDistinctValueOfField(string fieldName, string tableName, out string fieldType)
@@ -107,17 +82,21 @@ namespace NonStandartRequests
 
         class MyCondition
         {
+            public readonly int FieldIndex;
             public readonly MyField Field;
+            public readonly int ExpressionIndex;
             public readonly MyValueHandle Expression;
-            public readonly string Criterion;
-            public readonly string Ligament;
+            public readonly int CriterionIndex;
+            public int LigamentIndex;
 
-            public MyCondition(MyField Field, MyValueHandle Expression, string Criterion, string Ligament)
+            public MyCondition(int FieldIndex, MyField Field, int ExpressionIndex, MyValueHandle Expression, int CriterionIndex, int LigamentIndex)
             {
+                this.FieldIndex = FieldIndex;
                 this.Field = Field;
+                this.ExpressionIndex = ExpressionIndex;
                 this.Expression = Expression;
-                this.Criterion = Criterion;
-                this.Ligament = Ligament;
+                this.CriterionIndex = CriterionIndex;
+                this.LigamentIndex = LigamentIndex;
             }
         }
 
@@ -135,42 +114,55 @@ namespace NonStandartRequests
             }
             if (cbExpression.SelectedItem == null)
             {
-                MessageBox.Show("Вы должны выбрать значение, с которым будет происходить сравнение!");
+                if (cbExpression.Items.Count > 0)
+                    MessageBox.Show("Вы должны выбрать значение, с которым будет происходить сравнение!");
+                else
+                    MessageBox.Show("Данное поле нельзя добавить, так как нет значений для выбора!");
                 return;
             }
 
-            if (lvConditions.Items.Count > 0)
+            if (lvConditionSelectedItem != null)
             {
-                lvConditions.Items[lvConditions.Items.Count - 1].SubItems[3].Text = "И";
+                lvConditionSelectedItem.SubItems[0].Text = cbFieldName.SelectedItem.ToString();
+                lvConditionSelectedItem.SubItems[1].Text = cbCriterion.SelectedItem.ToString();
+                lvConditionSelectedItem.SubItems[2].Text = cbExpression.SelectedItem.ToString();
+                lvConditionSelectedItem.SubItems[3].Text = cbLigament.SelectedItem == null ? "" : cbLigament.SelectedItem.ToString();
+                lvConditionSelectedItem.Tag = new MyCondition(
+                    cbFieldName.SelectedIndex,
+                    (MyField)cbFieldName.SelectedItem,
+                    cbExpression.SelectedIndex,
+                    (MyValueHandle)cbExpression.SelectedItem,
+                    cbCriterion.SelectedIndex,
+                    cbLigament.SelectedIndex
+                    );
+
+            }
+            else
+            {
+
+                if (lvConditions.Items.Count > 0)
+                {
+                    lvConditions.Items[lvConditions.Items.Count - 1].SubItems[3].Text = "И";
+                    ((MyCondition)lvConditions.Items[lvConditions.Items.Count - 1].Tag).LigamentIndex = 0;
+                }
+
+                var newLvi = new ListViewItem(new[] {
+                    cbFieldName.SelectedItem.ToString(),
+                    cbCriterion.SelectedItem.ToString(),
+                    cbExpression.SelectedItem.ToString(),
+                    cbLigament.SelectedItem == null? "":cbLigament.SelectedItem.ToString()
+                });
+                newLvi.Tag = new MyCondition(
+                    cbFieldName.SelectedIndex,
+                    (MyField)cbFieldName.SelectedItem,
+                    cbExpression.SelectedIndex,
+                    (MyValueHandle)cbExpression.SelectedItem,
+                    cbCriterion.SelectedIndex,
+                    cbLigament.SelectedIndex
+                    );
+                lvConditions.Items.Add(newLvi);
             }
 
-            var newLvi = new ListViewItem(new[] {
-                cbFieldName.SelectedItem.ToString(),
-                cbCriterion.SelectedItem.ToString(),
-                cbExpression.SelectedItem.ToString(),
-                cbLigament.SelectedItem == null? "":cbLigament.SelectedItem.ToString()
-            });
-            //newLvi.Tag = cbFieldName.SelectedffffffffItem;
-            //newLvi.Tag = new KeyValuePair<MyField, object>((MyField)cbFieldName.SelectedItem, cbExpression.SelectedItem);
-            newLvi.Tag = new MyCondition((MyField)cbFieldName.SelectedItem, (MyValueHandle)cbExpression.SelectedItem, (string)cbCriterion.SelectedItem, cbLigament.SelectedItem == null ? "" : (string)cbLigament.SelectedItem);
-            //newLvi.Tag = new
-            //{
-            //    Field = (MyField)cbFieldName.SelectedItem,
-            //    Expression = cbExpression.SelectedItem,
-
-            //};
-
-            //foreach (ListViewItem lvi in lvConditions.Items)
-            //{
-            //    if (lvi.SubItems[0].Text == newLvi.SubItems[0].Text && lvi.SubItems[2].Text == newLvi.SubItems[2].Text)
-            //    {
-            //        MessageBox.Show("Выражения для поля уже использовалось в другом условии!");
-            //        return;
-            //    }
-            //}
-
-
-            lvConditions.Items.Add(newLvi);
             lvConditions.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             lvConditions.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
@@ -184,6 +176,7 @@ namespace NonStandartRequests
             if (lvConditions.Items.Count > 0)
             {
                 lvConditions.Items[lvConditions.Items.Count - 1].SubItems[3].Text = "";
+                ((MyCondition)lvConditions.Items[lvConditions.Items.Count - 1].Tag).LigamentIndex = -1;
             }
 
         }
@@ -244,25 +237,28 @@ namespace NonStandartRequests
 
         private void lvConditions_Click(object sender, EventArgs e)
         {
-            //if (lvConditions.SelectedItems == null) return;
+            if (lvConditions.SelectedItems == null) return;
 
-            //MyCondition myCnd = (MyCondition)lvConditions.SelectedItems[0].Tag;
+            lvConditionSelectedItem = lvConditions.SelectedItems[0];
+            btAddCondition.Text = "Изменить";
 
-            //cbFieldName.SelectedItem = myCnd.Field;
-            //cbCriterion.SelectedItem = myCnd.Criterion;
+            MyCondition myCnd = (MyCondition)lvConditions.SelectedItems[0].Tag;
 
-            //for (int i = 0; i < cbExpression.Items.Count; i++)
-            //{
-            //    var exp = (MyValueHandle)cbExpression.Items[i];
-            //    if (exp.Value == myCnd.Expression.Value)
-            //    {
-            //        cbExpression.SelectedIndex = i;
-            //        return;
-            //    }
-            //}
+            cbFieldName.SelectedIndexChanged -= cbFieldName_SelectedIndexChanged;
+            cbFieldName.SelectedIndex = myCnd.FieldIndex;
+            PrepareCBCriterionAndExpression();
+            cbFieldName.SelectedIndexChanged += cbFieldName_SelectedIndexChanged;
 
-            ////cbExpression.SelectedItem = (object)myCnd.Expression;
-            //cbLigament.SelectedItem = myCnd.Ligament;
+            cbCriterion.SelectedIndex = myCnd.CriterionIndex;
+            cbExpression.SelectedIndex = myCnd.ExpressionIndex;
+
+            cbLigament.Items.Clear();
+            if (myCnd.LigamentIndex >= 0)
+            {
+                cbLigament.Items.Add("И");
+                cbLigament.Items.Add("ИЛИ");
+            }
+            cbLigament.SelectedIndex = myCnd.LigamentIndex;
         }
     }
 }
