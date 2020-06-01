@@ -51,10 +51,12 @@
             this.btAddCondition = new System.Windows.Forms.Button();
             this.lvConditions = new System.Windows.Forms.ListView();
             this.tpOrder = new System.Windows.Forms.TabPage();
+            this.btDown = new System.Windows.Forms.Button();
+            this.btUp = new System.Windows.Forms.Button();
             this.lbOrder = new System.Windows.Forms.ListBox();
             this.lbSelectedFieldsOrder = new System.Windows.Forms.ListBox();
             this.gbOrder = new System.Windows.Forms.GroupBox();
-            this.ebDecreasing = new System.Windows.Forms.RadioButton();
+            this.rbDecreasing = new System.Windows.Forms.RadioButton();
             this.rbIncreasing = new System.Windows.Forms.RadioButton();
             this.btAllLeftFieldOrder = new System.Windows.Forms.Button();
             this.btAllRightFieldOrder = new System.Windows.Forms.Button();
@@ -312,6 +314,8 @@
             // 
             // tpOrder
             // 
+            this.tpOrder.Controls.Add(this.btDown);
+            this.tpOrder.Controls.Add(this.btUp);
             this.tpOrder.Controls.Add(this.lbOrder);
             this.tpOrder.Controls.Add(this.lbSelectedFieldsOrder);
             this.tpOrder.Controls.Add(this.gbOrder);
@@ -328,6 +332,26 @@
             this.tpOrder.Text = "Порядок";
             this.tpOrder.UseVisualStyleBackColor = true;
             // 
+            // btDown
+            // 
+            this.btDown.Location = new System.Drawing.Point(420, 68);
+            this.btDown.Name = "btDown";
+            this.btDown.Size = new System.Drawing.Size(32, 23);
+            this.btDown.TabIndex = 20;
+            this.btDown.Text = "↓";
+            this.btDown.UseVisualStyleBackColor = true;
+            this.btDown.Click += new System.EventHandler(this.btDown_Click);
+            // 
+            // btUp
+            // 
+            this.btUp.Location = new System.Drawing.Point(420, 39);
+            this.btUp.Name = "btUp";
+            this.btUp.Size = new System.Drawing.Size(32, 23);
+            this.btUp.TabIndex = 19;
+            this.btUp.Text = "↑";
+            this.btUp.UseVisualStyleBackColor = true;
+            this.btUp.Click += new System.EventHandler(this.btUp_Click);
+            // 
             // lbOrder
             // 
             this.lbOrder.FormattingEnabled = true;
@@ -335,6 +359,8 @@
             this.lbOrder.Name = "lbOrder";
             this.lbOrder.Size = new System.Drawing.Size(171, 160);
             this.lbOrder.TabIndex = 18;
+            this.lbOrder.SelectedIndexChanged += new System.EventHandler(this.lbOrder_SelectedIndexChanged);
+            this.lbOrder.DoubleClick += new System.EventHandler(this.lbOrder_DoubleClick);
             // 
             // lbSelectedFieldsOrder
             // 
@@ -343,32 +369,36 @@
             this.lbSelectedFieldsOrder.Name = "lbSelectedFieldsOrder";
             this.lbSelectedFieldsOrder.Size = new System.Drawing.Size(178, 160);
             this.lbSelectedFieldsOrder.TabIndex = 17;
+            this.lbSelectedFieldsOrder.DoubleClick += new System.EventHandler(this.lbSelectedFieldsOrder_DoubleClick);
             // 
             // gbOrder
             // 
-            this.gbOrder.Controls.Add(this.ebDecreasing);
+            this.gbOrder.Controls.Add(this.rbDecreasing);
             this.gbOrder.Controls.Add(this.rbIncreasing);
-            this.gbOrder.Location = new System.Drawing.Point(420, 57);
+            this.gbOrder.Location = new System.Drawing.Point(420, 97);
             this.gbOrder.Name = "gbOrder";
             this.gbOrder.Size = new System.Drawing.Size(119, 86);
             this.gbOrder.TabIndex = 16;
             this.gbOrder.TabStop = false;
             this.gbOrder.Text = "Порядок";
             // 
-            // ebDecreasing
+            // rbDecreasing
             // 
-            this.ebDecreasing.AutoSize = true;
-            this.ebDecreasing.Location = new System.Drawing.Point(6, 48);
-            this.ebDecreasing.Name = "ebDecreasing";
-            this.ebDecreasing.Size = new System.Drawing.Size(88, 17);
-            this.ebDecreasing.TabIndex = 1;
-            this.ebDecreasing.Text = "Убывающий";
-            this.ebDecreasing.UseVisualStyleBackColor = true;
+            this.rbDecreasing.AutoSize = true;
+            this.rbDecreasing.Enabled = false;
+            this.rbDecreasing.Location = new System.Drawing.Point(6, 48);
+            this.rbDecreasing.Name = "rbDecreasing";
+            this.rbDecreasing.Size = new System.Drawing.Size(88, 17);
+            this.rbDecreasing.TabIndex = 1;
+            this.rbDecreasing.Text = "Убывающий";
+            this.rbDecreasing.UseVisualStyleBackColor = true;
+            this.rbDecreasing.CheckedChanged += new System.EventHandler(this.rbDecreasing_CheckedChanged);
             // 
             // rbIncreasing
             // 
             this.rbIncreasing.AutoSize = true;
             this.rbIncreasing.Checked = true;
+            this.rbIncreasing.Enabled = false;
             this.rbIncreasing.Location = new System.Drawing.Point(6, 22);
             this.rbIncreasing.Name = "rbIncreasing";
             this.rbIncreasing.Size = new System.Drawing.Size(102, 17);
@@ -376,6 +406,7 @@
             this.rbIncreasing.TabStop = true;
             this.rbIncreasing.Text = "Возрастающий";
             this.rbIncreasing.UseVisualStyleBackColor = true;
+            this.rbIncreasing.CheckedChanged += new System.EventHandler(this.rbIncreasing_CheckedChanged);
             // 
             // btAllLeftFieldOrder
             // 
@@ -564,7 +595,7 @@
         private System.Windows.Forms.Button btAddCondition;
         private System.Windows.Forms.ListView lvConditions;
         private System.Windows.Forms.GroupBox gbOrder;
-        private System.Windows.Forms.RadioButton ebDecreasing;
+        private System.Windows.Forms.RadioButton rbDecreasing;
         private System.Windows.Forms.RadioButton rbIncreasing;
         private System.Windows.Forms.Button btAllLeftFieldOrder;
         private System.Windows.Forms.Button btAllRightFieldOrder;
@@ -578,6 +609,8 @@
         private System.Windows.Forms.Button btConfigurateTranslation;
         private System.Windows.Forms.ListBox lbOrder;
         private System.Windows.Forms.ListBox lbSelectedFieldsOrder;
+        private System.Windows.Forms.Button btDown;
+        private System.Windows.Forms.Button btUp;
     }
 }
 

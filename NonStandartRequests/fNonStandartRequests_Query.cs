@@ -253,13 +253,31 @@ namespace NonStandartRequests
                 var param = new NpgsqlParameter("@param" + (parametrs.Count() + 1), DbType.Object) { Value = (((MyCondition)lvi.Tag).Expression).Value };
                 res += column + " " +
                     (lvi.SubItems[1].Text == "=" ? "IS NOT DISTINCT FROM" : (lvi.SubItems[1].Text == "<>" ? "IS DISTINCT FROM" : lvi.SubItems[1].Text))
-                    + " " + param.ParameterName 
+                    + " " + param.ParameterName
                     + (i < lvConditions.Items.Count - 1 ? (lvi.SubItems[3].Text == "ИЛИ" ? " OR " : " AND ") : "");
                 parametrs.Add(param);
             }
 
             return res + ")";
             //return res.Remove(res.Length - (lvConditions.Items[lvConditions.Items.Count - 1].SubItems[3].Text == "ИЛИ" ? 3 : 4)) + ")";
+        }
+
+        private string GetStringOrderBy()
+        {
+            string[] columns = lbOrder.Items.Cast<MyOrderElem>().Select(x =>
+                            npgsqlCommandBuilder.QuoteIdentifier(((MyField)x.Item).TableName)
+                            + "."
+                            + npgsqlCommandBuilder.QuoteIdentifier(((MyField)x.Item).ColumnName)
+                            + (x.SortOrder == SortOrder.Descending ? " DESC" : " ASC")
+                            ).ToArray();
+            if (columns.Length < 1) return "";
+            string result = "";
+            for (int i = 0; i < columns.Length - 1; i++)
+            {
+                result += columns[i] + ", ";
+            }
+            result += columns[columns.Length - 1];
+            return result;
         }
 
         private void CreateQuery(bool executeQuery)
@@ -301,6 +319,10 @@ namespace NonStandartRequests
                 if (!string.IsNullOrEmpty(conditions))
                     sqlQuery += "WHERE " + conditions;
             }
+
+            string strOrder = GetStringOrderBy();
+            if (strOrder.Length > 0)
+                sqlQuery += "ORDER BY " + GetStringOrderBy();
 
             if (!executeQuery)
             {

@@ -10,23 +10,37 @@ namespace NonStandartRequests
     public partial class fNonStandartRequests : Form
     {
 
+        class MyOrderElem
+        {
+            public object Item;
+            public SortOrder SortOrder;
+
+            public MyOrderElem(object Item, SortOrder SortOrder)
+            {
+                this.Item = Item;
+                this.SortOrder = SortOrder;
+            }
+
+            public override string ToString()
+            {
+                return Item.ToString();
+            }
+        }
 
         private void FieldAddTo_LBSelectedFieldsOrder(MyField field)
         {
-            lbSelectedFieldsOrder.Items.Add(field);
+            lbSelectedFieldsOrder.Items.Add(new MyOrderElem(field, SortOrder.Ascending));
         }
 
         private void FieldRemoveFrom_LBSelectedFieldsOrder(MyField field)
         {
-            lbSelectedFieldsOrder.Items.Remove(field);
+            lbSelectedFieldsOrder.Items.Remove(lbSelectedFieldsOrder.Items.Cast<MyOrderElem>().FirstOrDefault(x => x.Item == field));
         }
 
         private void FieldRemoveFrom_LBOrder(MyField field)
         {
-            lbOrder.Items.Remove(field);
+            lbOrder.Items.Remove(lbSelectedFieldsOrder.Items.Cast<MyOrderElem>().FirstOrDefault(x => x.Item == field));
         }
-
-
 
         private void btRightFieldOrder_Click(object sender, EventArgs e)
         {
@@ -60,6 +74,56 @@ namespace NonStandartRequests
                 lbSelectedFieldsOrder.Items.Add(itm);
             }
             lbOrder.Items.Clear();
+        }
+
+        private void lbSelectedFieldsOrder_DoubleClick(object sender, EventArgs e)
+        {
+            btRightFieldOrder_Click(null, null);
+        }
+
+        private void lbOrder_DoubleClick(object sender, EventArgs e)
+        {
+            btLeftFieldOrder_Click(null, null);
+        }
+
+        private void btUp_Click(object sender, EventArgs e)
+        {
+            if (lbOrder.Items.Count > 0 && lbOrder.SelectedIndex > 0)
+            {
+                var sItm = lbOrder.SelectedItem;
+                var sIimIndex = lbOrder.SelectedIndex;
+                lbOrder.Items.Remove(sItm);
+                lbOrder.Items.Insert(sIimIndex - 1, sItm);
+                lbOrder.SelectedItem = sItm;
+            }
+        }
+
+        private void btDown_Click(object sender, EventArgs e)
+        {
+            if (lbOrder.Items.Count > 0 && lbOrder.SelectedItem != null && lbOrder.SelectedIndex != lbOrder.Items.Count - 1)
+            {
+                var sItm = lbOrder.SelectedItem;
+                var sIimIndex = lbOrder.SelectedIndex;
+                lbOrder.Items.Remove(sItm);
+                lbOrder.Items.Insert(sIimIndex + 1, sItm);
+                lbOrder.SelectedItem = sItm;
+            }
+        }
+
+        private void lbOrder_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            rbIncreasing.Enabled = lbOrder.SelectedItem != null;
+            rbDecreasing.Enabled = lbOrder.SelectedItem != null;
+
+            if (lbOrder.SelectedItem == null) return;
+            if (((MyOrderElem)lbOrder.SelectedItem).SortOrder == SortOrder.Ascending)
+            {
+                rbIncreasing.Checked = true;
+            }
+            else
+            {
+                rbDecreasing.Checked = true;
+            }
         }
     }
 }
