@@ -41,7 +41,7 @@ namespace NonStandartRequests
                 cbCriterion.Items.Add("<");
                 cbCriterion.Items.Add("<=");
             }
-            
+
             expressionList.Sort(new MyComparerForFields(SortOrder.Ascending, fieldType));
             cbExpression.DataSource = expressionList.Select(x => new MyValueHandle(x, fieldType)).ToList();
         }
@@ -237,7 +237,39 @@ namespace NonStandartRequests
 
         private void lvConditions_Click(object sender, EventArgs e)
         {
-            if (lvConditions.SelectedItems == null) return;
+            //if (lvConditions.SelectedItems == null) return;
+
+            //lvConditionSelectedItem = lvConditions.SelectedItems[0];
+            //btAddCondition.Text = "Изменить";
+
+            //MyCondition myCnd = (MyCondition)lvConditions.SelectedItems[0].Tag;
+
+            //cbFieldName.SelectedIndexChanged -= cbFieldName_SelectedIndexChanged;
+            //cbFieldName.SelectedIndex = myCnd.FieldIndex;
+            //PrepareCBCriterionAndExpression();
+            //cbFieldName.SelectedIndexChanged += cbFieldName_SelectedIndexChanged;
+
+            //cbCriterion.SelectedIndex = myCnd.CriterionIndex;
+            //cbExpression.SelectedIndex = myCnd.ExpressionIndex;
+
+            //cbLigament.Items.Clear();
+            //if (myCnd.LigamentIndex >= 0)
+            //{
+            //    cbLigament.Items.Add("И");
+            //    cbLigament.Items.Add("ИЛИ");
+            //}
+            //cbLigament.SelectedIndex = myCnd.LigamentIndex;
+        }
+
+        private void lvConditions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lvConditions.SelectedItems == null || lvConditions.SelectedItems.Count < 1)
+            {
+                btDeleteCondition.Enabled = false;
+                return;
+            }
+
+            btDeleteCondition.Enabled = true;
 
             lvConditionSelectedItem = lvConditions.SelectedItems[0];
             btAddCondition.Text = "Изменить";

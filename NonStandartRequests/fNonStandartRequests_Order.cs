@@ -125,5 +125,22 @@ namespace NonStandartRequests
                 rbDecreasing.Checked = true;
             }
         }
+
+
+        private void rbIncreasing_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbIncreasing.Checked && lbOrder.SelectedItem != null)
+            {
+                ((MyOrderElem)lbOrder.SelectedItem).SortOrder = SortOrder.Ascending;
+            }
+        }
+
+        private void rbDecreasing_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbDecreasing.Checked && lbOrder.SelectedItem != null)
+            {
+                ((MyOrderElem)lbOrder.SelectedItem).SortOrder = SortOrder.Descending;
+            }
+        }
     }
 }

@@ -67,7 +67,6 @@
             this.tpRestult = new System.Windows.Forms.TabPage();
             this.lvResult = new System.Windows.Forms.ListView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btConfigurateTranslation = new System.Windows.Forms.Button();
             this.btCancel = new System.Windows.Forms.Button();
             this.btExecute = new System.Windows.Forms.Button();
             this.btShowSQL = new System.Windows.Forms.Button();
@@ -90,7 +89,7 @@
             this.tcQuery.Location = new System.Drawing.Point(0, 0);
             this.tcQuery.Name = "tcQuery";
             this.tcQuery.SelectedIndex = 0;
-            this.tcQuery.Size = new System.Drawing.Size(555, 222);
+            this.tcQuery.Size = new System.Drawing.Size(712, 257);
             this.tcQuery.TabIndex = 0;
             // 
             // tpFields
@@ -106,7 +105,7 @@
             this.tpFields.Location = new System.Drawing.Point(4, 22);
             this.tpFields.Name = "tpFields";
             this.tpFields.Padding = new System.Windows.Forms.Padding(3);
-            this.tpFields.Size = new System.Drawing.Size(547, 196);
+            this.tpFields.Size = new System.Drawing.Size(704, 231);
             this.tpFields.TabIndex = 0;
             this.tpFields.Text = "Поля";
             this.tpFields.UseVisualStyleBackColor = true;
@@ -114,9 +113,9 @@
             // lbSelectedFieldsFields
             // 
             this.lbSelectedFieldsFields.FormattingEnabled = true;
-            this.lbSelectedFieldsFields.Location = new System.Drawing.Point(307, 33);
+            this.lbSelectedFieldsFields.Location = new System.Drawing.Point(391, 33);
             this.lbSelectedFieldsFields.Name = "lbSelectedFieldsFields";
-            this.lbSelectedFieldsFields.Size = new System.Drawing.Size(219, 147);
+            this.lbSelectedFieldsFields.Size = new System.Drawing.Size(305, 186);
             this.lbSelectedFieldsFields.TabIndex = 9;
             this.lbSelectedFieldsFields.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectedFieldsFields_MouseDoubleClick);
             // 
@@ -125,13 +124,13 @@
             this.lbAllFields.FormattingEnabled = true;
             this.lbAllFields.Location = new System.Drawing.Point(12, 33);
             this.lbAllFields.Name = "lbAllFields";
-            this.lbAllFields.Size = new System.Drawing.Size(176, 147);
+            this.lbAllFields.Size = new System.Drawing.Size(292, 186);
             this.lbAllFields.TabIndex = 8;
             this.lbAllFields.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbAllFields_MouseDoubleClick);
             // 
             // btAllLeftFieldFields
             // 
-            this.btAllLeftFieldFields.Location = new System.Drawing.Point(210, 134);
+            this.btAllLeftFieldFields.Location = new System.Drawing.Point(310, 157);
             this.btAllLeftFieldFields.Name = "btAllLeftFieldFields";
             this.btAllLeftFieldFields.Size = new System.Drawing.Size(75, 23);
             this.btAllLeftFieldFields.TabIndex = 7;
@@ -141,7 +140,7 @@
             // 
             // btAllRightFieldFields
             // 
-            this.btAllRightFieldFields.Location = new System.Drawing.Point(210, 105);
+            this.btAllRightFieldFields.Location = new System.Drawing.Point(310, 128);
             this.btAllRightFieldFields.Name = "btAllRightFieldFields";
             this.btAllRightFieldFields.Size = new System.Drawing.Size(75, 23);
             this.btAllRightFieldFields.TabIndex = 6;
@@ -151,7 +150,7 @@
             // 
             // btLeftFieldFields
             // 
-            this.btLeftFieldFields.Location = new System.Drawing.Point(210, 76);
+            this.btLeftFieldFields.Location = new System.Drawing.Point(310, 99);
             this.btLeftFieldFields.Name = "btLeftFieldFields";
             this.btLeftFieldFields.Size = new System.Drawing.Size(75, 23);
             this.btLeftFieldFields.TabIndex = 5;
@@ -161,7 +160,7 @@
             // 
             // btRightFieldFields
             // 
-            this.btRightFieldFields.Location = new System.Drawing.Point(210, 47);
+            this.btRightFieldFields.Location = new System.Drawing.Point(310, 70);
             this.btRightFieldFields.Name = "btRightFieldFields";
             this.btRightFieldFields.Size = new System.Drawing.Size(75, 23);
             this.btRightFieldFields.TabIndex = 4;
@@ -172,7 +171,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(351, 7);
+            this.label2.Location = new System.Drawing.Point(388, 7);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(93, 13);
             this.label2.TabIndex = 2;
@@ -203,7 +202,7 @@
             this.tpCondition.Location = new System.Drawing.Point(4, 22);
             this.tpCondition.Name = "tpCondition";
             this.tpCondition.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCondition.Size = new System.Drawing.Size(547, 196);
+            this.tpCondition.Size = new System.Drawing.Size(704, 231);
             this.tpCondition.TabIndex = 1;
             this.tpCondition.Text = "Условия";
             this.tpCondition.UseVisualStyleBackColor = true;
@@ -211,7 +210,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(417, 123);
+            this.label10.Location = new System.Drawing.Point(620, 159);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(44, 13);
             this.label10.TabIndex = 14;
@@ -220,7 +219,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(290, 123);
+            this.label9.Location = new System.Drawing.Point(330, 159);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(66, 13);
             this.label9.TabIndex = 13;
@@ -229,7 +228,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(217, 123);
+            this.label8.Location = new System.Drawing.Point(269, 159);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(55, 13);
             this.label8.TabIndex = 12;
@@ -238,7 +237,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 123);
+            this.label7.Location = new System.Drawing.Point(8, 159);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(56, 13);
             this.label7.TabIndex = 11;
@@ -248,41 +247,43 @@
             // 
             this.cbLigament.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLigament.FormattingEnabled = true;
-            this.cbLigament.Location = new System.Drawing.Point(420, 139);
+            this.cbLigament.Location = new System.Drawing.Point(623, 175);
             this.cbLigament.Name = "cbLigament";
-            this.cbLigament.Size = new System.Drawing.Size(121, 21);
+            this.cbLigament.Size = new System.Drawing.Size(75, 21);
             this.cbLigament.TabIndex = 10;
             // 
             // cbExpression
             // 
             this.cbExpression.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbExpression.FormattingEnabled = true;
-            this.cbExpression.Location = new System.Drawing.Point(278, 139);
+            this.cbExpression.Location = new System.Drawing.Point(330, 175);
             this.cbExpression.Name = "cbExpression";
-            this.cbExpression.Size = new System.Drawing.Size(136, 21);
+            this.cbExpression.Size = new System.Drawing.Size(287, 21);
             this.cbExpression.TabIndex = 9;
             // 
             // cbCriterion
             // 
             this.cbCriterion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCriterion.FormattingEnabled = true;
-            this.cbCriterion.Location = new System.Drawing.Point(220, 139);
+            this.cbCriterion.Location = new System.Drawing.Point(278, 175);
             this.cbCriterion.Name = "cbCriterion";
-            this.cbCriterion.Size = new System.Drawing.Size(52, 21);
+            this.cbCriterion.Size = new System.Drawing.Size(46, 21);
             this.cbCriterion.TabIndex = 8;
             // 
             // cbFieldName
             // 
             this.cbFieldName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFieldName.FormattingEnabled = true;
-            this.cbFieldName.Location = new System.Drawing.Point(8, 139);
+            this.cbFieldName.Location = new System.Drawing.Point(8, 175);
             this.cbFieldName.Name = "cbFieldName";
-            this.cbFieldName.Size = new System.Drawing.Size(206, 21);
+            this.cbFieldName.Size = new System.Drawing.Size(264, 21);
             this.cbFieldName.TabIndex = 7;
+            this.cbFieldName.SelectedIndexChanged += new System.EventHandler(this.cbFieldName_SelectedIndexChanged);
             // 
             // btDeleteCondition
             // 
-            this.btDeleteCondition.Location = new System.Drawing.Point(466, 167);
+            this.btDeleteCondition.Enabled = false;
+            this.btDeleteCondition.Location = new System.Drawing.Point(623, 202);
             this.btDeleteCondition.Name = "btDeleteCondition";
             this.btDeleteCondition.Size = new System.Drawing.Size(75, 23);
             this.btDeleteCondition.TabIndex = 6;
@@ -292,7 +293,7 @@
             // 
             // btAddCondition
             // 
-            this.btAddCondition.Location = new System.Drawing.Point(385, 167);
+            this.btAddCondition.Location = new System.Drawing.Point(542, 202);
             this.btAddCondition.Name = "btAddCondition";
             this.btAddCondition.Size = new System.Drawing.Size(75, 23);
             this.btAddCondition.TabIndex = 5;
@@ -306,10 +307,11 @@
             this.lvConditions.HideSelection = false;
             this.lvConditions.Location = new System.Drawing.Point(6, 6);
             this.lvConditions.Name = "lvConditions";
-            this.lvConditions.Size = new System.Drawing.Size(535, 116);
+            this.lvConditions.Size = new System.Drawing.Size(690, 150);
             this.lvConditions.TabIndex = 0;
             this.lvConditions.UseCompatibleStateImageBehavior = false;
             this.lvConditions.View = System.Windows.Forms.View.Details;
+            this.lvConditions.SelectedIndexChanged += new System.EventHandler(this.lvConditions_SelectedIndexChanged);
             this.lvConditions.Click += new System.EventHandler(this.lvConditions_Click);
             // 
             // tpOrder
@@ -327,14 +329,14 @@
             this.tpOrder.Controls.Add(this.label12);
             this.tpOrder.Location = new System.Drawing.Point(4, 22);
             this.tpOrder.Name = "tpOrder";
-            this.tpOrder.Size = new System.Drawing.Size(547, 196);
+            this.tpOrder.Size = new System.Drawing.Size(704, 231);
             this.tpOrder.TabIndex = 2;
             this.tpOrder.Text = "Порядок";
             this.tpOrder.UseVisualStyleBackColor = true;
             // 
             // btDown
             // 
-            this.btDown.Location = new System.Drawing.Point(420, 68);
+            this.btDown.Location = new System.Drawing.Point(596, 60);
             this.btDown.Name = "btDown";
             this.btDown.Size = new System.Drawing.Size(32, 23);
             this.btDown.TabIndex = 20;
@@ -344,7 +346,7 @@
             // 
             // btUp
             // 
-            this.btUp.Location = new System.Drawing.Point(420, 39);
+            this.btUp.Location = new System.Drawing.Point(596, 31);
             this.btUp.Name = "btUp";
             this.btUp.Size = new System.Drawing.Size(32, 23);
             this.btUp.TabIndex = 19;
@@ -355,9 +357,9 @@
             // lbOrder
             // 
             this.lbOrder.FormattingEnabled = true;
-            this.lbOrder.Location = new System.Drawing.Point(243, 23);
+            this.lbOrder.Location = new System.Drawing.Point(334, 23);
             this.lbOrder.Name = "lbOrder";
-            this.lbOrder.Size = new System.Drawing.Size(171, 160);
+            this.lbOrder.Size = new System.Drawing.Size(256, 199);
             this.lbOrder.TabIndex = 18;
             this.lbOrder.SelectedIndexChanged += new System.EventHandler(this.lbOrder_SelectedIndexChanged);
             this.lbOrder.DoubleClick += new System.EventHandler(this.lbOrder_DoubleClick);
@@ -367,7 +369,7 @@
             this.lbSelectedFieldsOrder.FormattingEnabled = true;
             this.lbSelectedFieldsOrder.Location = new System.Drawing.Point(8, 23);
             this.lbSelectedFieldsOrder.Name = "lbSelectedFieldsOrder";
-            this.lbSelectedFieldsOrder.Size = new System.Drawing.Size(178, 160);
+            this.lbSelectedFieldsOrder.Size = new System.Drawing.Size(286, 199);
             this.lbSelectedFieldsOrder.TabIndex = 17;
             this.lbSelectedFieldsOrder.DoubleClick += new System.EventHandler(this.lbSelectedFieldsOrder_DoubleClick);
             // 
@@ -375,9 +377,9 @@
             // 
             this.gbOrder.Controls.Add(this.rbDecreasing);
             this.gbOrder.Controls.Add(this.rbIncreasing);
-            this.gbOrder.Location = new System.Drawing.Point(420, 97);
+            this.gbOrder.Location = new System.Drawing.Point(596, 142);
             this.gbOrder.Name = "gbOrder";
-            this.gbOrder.Size = new System.Drawing.Size(119, 86);
+            this.gbOrder.Size = new System.Drawing.Size(105, 86);
             this.gbOrder.TabIndex = 16;
             this.gbOrder.TabStop = false;
             this.gbOrder.Text = "Порядок";
@@ -410,9 +412,9 @@
             // 
             // btAllLeftFieldOrder
             // 
-            this.btAllLeftFieldOrder.Location = new System.Drawing.Point(192, 134);
+            this.btAllLeftFieldOrder.Location = new System.Drawing.Point(300, 158);
             this.btAllLeftFieldOrder.Name = "btAllLeftFieldOrder";
-            this.btAllLeftFieldOrder.Size = new System.Drawing.Size(45, 23);
+            this.btAllLeftFieldOrder.Size = new System.Drawing.Size(28, 23);
             this.btAllLeftFieldOrder.TabIndex = 15;
             this.btAllLeftFieldOrder.Text = "<<";
             this.btAllLeftFieldOrder.UseVisualStyleBackColor = true;
@@ -420,9 +422,9 @@
             // 
             // btAllRightFieldOrder
             // 
-            this.btAllRightFieldOrder.Location = new System.Drawing.Point(192, 105);
+            this.btAllRightFieldOrder.Location = new System.Drawing.Point(300, 129);
             this.btAllRightFieldOrder.Name = "btAllRightFieldOrder";
-            this.btAllRightFieldOrder.Size = new System.Drawing.Size(45, 23);
+            this.btAllRightFieldOrder.Size = new System.Drawing.Size(28, 23);
             this.btAllRightFieldOrder.TabIndex = 14;
             this.btAllRightFieldOrder.Text = ">>";
             this.btAllRightFieldOrder.UseVisualStyleBackColor = true;
@@ -430,9 +432,9 @@
             // 
             // btLeftFieldOrder
             // 
-            this.btLeftFieldOrder.Location = new System.Drawing.Point(192, 76);
+            this.btLeftFieldOrder.Location = new System.Drawing.Point(300, 100);
             this.btLeftFieldOrder.Name = "btLeftFieldOrder";
-            this.btLeftFieldOrder.Size = new System.Drawing.Size(45, 23);
+            this.btLeftFieldOrder.Size = new System.Drawing.Size(28, 23);
             this.btLeftFieldOrder.TabIndex = 13;
             this.btLeftFieldOrder.Text = "<";
             this.btLeftFieldOrder.UseVisualStyleBackColor = true;
@@ -440,9 +442,9 @@
             // 
             // btRightFieldOrder
             // 
-            this.btRightFieldOrder.Location = new System.Drawing.Point(192, 47);
+            this.btRightFieldOrder.Location = new System.Drawing.Point(300, 71);
             this.btRightFieldOrder.Name = "btRightFieldOrder";
-            this.btRightFieldOrder.Size = new System.Drawing.Size(45, 23);
+            this.btRightFieldOrder.Size = new System.Drawing.Size(28, 23);
             this.btRightFieldOrder.TabIndex = 12;
             this.btRightFieldOrder.Text = ">";
             this.btRightFieldOrder.UseVisualStyleBackColor = true;
@@ -451,7 +453,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(252, 7);
+            this.label11.Location = new System.Drawing.Point(408, 7);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(113, 13);
             this.label11.TabIndex = 10;
@@ -471,7 +473,7 @@
             this.tpRestult.Controls.Add(this.lvResult);
             this.tpRestult.Location = new System.Drawing.Point(4, 22);
             this.tpRestult.Name = "tpRestult";
-            this.tpRestult.Size = new System.Drawing.Size(547, 196);
+            this.tpRestult.Size = new System.Drawing.Size(704, 231);
             this.tpRestult.TabIndex = 3;
             this.tpRestult.Text = "Результат";
             this.tpRestult.UseVisualStyleBackColor = true;
@@ -483,7 +485,7 @@
             this.lvResult.HideSelection = false;
             this.lvResult.Location = new System.Drawing.Point(0, 0);
             this.lvResult.Name = "lvResult";
-            this.lvResult.Size = new System.Drawing.Size(547, 196);
+            this.lvResult.Size = new System.Drawing.Size(704, 231);
             this.lvResult.TabIndex = 0;
             this.lvResult.UseCompatibleStateImageBehavior = false;
             this.lvResult.View = System.Windows.Forms.View.Details;
@@ -491,29 +493,18 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.btConfigurateTranslation);
             this.panel1.Controls.Add(this.btCancel);
             this.panel1.Controls.Add(this.btExecute);
             this.panel1.Controls.Add(this.btShowSQL);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 221);
+            this.panel1.Location = new System.Drawing.Point(0, 256);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(555, 34);
+            this.panel1.Size = new System.Drawing.Size(712, 34);
             this.panel1.TabIndex = 1;
-            // 
-            // btConfigurateTranslation
-            // 
-            this.btConfigurateTranslation.Location = new System.Drawing.Point(3, 7);
-            this.btConfigurateTranslation.Name = "btConfigurateTranslation";
-            this.btConfigurateTranslation.Size = new System.Drawing.Size(179, 23);
-            this.btConfigurateTranslation.TabIndex = 3;
-            this.btConfigurateTranslation.Text = "Редактировать названия полей";
-            this.btConfigurateTranslation.UseVisualStyleBackColor = true;
-            this.btConfigurateTranslation.Click += new System.EventHandler(this.btConfigurateTranslation_Click);
             // 
             // btCancel
             // 
-            this.btCancel.Location = new System.Drawing.Point(468, 7);
+            this.btCancel.Location = new System.Drawing.Point(633, 8);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(75, 23);
             this.btCancel.TabIndex = 2;
@@ -522,7 +513,7 @@
             // 
             // btExecute
             // 
-            this.btExecute.Location = new System.Drawing.Point(349, 7);
+            this.btExecute.Location = new System.Drawing.Point(514, 8);
             this.btExecute.Name = "btExecute";
             this.btExecute.Size = new System.Drawing.Size(113, 23);
             this.btExecute.TabIndex = 1;
@@ -532,7 +523,7 @@
             // 
             // btShowSQL
             // 
-            this.btShowSQL.Location = new System.Drawing.Point(248, 7);
+            this.btShowSQL.Location = new System.Drawing.Point(413, 8);
             this.btShowSQL.Name = "btShowSQL";
             this.btShowSQL.Size = new System.Drawing.Size(95, 23);
             this.btShowSQL.TabIndex = 0;
@@ -544,7 +535,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(555, 255);
+            this.ClientSize = new System.Drawing.Size(712, 290);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tcQuery);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -606,7 +597,6 @@
         private System.Windows.Forms.ListBox lbAllFields;
         private System.Windows.Forms.ListBox lbSelectedFieldsFields;
         private System.Windows.Forms.ListView lvResult;
-        private System.Windows.Forms.Button btConfigurateTranslation;
         private System.Windows.Forms.ListBox lbOrder;
         private System.Windows.Forms.ListBox lbSelectedFieldsOrder;
         private System.Windows.Forms.Button btDown;

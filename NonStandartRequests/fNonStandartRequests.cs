@@ -25,11 +25,6 @@ namespace NonStandartRequests
             Password = dbSettings.Default.Password,
         }.ConnectionString;
 
-        string sLiteConn = new SQLiteConnectionStringBuilder()
-        {
-            DataSource = dbSettings.Default.TranslationPath,
-        }.ConnectionString;
-
         private string sqlQuery;
         ListViewItem lvConditionSelectedItem = null;
 
@@ -39,10 +34,6 @@ namespace NonStandartRequests
         delegate void myFieldDelegate(MyField deletedItem);
         event myFieldDelegate SelectedItemAdded;
         event myFieldDelegate SelectedItemRemoved;
-
-        private readonly string strColumnName = "column_name";
-        private readonly string strTableName = "table_name";
-        private readonly string strTranslation = "translation";
 
         MyFieldController myFieldController;
 
@@ -54,20 +45,12 @@ namespace NonStandartRequests
         private void fNonStandartRequests_Load(object sender, EventArgs e)
         {
             myFieldController = new MyFieldController();
-            //foreach (var item in myFieldController.Fields)
-            //{
-            //    lbAllFields.Items.Add(item.Name);
-            //}
             foreach (var item in myFieldController.Fields)
             {
                 lbAllFields.Items.Add(item);
                 cbFieldName.Items.Add(item);
             }
             lbAllFields.Sorted = true;
-            //cbLigament.Items.Add("И");
-            //cbLigament.Items.Add("");
-            //cbLigament.SelectedIndex = 0;
-            //cbLigament.Items.Add("ИЛИ");
             SelectedItemAdded += FieldAddTo_LBSelectedFieldsOrder;
             SelectedItemRemoved += FieldRemoveFrom_LBSelectedFieldsOrder;
             SelectedItemRemoved += FieldRemoveFrom_LBOrder;
@@ -129,55 +112,23 @@ namespace NonStandartRequests
             lbSelectedFieldsFields.Items.Clear();
         }
 
-        //private void btTransl_Click(object sender, EventArgs e)
-        //{
-        //    throw new Exception("Отключенный модуль");
-        //    var tf = new fTranslationColumns(fTranslationColumns.FormType.NeedChanges);
-        //    tf.Show();
-        //}
-
         private void btShowSQL_Click(object sender, EventArgs e) => CreateQuery(false);
 
         private void btExecute_Click(object sender, EventArgs e) => CreateQuery(true);
 
-        ////public static string GetFormattedValue(object val)
-        ////{
-        ////    //val == null || val == DBNull.Value ? "" : val.ToString();
-        ////    if (val == null || val == DBNull.Value) return "";
-        ////    if (val.GetType() == typeof(byte[])) return Convert.ToBase64String((byte[])val);
-
-        ////    return val.ToString();
-        ////}
-
-
         private void btConfigurateTranslation_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Все изменения будут сброшены", "", MessageBoxButtons.OKCancel) == DialogResult.OK)
-            {
-                var tf = new fTranslationColumns(fTranslationColumns.FormType.NeedChanges);
-                if (tf.ShowDialog() != DialogResult.Cancel)
-                {
-                    tf.Dispose();
-                }
-                MessageBox.Show("Ты чо забыл??!?!??!?!?!");
-            }
+            //if (MessageBox.Show("Все изменения будут сброшены", "", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            //{
+            //    var tf = new fTranslationColumns(fTranslationColumns.FormType.NeedChanges);
+            //    if (tf.ShowDialog() != DialogResult.Cancel)
+            //    {
+            //        tf.Dispose();
+            //    }
+            //    MessageBox.Show("Ты чо забыл??!?!??!?!?!");
+            //}
         }
 
-        private void rbIncreasing_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rbIncreasing.Checked && lbOrder.SelectedItem != null)
-            {
-                ((MyOrderElem)lbOrder.SelectedItem).SortOrder = SortOrder.Ascending;
-            }
-        }
-
-        private void rbDecreasing_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rbDecreasing.Checked && lbOrder.SelectedItem != null)
-            {
-                ((MyOrderElem)lbOrder.SelectedItem).SortOrder = SortOrder.Descending;
-            }
-        }
-
+        
     }
 }

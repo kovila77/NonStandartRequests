@@ -322,7 +322,7 @@ namespace NonStandartRequests
 
             string strOrder = GetStringOrderBy();
             if (strOrder.Length > 0)
-                sqlQuery += "ORDER BY " + GetStringOrderBy();
+                sqlQuery += " ORDER BY " + GetStringOrderBy();
 
             if (!executeQuery)
             {
