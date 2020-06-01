@@ -116,19 +116,11 @@ namespace NonStandartRequests
 
         private void btExecute_Click(object sender, EventArgs e) => CreateQuery(true);
 
-        private void btConfigurateTranslation_Click(object sender, EventArgs e)
+        private void btCancel_Click(object sender, EventArgs e)
         {
-            //if (MessageBox.Show("Все изменения будут сброшены", "", MessageBoxButtons.OKCancel) == DialogResult.OK)
-            //{
-            //    var tf = new fTranslationColumns(fTranslationColumns.FormType.NeedChanges);
-            //    if (tf.ShowDialog() != DialogResult.Cancel)
-            //    {
-            //        tf.Dispose();
-            //    }
-            //    MessageBox.Show("Ты чо забыл??!?!??!?!?!");
-            //}
+            lvResult.Clear();
+            lvConditions.Items.Clear();
+            btAllLeftFieldFields_Click(null, null);
         }
-
-        
     }
 }

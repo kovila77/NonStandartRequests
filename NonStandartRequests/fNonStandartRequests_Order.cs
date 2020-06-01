@@ -39,7 +39,7 @@ namespace NonStandartRequests
 
         private void FieldRemoveFrom_LBOrder(MyField field)
         {
-            lbOrder.Items.Remove(lbSelectedFieldsOrder.Items.Cast<MyOrderElem>().FirstOrDefault(x => x.Item == field));
+            lbOrder.Items.Remove(lbOrder.Items.Cast<MyOrderElem>().FirstOrDefault(x => x.Item == field));
         }
 
         private void btRightFieldOrder_Click(object sender, EventArgs e)
