@@ -264,10 +264,10 @@ namespace NonStandartRequests
 
         private string GetStringOrderBy()
         {
-            string[] columns = lbOrder.Items.Cast<MyOrderElem>().Select(x =>
-                            npgsqlCommandBuilder.QuoteIdentifier(((MyField)x.Item).TableName)
+            string[] columns = lbOrder.Items.Cast<MyField>().Select(x =>
+                            npgsqlCommandBuilder.QuoteIdentifier(x.TableName)
                             + "."
-                            + npgsqlCommandBuilder.QuoteIdentifier(((MyField)x.Item).ColumnName)
+                            + npgsqlCommandBuilder.QuoteIdentifier(x.ColumnName)
                             + (x.SortOrder == SortOrder.Descending ? " DESC" : " ASC")
                             ).ToArray();
             if (columns.Length < 1) return "";

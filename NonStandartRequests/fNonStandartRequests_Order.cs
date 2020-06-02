@@ -10,36 +10,36 @@ namespace NonStandartRequests
     public partial class fNonStandartRequests : Form
     {
 
-        class MyOrderElem
-        {
-            public object Item;
-            public SortOrder SortOrder;
+        //class MyOrderElem
+        //{
+        //    public object Item;
+        //    public SortOrder SortOrder;
 
-            public MyOrderElem(object Item, SortOrder SortOrder)
-            {
-                this.Item = Item;
-                this.SortOrder = SortOrder;
-            }
+        //    public MyOrderElem(object Item, SortOrder SortOrder)
+        //    {
+        //        this.Item = Item;
+        //        this.SortOrder = SortOrder;
+        //    }
 
-            public override string ToString()
-            {
-                return Item.ToString();
-            }
-        }
+        //    public override string ToString()
+        //    {
+        //        return Item.ToString();
+        //    }
+        //}
 
         private void FieldAddTo_LBSelectedFieldsOrder(MyField field)
         {
-            lbSelectedFieldsOrder.Items.Add(new MyOrderElem(field, SortOrder.Ascending));
+            lbSelectedFieldsOrder.Items.Add(field);
         }
 
         private void FieldRemoveFrom_LBSelectedFieldsOrder(MyField field)
         {
-            lbSelectedFieldsOrder.Items.Remove(lbSelectedFieldsOrder.Items.Cast<MyOrderElem>().FirstOrDefault(x => x.Item == field));
+            lbSelectedFieldsOrder.Items.Remove(field);
         }
 
         private void FieldRemoveFrom_LBOrder(MyField field)
         {
-            lbOrder.Items.Remove(lbOrder.Items.Cast<MyOrderElem>().FirstOrDefault(x => x.Item == field));
+            lbOrder.Items.Remove(field);
         }
 
         private void btRightFieldOrder_Click(object sender, EventArgs e)
@@ -116,7 +116,7 @@ namespace NonStandartRequests
             rbDecreasing.Enabled = lbOrder.SelectedItem != null;
 
             if (lbOrder.SelectedItem == null) return;
-            if (((MyOrderElem)lbOrder.SelectedItem).SortOrder == SortOrder.Ascending)
+            if (((MyField)lbOrder.SelectedItem).SortOrder == SortOrder.Ascending)
             {
                 rbIncreasing.Checked = true;
             }
@@ -131,7 +131,7 @@ namespace NonStandartRequests
         {
             if (rbIncreasing.Checked && lbOrder.SelectedItem != null)
             {
-                ((MyOrderElem)lbOrder.SelectedItem).SortOrder = SortOrder.Ascending;
+                ((MyField)lbOrder.SelectedItem).SortOrder = SortOrder.Ascending;
             }
         }
 
@@ -139,7 +139,7 @@ namespace NonStandartRequests
         {
             if (rbDecreasing.Checked && lbOrder.SelectedItem != null)
             {
-                ((MyOrderElem)lbOrder.SelectedItem).SortOrder = SortOrder.Descending;
+                ((MyField)lbOrder.SelectedItem).SortOrder = SortOrder.Descending;
             }
         }
     }
