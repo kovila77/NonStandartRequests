@@ -247,9 +247,9 @@ namespace NonStandartRequests
             for (int i = 0; i < lvConditions.Items.Count; i++)
             {
                 ListViewItem lvi = lvConditions.Items[i];
-                var column = ((MyCondition)lvi.Tag).Field.TableName
+                var column = npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.TableName)
                     + "."
-                    + ((MyCondition)lvi.Tag).Field.ColumnName;
+                    + npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.ColumnName);
                 var param = new NpgsqlParameter("@param" + (parametrs.Count() + 1), DbType.Object) { Value = (((MyCondition)lvi.Tag).Expression).Value };
                 res += column + " " +
                     (lvi.SubItems[1].Text == "=" ? "IS NOT DISTINCT FROM" : (lvi.SubItems[1].Text == "<>" ? "IS DISTINCT FROM" : lvi.SubItems[1].Text))

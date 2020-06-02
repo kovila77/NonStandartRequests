@@ -39,6 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tpCondition = new System.Windows.Forms.TabPage();
+            this.btChangeCond = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -188,6 +189,7 @@
             // 
             // tpCondition
             // 
+            this.tpCondition.Controls.Add(this.btChangeCond);
             this.tpCondition.Controls.Add(this.label10);
             this.tpCondition.Controls.Add(this.label9);
             this.tpCondition.Controls.Add(this.label8);
@@ -206,6 +208,17 @@
             this.tpCondition.TabIndex = 1;
             this.tpCondition.Text = "Условия";
             this.tpCondition.UseVisualStyleBackColor = true;
+            // 
+            // btChangeCond
+            // 
+            this.btChangeCond.Enabled = false;
+            this.btChangeCond.Location = new System.Drawing.Point(461, 202);
+            this.btChangeCond.Name = "btChangeCond";
+            this.btChangeCond.Size = new System.Drawing.Size(75, 23);
+            this.btChangeCond.TabIndex = 15;
+            this.btChangeCond.Text = "Изменить";
+            this.btChangeCond.UseVisualStyleBackColor = true;
+            this.btChangeCond.Click += new System.EventHandler(this.btChangeCond_Click);
             // 
             // label10
             // 
@@ -312,7 +325,6 @@
             this.lvConditions.UseCompatibleStateImageBehavior = false;
             this.lvConditions.View = System.Windows.Forms.View.Details;
             this.lvConditions.SelectedIndexChanged += new System.EventHandler(this.lvConditions_SelectedIndexChanged);
-            this.lvConditions.Click += new System.EventHandler(this.lvConditions_Click);
             // 
             // tpOrder
             // 
@@ -602,6 +614,7 @@
         private System.Windows.Forms.ListBox lbSelectedFieldsOrder;
         private System.Windows.Forms.Button btDown;
         private System.Windows.Forms.Button btUp;
+        private System.Windows.Forms.Button btChangeCond;
     }
 }
 

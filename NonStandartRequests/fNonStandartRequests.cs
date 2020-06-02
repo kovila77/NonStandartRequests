@@ -120,7 +120,10 @@ namespace NonStandartRequests
         {
             lvResult.Clear();
             lvConditions.Items.Clear();
+            btDeleteCondition.Enabled = false;
+            btChangeCond.Enabled = false;
             btAllLeftFieldFields_Click(null, null);
+
         }
     }
 }

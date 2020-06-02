@@ -16,7 +16,8 @@ namespace NonStandartRequests
             if (cbFieldName.SelectedItem == null) return;
 
             lvConditionSelectedItem = null;
-            btAddCondition.Text = "Добавить";
+            //btAddCondition.Text = "Добавить";
+            btChangeCond.Enabled = false;
 
             PrepareCBCriterionAndExpression();
         }
@@ -80,25 +81,7 @@ namespace NonStandartRequests
             return res;
         }
 
-        class MyCondition
-        {
-            public readonly int FieldIndex;
-            public readonly MyField Field;
-            public readonly int ExpressionIndex;
-            public readonly MyValueHandle Expression;
-            public readonly int CriterionIndex;
-            public int LigamentIndex;
 
-            public MyCondition(int FieldIndex, MyField Field, int ExpressionIndex, MyValueHandle Expression, int CriterionIndex, int LigamentIndex)
-            {
-                this.FieldIndex = FieldIndex;
-                this.Field = Field;
-                this.ExpressionIndex = ExpressionIndex;
-                this.Expression = Expression;
-                this.CriterionIndex = CriterionIndex;
-                this.LigamentIndex = LigamentIndex;
-            }
-        }
 
         private void btAddCondition_Click(object sender, EventArgs e)
         {
@@ -121,47 +104,79 @@ namespace NonStandartRequests
                 return;
             }
 
-            if (lvConditionSelectedItem != null)
-            {
-                lvConditionSelectedItem.SubItems[0].Text = cbFieldName.SelectedItem.ToString();
-                lvConditionSelectedItem.SubItems[1].Text = cbCriterion.SelectedItem.ToString();
-                lvConditionSelectedItem.SubItems[2].Text = cbExpression.SelectedItem.ToString();
-                lvConditionSelectedItem.SubItems[3].Text = cbLigament.SelectedItem == null ? "" : cbLigament.SelectedItem.ToString();
-                lvConditionSelectedItem.Tag = new MyCondition(
-                    cbFieldName.SelectedIndex,
-                    (MyField)cbFieldName.SelectedItem,
-                    cbExpression.SelectedIndex,
-                    (MyValueHandle)cbExpression.SelectedItem,
-                    cbCriterion.SelectedIndex,
-                    cbLigament.SelectedIndex
-                    );
 
+            if (lvConditions.Items.Count > 0)
+            {
+                lvConditions.Items[lvConditions.Items.Count - 1].SubItems[3].Text = "И";
+                ((MyCondition)lvConditions.Items[lvConditions.Items.Count - 1].Tag).LigamentIndex = 0;
             }
-            else
-            {
 
-                if (lvConditions.Items.Count > 0)
-                {
-                    lvConditions.Items[lvConditions.Items.Count - 1].SubItems[3].Text = "И";
-                    ((MyCondition)lvConditions.Items[lvConditions.Items.Count - 1].Tag).LigamentIndex = 0;
-                }
+            //if (lvConditionSelectedItem != null && lvConditions.Items.Count - 1 == lvConditionSelectedItem.Index && string.IsNullOrEmpty(cbLigament.Text))
+            //{
+            //    lvConditionSelectedItem.SubItems[3].Text = "И";
+            //    cbLigament.Items.Add("И");
+            //    cbLigament.Items.Add("ИЛИ");
+            //    ((MyCondition)lvConditionSelectedItem.Tag).LigamentIndex = 0;
+            //}
 
-                var newLvi = new ListViewItem(new[] {
+            var newLvi = new ListViewItem(new[] {
                     cbFieldName.SelectedItem.ToString(),
                     cbCriterion.SelectedItem.ToString(),
                     cbExpression.SelectedItem.ToString(),
-                    cbLigament.SelectedItem == null? "":cbLigament.SelectedItem.ToString()
+                    ""
                 });
-                newLvi.Tag = new MyCondition(
-                    cbFieldName.SelectedIndex,
-                    (MyField)cbFieldName.SelectedItem,
-                    cbExpression.SelectedIndex,
-                    (MyValueHandle)cbExpression.SelectedItem,
-                    cbCriterion.SelectedIndex,
-                    cbLigament.SelectedIndex
-                    );
-                lvConditions.Items.Add(newLvi);
+            newLvi.Tag = new MyCondition(
+                cbFieldName.SelectedIndex,
+                (MyField)cbFieldName.SelectedItem,
+                cbExpression.SelectedIndex,
+                (MyValueHandle)cbExpression.SelectedItem,
+                cbCriterion.SelectedIndex,
+                -1
+                );
+            lvConditions.SelectedItems.Clear();
+            lvConditions.Items.Add(newLvi).Selected = true;
+
+            lvConditions.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            lvConditions.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+
+
+
+        private void btChangeCond_Click(object sender, EventArgs e)
+        {
+            if (lvConditionSelectedItem == null) return;
+
+            if (cbFieldName.SelectedItem == null)
+            {
+                MessageBox.Show("Вы должны выбрать поле!");
+                return;
             }
+            if (cbCriterion.SelectedItem == null)
+            {
+                MessageBox.Show("Вы должны выбрать критерий сравнения!");
+                return;
+            }
+            if (cbExpression.SelectedItem == null)
+            {
+                if (cbExpression.Items.Count > 0)
+                    MessageBox.Show("Вы должны выбрать значение, с которым будет происходить сравнение!");
+                else
+                    MessageBox.Show("Данное поле нельзя добавить, так как нет значений для выбора!");
+                return;
+            }
+
+            lvConditionSelectedItem.SubItems[0].Text = cbFieldName.SelectedItem.ToString();
+            lvConditionSelectedItem.SubItems[1].Text = cbCriterion.SelectedItem.ToString();
+            lvConditionSelectedItem.SubItems[2].Text = cbExpression.SelectedItem.ToString();
+            lvConditionSelectedItem.SubItems[3].Text = cbLigament.SelectedItem == null ? "" : cbLigament.SelectedItem.ToString();
+            lvConditionSelectedItem.Tag = new MyCondition(
+                cbFieldName.SelectedIndex,
+                (MyField)cbFieldName.SelectedItem,
+                cbExpression.SelectedIndex,
+                (MyValueHandle)cbExpression.SelectedItem,
+                cbCriterion.SelectedIndex,
+                cbLigament.SelectedIndex
+                );
 
             lvConditions.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             lvConditions.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
@@ -177,8 +192,12 @@ namespace NonStandartRequests
             {
                 lvConditions.Items[lvConditions.Items.Count - 1].SubItems[3].Text = "";
                 ((MyCondition)lvConditions.Items[lvConditions.Items.Count - 1].Tag).LigamentIndex = -1;
+                lvConditions.Items[0].Selected = true;
             }
-
+            else
+            {
+                btChangeCond.Enabled = false;
+            }
         }
 
         private class MyComparerForFields : IComparer<object>
@@ -235,32 +254,6 @@ namespace NonStandartRequests
             }
         }
 
-        private void lvConditions_Click(object sender, EventArgs e)
-        {
-            //if (lvConditions.SelectedItems == null) return;
-
-            //lvConditionSelectedItem = lvConditions.SelectedItems[0];
-            //btAddCondition.Text = "Изменить";
-
-            //MyCondition myCnd = (MyCondition)lvConditions.SelectedItems[0].Tag;
-
-            //cbFieldName.SelectedIndexChanged -= cbFieldName_SelectedIndexChanged;
-            //cbFieldName.SelectedIndex = myCnd.FieldIndex;
-            //PrepareCBCriterionAndExpression();
-            //cbFieldName.SelectedIndexChanged += cbFieldName_SelectedIndexChanged;
-
-            //cbCriterion.SelectedIndex = myCnd.CriterionIndex;
-            //cbExpression.SelectedIndex = myCnd.ExpressionIndex;
-
-            //cbLigament.Items.Clear();
-            //if (myCnd.LigamentIndex >= 0)
-            //{
-            //    cbLigament.Items.Add("И");
-            //    cbLigament.Items.Add("ИЛИ");
-            //}
-            //cbLigament.SelectedIndex = myCnd.LigamentIndex;
-        }
-
         private void lvConditions_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lvConditions.SelectedItems == null || lvConditions.SelectedItems.Count < 1)
@@ -272,7 +265,8 @@ namespace NonStandartRequests
             btDeleteCondition.Enabled = true;
 
             lvConditionSelectedItem = lvConditions.SelectedItems[0];
-            btAddCondition.Text = "Изменить";
+            //btAddCondition.Text = "Изменить";
+            btChangeCond.Enabled = true;
 
             MyCondition myCnd = (MyCondition)lvConditions.SelectedItems[0].Tag;
 

@@ -10,23 +10,6 @@ namespace NonStandartRequests
     public partial class fNonStandartRequests : Form
     {
 
-        //class MyOrderElem
-        //{
-        //    public object Item;
-        //    public SortOrder SortOrder;
-
-        //    public MyOrderElem(object Item, SortOrder SortOrder)
-        //    {
-        //        this.Item = Item;
-        //        this.SortOrder = SortOrder;
-        //    }
-
-        //    public override string ToString()
-        //    {
-        //        return Item.ToString();
-        //    }
-        //}
-
         private void FieldAddTo_LBSelectedFieldsOrder(MyField field)
         {
             lbSelectedFieldsOrder.Items.Add(field);
