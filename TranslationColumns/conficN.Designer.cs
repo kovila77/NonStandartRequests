@@ -25,8 +25,7 @@ namespace TranslationColumns {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\35498\\source\\repos\\NonStandartRequests\\NonStandartRequests\\bin\\Debug\\Non" +
-            "StandartRequests.exe.config")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\NonStandartRequests.exe.config")]
         public string nonstandartrequestConfigPath {
             get {
                 return ((string)(this["nonstandartrequestConfigPath"]));

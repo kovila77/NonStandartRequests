@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace NonStandartRequests
     {
         private static readonly string strColumnName = "column_name";
         private static readonly string strTableName = "table_name";
-        private static readonly string strTranslation = "translation";
+        //private static readonly string strTranslation = "translation";
 
         string sPostgresConn = new NpgsqlConnectionStringBuilder()
         {
@@ -23,6 +24,14 @@ namespace NonStandartRequests
             Username = dbSettings.Default.User,
             Password = dbSettings.Default.Password,
         }.ConnectionString;
+        //string sPostgresConn = new NpgsqlConnectionStringBuilder()
+        //{
+        //    Database = Properties.Settings.Default.Properties["setting"],
+        //    Host = ConfigurationManager.AppSettings["Host"],
+        //    Port = Convert.ToInt32(ConfigurationManager.AppSettings["Port"]),
+        //    Username = ConfigurationManager.AppSettings["User"],
+        //    Password = ConfigurationManager.AppSettings["Password"],
+        //}.ConnectionString;
 
         string sLiteConn = new SQLiteConnectionStringBuilder()
         {
@@ -35,6 +44,7 @@ namespace NonStandartRequests
 
         public MyFieldController()
         {
+            Properties.Settings.Default
             _fields = new BindingList<MyField>();
             Initialize();
         }
@@ -99,7 +109,7 @@ namespace NonStandartRequests
                             var temp = cmd.ExecuteScalar();
                             string transl = temp == null ? null : temp.ToString();
                             if (transl == null)
-                                transl = column;
+                                transl = table + ": " + column;
 
                             _fields.Add(new MyField() { Name = transl, TableName = table, ColumnName = column });
                         }

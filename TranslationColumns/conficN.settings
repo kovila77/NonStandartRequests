@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="nonstandartrequestConfigPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\35498\source\repos\NonStandartRequests\NonStandartRequests\bin\Debug\NonStandartRequests.exe.config</Value>
+      <Value Profile="(Default)">.\NonStandartRequests.exe.config</Value>
     </Setting>
   </Settings>
 </SettingsFile>
