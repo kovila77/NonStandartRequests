@@ -44,8 +44,8 @@ namespace TranslationColumns
             doc.Load(conficN.Default.nonstandartrequestConfigPath);
             var settings = doc.ChildNodes.Cast<XmlNode>()
               .FirstOrDefault(x => x.Name == "configuration").ChildNodes.Cast<XmlNode>()
-              .FirstOrDefault(x => x.Name == "userSettings").Cast<XmlNode>()
-              .FirstOrDefault(x => x.Name == "NonStandartRequests.Settings").ChildNodes.Cast<XmlNode>()
+              .FirstOrDefault(x => x.Name == "applicationSettings").Cast<XmlNode>()
+              .FirstOrDefault(x => x.Name == "NonStandartRequests.Properties.Settings").ChildNodes.Cast<XmlNode>()
               .Select(x => new
               {
                   Name = x.Attributes.Cast<XmlAttribute>().FirstOrDefault(y => y.Name.ToLower() == "name").FirstChild.Value,
@@ -54,7 +54,7 @@ namespace TranslationColumns
 
             sPostgresConn = new NpgsqlConnectionStringBuilder()
             {
-                Database = settings.FirstOrDefault(x => x.Name == "DatabaseName").Value,
+                Database = settings.FirstOrDefault(x => x.Name == "Database").Value,
                 Host = settings.FirstOrDefault(x => x.Name == "Host").Value,
                 Port = Convert.ToInt32(settings.FirstOrDefault(x => x.Name == "Port").Value),
                 Username = settings.FirstOrDefault(x => x.Name == "User").Value,

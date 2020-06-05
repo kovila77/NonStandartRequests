@@ -86,7 +86,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="dbSettings.cs" />
     <Compile Include="fNonStandartRequests.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,11 +114,6 @@
     <Compile Include="OstoveTree.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="dbSettings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>dbSettings.settings</DependentUpon>
-    </Compile>
     <Compile Include="ListViewComparer.cs" />
     <EmbeddedResource Include="fNonStandartRequests.resx">
       <DependentUpon>fNonStandartRequests.cs</DependentUpon>
@@ -143,10 +137,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="dbSettings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>dbSettings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

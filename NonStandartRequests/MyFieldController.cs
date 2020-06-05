@@ -18,11 +18,11 @@ namespace NonStandartRequests
 
         string sPostgresConn = new NpgsqlConnectionStringBuilder()
         {
-            Database = dbSettings.Default.DatabaseName,
-            Host = dbSettings.Default.Host,
-            Port = dbSettings.Default.Port,
-            Username = dbSettings.Default.User,
-            Password = dbSettings.Default.Password,
+            Database = Properties.Settings.Default.Database,
+            Host = Properties.Settings.Default.Host,
+            Port = Properties.Settings.Default.Port,
+            Username = Properties.Settings.Default.User,
+            Password = Properties.Settings.Default.Password,
         }.ConnectionString;
         //string sPostgresConn = new NpgsqlConnectionStringBuilder()
         //{
@@ -35,7 +35,7 @@ namespace NonStandartRequests
 
         string sLiteConn = new SQLiteConnectionStringBuilder()
         {
-            DataSource = dbSettings.Default.TranslationPath,
+            DataSource = Properties.Settings.Default.TranslationPath,
         }.ConnectionString;
 
         private BindingList<MyField> _fields;
@@ -44,7 +44,7 @@ namespace NonStandartRequests
 
         public MyFieldController()
         {
-            Properties.Settings.Default
+
             _fields = new BindingList<MyField>();
             Initialize();
         }
