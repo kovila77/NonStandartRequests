@@ -8,8 +8,8 @@ namespace NonStandartRequests
 {
     class MyValueHandle
     {
-        public object Value { get;  }
-        public string DBType { get;  }
+        public object Value { get; }
+        public string DBType { get; }
 
         public MyValueHandle(object value, string DBType)
         {
@@ -24,6 +24,9 @@ namespace NonStandartRequests
             if (DBType == "date")
                 return ((DateTime)Value).ToString("dd.MM.yyyy");
 
+            if (DBType == "interval")
+                return ((TimeSpan)Value).ToString(@"ddd\ \д\.\ hh\ \ч\.\ mm\ \м\.\ ss\ \с\.");
+
             //if (Value.GetType() == typeof(byte[])) return Convert.ToBase64String((byte[])Value);
             if (DBType == "bytea") return Convert.ToBase64String((byte[])Value);
 
@@ -33,10 +36,10 @@ namespace NonStandartRequests
         //public static string GetFormattedValue(object val)
         //{
         //    //val == null || val == DBNull.Value ? "" : val.ToString();
-            //if (val == null || val == DBNull.Value) return "";
-            //if (val.GetType() == typeof(byte[])) return Convert.ToBase64String((byte[]) val);
+        //if (val == null || val == DBNull.Value) return "";
+        //if (val.GetType() == typeof(byte[])) return Convert.ToBase64String((byte[]) val);
 
-            //return val.ToString();
+        //return val.ToString();
         //}
 
     }

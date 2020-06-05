@@ -310,7 +310,7 @@ namespace NonStandartRequests
                 if (!string.IsNullOrEmpty(rules) && !string.IsNullOrEmpty(conditions))
                     sqlQuery += " AND " + conditions;
                 else if (!string.IsNullOrEmpty(conditions))
-                    sqlQuery += conditions;
+                    sqlQuery += (string.IsNullOrEmpty(rules) ? "WHERE " : "") + conditions;
             }
             else
             {

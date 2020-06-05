@@ -103,7 +103,6 @@
     <Compile Include="fNonStandartRequests_Result.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FreshFieldLoader.cs" />
     <Compile Include="MyCondition.cs" />
     <Compile Include="MyField.cs" />
     <Compile Include="MyFieldController.cs" />
