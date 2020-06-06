@@ -31,6 +31,8 @@ namespace TranslationColumns
 
         BindingList<NonStandartRequests.MyField> fields = null;
 
+        string newFieldNameValue = null;
+
         public enum FormType
         {
             FieldsGiven,
@@ -221,21 +223,33 @@ namespace TranslationColumns
             if (!dataGridView1.IsCurrentCellDirty) return;
             using (var liteConn = new SQLiteConnection(sLiteConn))
             {
+                newFieldNameValue = RmvExtrSpaces(e.FormattedValue.ToString());
                 liteConn.Open();
                 var row = dataGridView1.Rows[e.RowIndex];
                 var cmd = new SQLiteCommand() { Connection = liteConn };
-                cmd.CommandText = @"UPDATE translation SET translation = @tr WHERE column_name = @cn AND table_name = @tn;";
+                cmd.CommandText = @"SELECT translation FROM translation WHERE NOT (column_name = @cn AND table_name = @tn) AND translation = @tr;";
                 cmd.Parameters.AddWithValue("cn", row.Cells[strColumnName].Value);
                 cmd.Parameters.AddWithValue("tn", row.Cells[strTableName].Value);
-                cmd.Parameters.AddWithValue("tr", RmvExtrSpaces(e.FormattedValue.ToString()));
-                cmd.ExecuteNonQuery().ToString();
+                cmd.Parameters.AddWithValue("tr", newFieldNameValue);
+
+                string translation = cmd.ExecuteScalar() as string;
+                while (translation != null && translation.ToLower() == newFieldNameValue.ToLower())
+                {
+                    newFieldNameValue += "-копия";
+                    cmd.Parameters.AddWithValue("tr", newFieldNameValue);
+                    translation = cmd.ExecuteScalar() as string;
+                }
+
+                cmd.CommandText = @"UPDATE translation SET translation = @tr WHERE column_name = @cn AND table_name = @tn;";
+                cmd.Parameters.AddWithValue("tr", newFieldNameValue);
+                cmd.ExecuteNonQuery();
 
                 if (formType == FormType.FieldsGiven)
                 {
                     var field = fields.FirstOrDefault(x => x.TableName == (string)row.Cells[strTableName].Value && x.ColumnName == (string)row.Cells[strColumnName].Value);
                     if (field != null)
                     {
-                        field.Name = RmvExtrSpaces(e.FormattedValue.ToString());
+                        field.Name = newFieldNameValue;
                         FieldNameChanged?.Invoke(field);
                     }
                 }
@@ -259,7 +273,15 @@ namespace TranslationColumns
 
             if (cell.ValueType == typeof(String))
             {
-                cell.Value = cellFormatedValue;
+                if (cell.OwningColumn.Name == strTranslation && newFieldNameValue != null)
+                {
+                    cell.Value = newFieldNameValue;
+                    newFieldNameValue = null;
+                }
+                else
+                {
+                    cell.Value = cellFormatedValue;
+                }
             }
         }
 
