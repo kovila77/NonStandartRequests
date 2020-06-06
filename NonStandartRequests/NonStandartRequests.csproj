@@ -107,7 +107,6 @@
     <Compile Include="MyCondition.cs" />
     <Compile Include="MyField.cs" />
     <Compile Include="MyFieldController.cs" />
-    <Compile Include="MySettings.cs" />
     <Compile Include="MyTableFKeyLinked.cs" />
     <Compile Include="MyValueHandle.cs" />
     <Compile Include="MyWay.cs" />
