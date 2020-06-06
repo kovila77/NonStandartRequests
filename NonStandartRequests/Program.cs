@@ -20,11 +20,12 @@ namespace NonStandartRequests
             //var tf = new fTranslationColumns(fTranslationColumns.FormType.NeedExit) { Visible = false };
             //Application.Run(tf);
             //tf.Dispose();
-            MessageBox.Show("Введите названия столбцов. После завершения редактирования закройте окно для продолжения");
 
-            var tf = new fTranslationColumns(fTranslationColumns.FormType.NeedChanges);
-            Application.Run(tf);
-            tf.Dispose();
+            //MessageBox.Show("Введите названия столбцов. После завершения редактирования закройте окно для продолжения");
+
+            //var tf = new fTranslationColumns(fTranslationColumns.FormType.NeedChanges);
+            //Application.Run(tf);
+            //tf.Dispose();
 
             Application.Run(new fNonStandartRequests());
         }

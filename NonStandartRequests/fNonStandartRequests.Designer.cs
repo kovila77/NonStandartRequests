@@ -71,6 +71,7 @@
             this.btCancel = new System.Windows.Forms.Button();
             this.btExecute = new System.Windows.Forms.Button();
             this.btShowSQL = new System.Windows.Forms.Button();
+            this.btFieldNameChange = new System.Windows.Forms.Button();
             this.tcQuery.SuspendLayout();
             this.tpFields.SuspendLayout();
             this.tpCondition.SuspendLayout();
@@ -505,6 +506,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btFieldNameChange);
             this.panel1.Controls.Add(this.btCancel);
             this.panel1.Controls.Add(this.btExecute);
             this.panel1.Controls.Add(this.btShowSQL);
@@ -543,6 +545,16 @@
             this.btShowSQL.Text = "Показать SQL";
             this.btShowSQL.UseVisualStyleBackColor = true;
             this.btShowSQL.Click += new System.EventHandler(this.btShowSQL_Click);
+            // 
+            // btFieldNameChange
+            // 
+            this.btFieldNameChange.Location = new System.Drawing.Point(4, 8);
+            this.btFieldNameChange.Name = "btFieldNameChange";
+            this.btFieldNameChange.Size = new System.Drawing.Size(176, 23);
+            this.btFieldNameChange.TabIndex = 3;
+            this.btFieldNameChange.Text = "Редактировать названия полей";
+            this.btFieldNameChange.UseVisualStyleBackColor = true;
+            this.btFieldNameChange.Click += new System.EventHandler(this.btFieldNameChange_Click);
             // 
             // fNonStandartRequests
             // 
@@ -615,6 +627,7 @@
         private System.Windows.Forms.Button btDown;
         private System.Windows.Forms.Button btUp;
         private System.Windows.Forms.Button btChangeCond;
+        private System.Windows.Forms.Button btFieldNameChange;
     }
 }
 

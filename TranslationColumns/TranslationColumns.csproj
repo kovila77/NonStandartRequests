@@ -96,6 +96,7 @@
     <Compile Include="fTranslationColumns.Designer.cs">
       <DependentUpon>fTranslationColumns.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyField.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="fTranslationColumns.resx">

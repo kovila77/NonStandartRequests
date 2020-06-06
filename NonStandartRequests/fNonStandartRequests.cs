@@ -32,9 +32,9 @@ namespace NonStandartRequests
         NpgsqlCommandBuilder npgsqlCommandBuilder = new NpgsqlCommandBuilder();
         private ColumnHeader sortingColumn = null;
 
-        delegate void myFieldDelegate(MyField deletedItem);
-        event myFieldDelegate SelectedItemAdded;
-        event myFieldDelegate SelectedItemRemoved;
+        public delegate void myFieldDelegate(MyField deletedItem);
+        public event myFieldDelegate SelectedItemAdded;
+        public event myFieldDelegate SelectedItemRemoved;
 
         MyFieldController myFieldController;
 
@@ -125,6 +125,25 @@ namespace NonStandartRequests
             btChangeCond.Enabled = false;
             btAllLeftFieldFields_Click(null, null);
 
+        }
+
+        private void btFieldNameChange_Click(object sender, EventArgs e)
+        {
+            var tc = new fTranslationColumns(myFieldController.Fields);
+            tc.FieldNameChanged += OnFieldNameChange;
+            tc.ShowDialog();
+            tc.FieldNameChanged -= OnFieldNameChange;
+        }
+
+        private void OnFieldNameChange(MyField newField)
+        {
+            //myFieldController.SetNewName(newField);
+            var index = lbAllFields.Items.IndexOf(newField);
+            if (index >= 0)
+            {
+                lbAllFields.Items.Remove(newField);
+                lbAllFields.Items.Insert(index, newField);
+            }
         }
     }
 }

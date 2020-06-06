@@ -26,18 +26,46 @@ namespace TranslationColumns
         private readonly string strTableName = "table_name";
         private readonly string strTranslation = "translation";
 
+        public delegate void myFieldDelegate(NonStandartRequests.MyField deletedItem);
+        public event myFieldDelegate FieldNameChanged;
+
+        BindingList<NonStandartRequests.MyField> fields = null;
+
         public enum FormType
         {
-            NeedExit,
-            NeedChanges
+            FieldsGiven,
+            SelfLoad
         }
         FormType formType;
 
-        public fTranslationColumns(FormType ft)
+        public fTranslationColumns()
         {
-            formType = ft;
             InitializeComponent();
 
+            formType = FormType.SelfLoad;
+            Initialize();
+
+            ComplementTable();
+        }
+
+        public fTranslationColumns(BindingList<NonStandartRequests.MyField> myFields)
+        {
+            InitializeComponent();
+
+            formType = FormType.FieldsGiven;
+            this.fields = myFields;
+            Initialize();
+
+            foreach (var field in fields)
+            {
+                dataGridView1.Rows.Add(field.ColumnName, field.TableName, field.Name);
+            }
+
+            загрузитьToolStripMenuItem.Enabled = false;
+        }
+
+        private void Initialize()
+        {
             XmlDocument doc = new XmlDocument();
             //doc.Load(@"NonStandartRequests.exe.config"); 
             //doc.Load(@"C:\Users\35498\source\repos\NonStandartRequests\NonStandartRequests\bin\Debug\NonStandartRequests.exe.config");
@@ -71,7 +99,6 @@ namespace TranslationColumns
             dataGridView1.Columns[dataGridView1.Columns.Add(strTranslation, "Переведённое название")].ValueType = typeof(string);
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToAddRows = false;
-            ComplementTable();
         }
 
         public void ComplementTable()
@@ -119,7 +146,7 @@ namespace TranslationColumns
                         CommandText = @"SELECT DISTINCT column_name, table_name
                                         FROM information_schema.columns
                                         WHERE table_schema = 'public';",
-                                        //WHERE table_schema NOT IN ('information_schema', 'pg_catalog'); ",
+                        //WHERE table_schema NOT IN ('information_schema', 'pg_catalog'); ",
                     };
                     using (var rdr = pCom.ExecuteReader())
                     {
@@ -169,10 +196,6 @@ namespace TranslationColumns
                 cmd.CommandText = @"COMMIT;";
                 cmd.ExecuteNonQuery();
             }
-            if (formType == FormType.NeedExit)
-            {
-                this.Close();
-            }
         }
 
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
@@ -206,6 +229,16 @@ namespace TranslationColumns
                 cmd.Parameters.AddWithValue("tn", row.Cells[strTableName].Value);
                 cmd.Parameters.AddWithValue("tr", RmvExtrSpaces(e.FormattedValue.ToString()));
                 cmd.ExecuteNonQuery().ToString();
+
+                if (formType == FormType.FieldsGiven)
+                {
+                    var field = fields.FirstOrDefault(x => x.TableName == (string)row.Cells[strTableName].Value && x.ColumnName == (string)row.Cells[strColumnName].Value);
+                    if (field != null)
+                    {
+                        field.Name = RmvExtrSpaces(e.FormattedValue.ToString());
+                        FieldNameChanged?.Invoke(field);
+                    }
+                }
             }
             if (cell.Style.BackColor == Color.Red) cell.Style.BackColor = dataGridView1.DefaultCellStyle.BackColor;
         }

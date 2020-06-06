@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace NonStandartRequests
 {
-    internal class MyField
+    public class MyField
     {
         public string Name { get; set; }
         //public string Value { get => Name; set => Name = value; }

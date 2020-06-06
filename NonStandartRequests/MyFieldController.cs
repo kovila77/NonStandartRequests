@@ -96,9 +96,9 @@ namespace NonStandartRequests
                         CommandText = @"SELECT DISTINCT column_name, table_name
                                         FROM information_schema.columns
                                         WHERE table_schema = 'public'; ",
-                                        //WHERE table_schema NOT IN ('information_schema', 'pg_catalog'); ",
+                        //WHERE table_schema NOT IN ('information_schema', 'pg_catalog'); ",
                     };
-                using (var rdr = pCom.ExecuteReader())
+                    using (var rdr = pCom.ExecuteReader())
                     {
                         while (rdr.Read())
                         {
@@ -118,5 +118,14 @@ namespace NonStandartRequests
                 }
             }
         }
+
+        //internal void SetNewName(MyField newField)
+        //{
+        //    var oldField = _fields.FirstOrDefault(x => x.ColumnName == newField.ColumnName && x.TableName == newField.TableName);
+        //    if (oldField != null)
+        //    {
+        //        oldField.Name = newField.Name;
+        //    }
+        //}
     }
 }
