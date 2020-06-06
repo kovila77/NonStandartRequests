@@ -25,15 +25,6 @@ namespace NonStandartRequests.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("outpost")]
-        public string Database {
-            get {
-                return ((string)(this["Database"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("postgres")]
         public string User {
             get {
@@ -70,7 +61,16 @@ namespace NonStandartRequests.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".\\Translation.sqlite")]
+        [global::System.Configuration.DefaultSettingValueAttribute("adhoc")]
+        public string Database {
+            get {
+                return ((string)(this["Database"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\transcription.sqlite")]
         public string TranslationPath {
             get {
                 return ((string)(this["TranslationPath"]));

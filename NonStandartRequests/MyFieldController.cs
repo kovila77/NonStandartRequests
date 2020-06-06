@@ -95,10 +95,10 @@ namespace NonStandartRequests
                         //                    AND ccu.column_name = columns.column_name AND columns.table_name <> ccu.table_name);",
                         CommandText = @"SELECT DISTINCT column_name, table_name
                                         FROM information_schema.columns
-                                        WHERE table_schema = 'public';",asdfgaesfg
+                                        WHERE table_schema = 'public'; ",
                                         //WHERE table_schema NOT IN ('information_schema', 'pg_catalog'); ",
                     };
-                    using (var rdr = pCom.ExecuteReader())
+                using (var rdr = pCom.ExecuteReader())
                     {
                         while (rdr.Read())
                         {
