@@ -13,6 +13,7 @@ namespace NonStandartRequests
         //public string Value { get => Name; set => Name = value; }
         public string ColumnName { get; set; }
         public string TableName { get; set; }
+        public string FieldType { get; set; }
 
         public SortOrder SortOrder = SortOrder.Ascending;
 

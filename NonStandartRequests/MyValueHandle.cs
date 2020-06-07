@@ -19,28 +19,36 @@ namespace NonStandartRequests
 
         public override string ToString()
         {
-            if (Value == null || Value == DBNull.Value) return "<null>";
+            //if (Value == null || Value == DBNull.Value) return "<null>";
 
-            if (DBType == "date")
-                return ((DateTime)Value).ToString("dd.MM.yyyy");
+            //if (DBType == "date")
+            //    return ((DateTime)Value).ToString("dd.MM.yyyy");
 
-            if (DBType == "interval")
-                return ((TimeSpan)Value).ToString(@"ddd\ \д\.\ hh\ \ч\.\ mm\ \м\.\ ss\ \с\.");
+            //if (DBType == "interval")
+            //    return ((TimeSpan)Value).ToString(@"ddd\ \д\.\ hh\ \ч\.\ mm\ \м\.\ ss\ \с\.");
 
-            //if (Value.GetType() == typeof(byte[])) return Convert.ToBase64String((byte[])Value);
-            if (DBType == "bytea") return Convert.ToBase64String((byte[])Value);
+            ////if (Value.GetType() == typeof(byte[])) return Convert.ToBase64String((byte[])Value);
+            //if (DBType == "bytea") return Convert.ToBase64String((byte[])Value);
 
-            return Value.ToString();
+            //return Value.ToString();
+            return GetFormattedValue(Value, DBType);
         }
 
-        //public static string GetFormattedValue(object val)
-        //{
-        //    //val == null || val == DBNull.Value ? "" : val.ToString();
-        //if (val == null || val == DBNull.Value) return "";
-        //if (val.GetType() == typeof(byte[])) return Convert.ToBase64String((byte[]) val);
+        public static string GetFormattedValue(object value, string type)
+        {
+            if (value == null || value == DBNull.Value) return "<null>";
 
-        //return val.ToString();
-        //}
+            if (type == "date")
+                return ((DateTime)value).ToString("dd.MM.yyyy");
+
+            if (type == "interval")
+                return ((TimeSpan)value).ToString(@"ddd\ \д\.\ hh\ \ч\.\ mm\ \м\.\ ss\ \с\.");
+
+            //if (Value.GetType() == typeof(byte[])) return Convert.ToBase64String((byte[])Value);
+            if (type == "bytea") return Convert.ToBase64String((byte[])value);
+
+            return value.ToString();
+        }
 
     }
 }

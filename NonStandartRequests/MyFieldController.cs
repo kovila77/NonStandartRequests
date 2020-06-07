@@ -49,6 +49,27 @@ namespace NonStandartRequests
             Initialize();
         }
 
+        private string GetFieldType(string tableName, string columnName)
+        {
+            using (var psgCon = new NpgsqlConnection(sPostgresConn))
+            {
+                psgCon.Open();
+                var cmd = new NpgsqlCommand() { Connection = psgCon };
+
+                cmd.CommandText = $@"
+        SELECT data_type
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = @tn
+          AND column_name = @cn;";
+
+                cmd.Parameters.Add(new NpgsqlParameter("@tn", tableName));
+                cmd.Parameters.Add(new NpgsqlParameter("@cn", columnName));
+
+                return cmd.ExecuteScalar().ToString().ToLower();
+            }
+        }
+
         public void Initialize()
         {
             _fields.Clear();
@@ -116,7 +137,7 @@ namespace NonStandartRequests
                                 sqliteCmd.ExecuteNonQuery();
                             }
 
-                            _fields.Add(new MyField() { Name = transl, TableName = table, ColumnName = column });
+                            _fields.Add(new MyField() { Name = transl, TableName = table, ColumnName = column, FieldType = GetFieldType(table, column) });
                         }
                     }
                 }

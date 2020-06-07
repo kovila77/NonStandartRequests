@@ -344,15 +344,15 @@ namespace NonStandartRequests
                 cmd.CommandText = sqlQuery;
                 cmd.Parameters.AddRange(parameters.ToArray());
 
-                using (var rd = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    while (rd.Read())
+                    while (reader.Read())
                     {
                         List<string> fields = new List<string>();
                         for (int i = 0; i < columns.Length; i++)
                         {
-                            var val = rd[i];
-                            fields.Add(getformattedvalue(val));
+                            var val = reader[i];
+                            fields.Add(MyValueHandle.GetFormattedValue(val, ((MyField)lbSelectedFieldsFields.Items[i]).FieldType));
                         }
                         lvResult.Items.Add(new ListViewItem(fields.ToArray()));
                     }
@@ -364,13 +364,13 @@ namespace NonStandartRequests
             }
         }
 
-        public static string getformattedvalue(object val)
-        {
-            //val == null || val == dbnull.value ? "" : val.tostring();
-            if (val == null || val == DBNull.Value) return "";
-            if (val.GetType() == typeof(byte[])) return Convert.ToBase64String((byte[])val);
+        //public static string getformattedvalue(object val)
+        //{
+        //    //val == null || val == dbnull.value ? "" : val.tostring();
+        //    if (val == null || val == DBNull.Value) return "";
+        //    if (val.GetType() == typeof(byte[])) return Convert.ToBase64String((byte[])val);
 
-            return val.ToString();
-        }
+        //    return val.ToString();
+        //}
     }
 }
