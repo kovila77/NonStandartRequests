@@ -242,7 +242,7 @@ namespace TranslationColumns
 
                 cmd.CommandText = @"UPDATE translation SET translation = @tr WHERE column_name = @cn AND table_name = @tn;";
                 cmd.Parameters.AddWithValue("tr", newFieldNameValue);
-                cmd.ExecuteNonQuery();
+              var i =    cmd.ExecuteNonQuery();
 
                 if (formType == FormType.FieldsGiven)
                 {

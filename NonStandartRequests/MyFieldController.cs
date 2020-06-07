@@ -56,11 +56,11 @@ namespace NonStandartRequests
             {
                 liteConn.Open();
 
-                var cmd = new SQLiteCommand() { Connection = liteConn, CommandText = @"SELECT 1 FROM sqlite_master WHERE type = 'table' AND tbl_name = 'translation';" };
+                var sqliteCmd = new SQLiteCommand() { Connection = liteConn, CommandText = @"SELECT 1 FROM sqlite_master WHERE type = 'table' AND tbl_name = 'translation';" };
 
-                if (cmd.ExecuteScalar() == null)
+                if (sqliteCmd.ExecuteScalar() == null)
                 {
-                    cmd.CommandText = "CREATE TABLE translation"
+                    sqliteCmd.CommandText = "CREATE TABLE translation"
                                       + "("
                                       + "    column_name text,"
                                       + "    table_name  text,"
@@ -68,16 +68,14 @@ namespace NonStandartRequests
                                       + "     constraint translation_pk"
                                       + "        primary key(column_name, table_name)"
                                       + ")";
-                    cmd.ExecuteNonQuery();
+                    sqliteCmd.ExecuteNonQuery();
                 }
-
-                cmd.CommandText = @"SELECT translation FROM translation WHERE column_name = @cn AND table_name = @tn;";
 
                 using (var postConn = new NpgsqlConnection(sPostgresConn))
                 {
                     postConn.Open();
 
-                    var pCom = new NpgsqlCommand()
+                    var psgCmd = new NpgsqlCommand()
                     {
                         Connection = postConn,
                         //CommandText = @"SELECT column_name, table_name
@@ -98,19 +96,25 @@ namespace NonStandartRequests
                                         WHERE table_schema = 'public'; ",
                         //WHERE table_schema NOT IN ('information_schema', 'pg_catalog'); ",
                     };
-                    using (var rdr = pCom.ExecuteReader())
+                    using (var rdr = psgCmd.ExecuteReader())
                     {
                         while (rdr.Read())
                         {
                             string column = ((string)rdr[strColumnName]).ToLower();
                             string table = ((string)rdr[strTableName]).ToLower();
 
-                            cmd.Parameters.AddWithValue("cn", column);
-                            cmd.Parameters.AddWithValue("tn", table);
-                            var temp = cmd.ExecuteScalar();
+                            sqliteCmd.CommandText = @"SELECT translation FROM translation WHERE column_name = @cn AND table_name = @tn;";
+                            sqliteCmd.Parameters.AddWithValue("cn", column);
+                            sqliteCmd.Parameters.AddWithValue("tn", table);
+                            var temp = sqliteCmd.ExecuteScalar();
                             string transl = temp == null ? null : temp.ToString();
                             if (transl == null)
+                            {
                                 transl = table + ": " + column;
+                                sqliteCmd.Parameters.AddWithValue("tr", transl);
+                                sqliteCmd.CommandText = @"INSERT INTO translation (column_name, table_name, translation) VALUES (@cn, @tn, @tr);";
+                                sqliteCmd.ExecuteNonQuery();
+                            }
 
                             _fields.Add(new MyField() { Name = transl, TableName = table, ColumnName = column });
                         }
