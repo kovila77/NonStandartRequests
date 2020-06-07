@@ -118,7 +118,11 @@ namespace NonStandartRequests
 
         private void btShowSQL_Click(object sender, EventArgs e) => CreateQuery(false);
 
-        private void btExecute_Click(object sender, EventArgs e) => CreateQuery(true);
+        private void btExecute_Click(object sender, EventArgs e)
+        {
+            lvResult.Sorting = SortOrder.None;
+            CreateQuery(true);
+        }
 
         private void btCancel_Click(object sender, EventArgs e)
         {
@@ -149,7 +153,7 @@ namespace NonStandartRequests
             }
         }
 
-       
+
         private void lb_MouseDown(object sender, MouseEventArgs e)
         {
             lbValueDragging = ((ListBox)sender).SelectedItem;

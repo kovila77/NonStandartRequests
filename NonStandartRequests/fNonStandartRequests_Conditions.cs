@@ -16,6 +16,7 @@ namespace NonStandartRequests
             if (cbFieldName.SelectedItem == null) return;
 
             lvConditionSelectedItem = null;
+            lvConditions.SelectedItems.Clear();
             //btAddCondition.Text = "Добавить";
             btChangeCond.Enabled = false;
 
