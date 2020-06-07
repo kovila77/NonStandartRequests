@@ -68,10 +68,10 @@
             this.tpRestult = new System.Windows.Forms.TabPage();
             this.lvResult = new System.Windows.Forms.ListView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btFieldNameChange = new System.Windows.Forms.Button();
             this.btCancel = new System.Windows.Forms.Button();
             this.btExecute = new System.Windows.Forms.Button();
             this.btShowSQL = new System.Windows.Forms.Button();
-            this.btFieldNameChange = new System.Windows.Forms.Button();
             this.tcQuery.SuspendLayout();
             this.tpFields.SuspendLayout();
             this.tpCondition.SuspendLayout();
@@ -120,6 +120,9 @@
             this.lbSelectedFieldsFields.Size = new System.Drawing.Size(305, 186);
             this.lbSelectedFieldsFields.TabIndex = 9;
             this.lbSelectedFieldsFields.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectedFieldsFields_MouseDoubleClick);
+            this.lbSelectedFieldsFields.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lb_MouseDown);
+            this.lbSelectedFieldsFields.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lb_MouseMove);
+            this.lbSelectedFieldsFields.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lb_MouseUp);
             // 
             // lbAllFields
             // 
@@ -349,6 +352,7 @@
             // 
             // btDown
             // 
+            this.btDown.Enabled = false;
             this.btDown.Location = new System.Drawing.Point(596, 60);
             this.btDown.Name = "btDown";
             this.btDown.Size = new System.Drawing.Size(32, 23);
@@ -359,6 +363,7 @@
             // 
             // btUp
             // 
+            this.btUp.Enabled = false;
             this.btUp.Location = new System.Drawing.Point(596, 31);
             this.btUp.Name = "btUp";
             this.btUp.Size = new System.Drawing.Size(32, 23);
@@ -376,6 +381,9 @@
             this.lbOrder.TabIndex = 18;
             this.lbOrder.SelectedIndexChanged += new System.EventHandler(this.lbOrder_SelectedIndexChanged);
             this.lbOrder.DoubleClick += new System.EventHandler(this.lbOrder_DoubleClick);
+            this.lbOrder.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lb_MouseDown);
+            this.lbOrder.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lb_MouseMove);
+            this.lbOrder.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lb_MouseUp);
             // 
             // lbSelectedFieldsOrder
             // 
@@ -516,6 +524,16 @@
             this.panel1.Size = new System.Drawing.Size(712, 34);
             this.panel1.TabIndex = 1;
             // 
+            // btFieldNameChange
+            // 
+            this.btFieldNameChange.Location = new System.Drawing.Point(4, 8);
+            this.btFieldNameChange.Name = "btFieldNameChange";
+            this.btFieldNameChange.Size = new System.Drawing.Size(176, 23);
+            this.btFieldNameChange.TabIndex = 3;
+            this.btFieldNameChange.Text = "Редактировать названия полей";
+            this.btFieldNameChange.UseVisualStyleBackColor = true;
+            this.btFieldNameChange.Click += new System.EventHandler(this.btFieldNameChange_Click);
+            // 
             // btCancel
             // 
             this.btCancel.Location = new System.Drawing.Point(633, 8);
@@ -545,16 +563,6 @@
             this.btShowSQL.Text = "Показать SQL";
             this.btShowSQL.UseVisualStyleBackColor = true;
             this.btShowSQL.Click += new System.EventHandler(this.btShowSQL_Click);
-            // 
-            // btFieldNameChange
-            // 
-            this.btFieldNameChange.Location = new System.Drawing.Point(4, 8);
-            this.btFieldNameChange.Name = "btFieldNameChange";
-            this.btFieldNameChange.Size = new System.Drawing.Size(176, 23);
-            this.btFieldNameChange.TabIndex = 3;
-            this.btFieldNameChange.Text = "Редактировать названия полей";
-            this.btFieldNameChange.UseVisualStyleBackColor = true;
-            this.btFieldNameChange.Click += new System.EventHandler(this.btFieldNameChange_Click);
             // 
             // fNonStandartRequests
             // 

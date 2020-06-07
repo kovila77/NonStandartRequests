@@ -38,6 +38,9 @@ namespace NonStandartRequests
 
         MyFieldController myFieldController;
 
+        int listBoxBiginDraggingIndex = -1;
+        object lbValueDragging = null;
+        int yListBoxMouseDragging;
         public fNonStandartRequests()
         {
             InitializeComponent();
@@ -144,6 +147,38 @@ namespace NonStandartRequests
                 lbAllFields.Items.Remove(newField);
                 lbAllFields.Items.Insert(index, newField);
             }
+        }
+
+       
+        private void lb_MouseDown(object sender, MouseEventArgs e)
+        {
+            lbValueDragging = ((ListBox)sender).SelectedItem;
+            listBoxBiginDraggingIndex = ((ListBox)sender).SelectedIndex;
+            yListBoxMouseDragging = e.Y;
+        }
+
+        private void lb_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (lbValueDragging != null && listBoxBiginDraggingIndex > -1)
+            {
+                if (yListBoxMouseDragging - e.Y != 0)
+                {
+                    var lb = (ListBox)sender;
+                    int curIndex = lb.SelectedIndex;
+                    if (curIndex < 0 || listBoxBiginDraggingIndex == curIndex) return;
+                    yListBoxMouseDragging = e.Y;
+                    lb.Items.RemoveAt(listBoxBiginDraggingIndex);
+                    lb.Items.Insert(curIndex, lbValueDragging);
+                    lb.SelectedIndex = curIndex;
+                    listBoxBiginDraggingIndex = curIndex;
+                }
+            }
+        }
+
+        private void lb_MouseUp(object sender, MouseEventArgs e)
+        {
+            listBoxBiginDraggingIndex = -1;
+            lbValueDragging = null;
         }
     }
 }

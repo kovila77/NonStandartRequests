@@ -97,6 +97,8 @@ namespace NonStandartRequests
         {
             rbIncreasing.Enabled = lbOrder.SelectedItem != null;
             rbDecreasing.Enabled = lbOrder.SelectedItem != null;
+            btUp.Enabled = lbOrder.SelectedItem != null;
+            btDown.Enabled = lbOrder.SelectedItem != null;
 
             if (lbOrder.SelectedItem == null) return;
             if (((MyField)lbOrder.SelectedItem).SortOrder == SortOrder.Ascending)
