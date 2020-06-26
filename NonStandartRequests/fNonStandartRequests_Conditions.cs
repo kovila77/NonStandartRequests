@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -159,14 +158,12 @@ namespace NonStandartRequests
             //    ((MyCondition)lvConditionSelectedItem.Tag).LigamentIndex = 0;
             //}
 
-            var myValueHandle = cbExpression.SelectedItem as MyValueHandle;
-
             var myCnd = new MyCondition(
                 cbFieldName.SelectedIndex,
                 (MyField)cbFieldName.SelectedItem,
                 cbExpression.SelectedIndex,
                 cbExpression.DropDownStyle == ComboBoxStyle.Simple ? cbExpression.Text : cbExpression.SelectedItem.ToString(),
-                cbExpression.DropDownStyle == ComboBoxStyle.Simple ? new MyValueHandle(cbExpression.Text, "text") : myValueHandle,
+                cbExpression.DropDownStyle == ComboBoxStyle.Simple ? new MyValueHandle(cbExpression.Text, "text") : (MyValueHandle)cbExpression.SelectedItem,
                 cbCriterion.SelectedIndex,
                 -1
                 );
@@ -177,13 +174,6 @@ namespace NonStandartRequests
                     myCnd.cbExpressionText,
                     ""
                 });
-
-            if (myValueHandle.Value == null || myValueHandle.Value == DBNull.Value)
-            {
-                newLvi.ForeColor = Color.Gray;
-                newLvi.SubItems[2].Font = new System.Drawing.Font(newLvi.SubItems[0].Font, System.Drawing.FontStyle.Italic);
-            }
-
             newLvi.Tag = myCnd;
             lvConditions.SelectedItems.Clear();
             lvConditions.Items.Add(newLvi).Selected = true;
