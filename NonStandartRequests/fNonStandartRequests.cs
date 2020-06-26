@@ -141,6 +141,8 @@ namespace NonStandartRequests
             cbLigament.Items.Clear();
             cbCriterion.Items.Clear();
             cbFieldName.SelectedIndex = -1;
+
+            cbExpression.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void btFieldNameChange_Click(object sender, EventArgs e)
@@ -159,6 +161,28 @@ namespace NonStandartRequests
             {
                 lbAllFields.Items.Remove(newField);
                 lbAllFields.Items.Insert(index, newField);
+            }
+            index = cbFieldName.Items.IndexOf(newField);
+            if (index >= 0)
+            {
+                if (index == cbFieldName.SelectedIndex)
+                {
+                    cbFieldName.Items.Remove(newField);
+                    cbFieldName.Items.Insert(index, newField);
+                    cbFieldName.SelectedIndex = index;
+                }
+                else
+                {
+                    cbFieldName.Items.Remove(newField);
+                    cbFieldName.Items.Insert(index, newField);
+                }
+            }
+            foreach (ListViewItem item in lvConditions.Items)
+            {
+                if (((MyCondition)item.Tag).Field == newField)
+                {
+                    item.SubItems[0].Text = newField.ToString();
+                }
             }
         }
 

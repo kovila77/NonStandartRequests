@@ -117,22 +117,25 @@ namespace NonStandartRequests
             return res;
         }
 
-        private void btAddCondition_Click(object sender, EventArgs e)
+        private bool IsNewConditionReady()
         {
             if (cbFieldName.SelectedItem == null)
             {
                 MessageBox.Show("Вы должны выбрать поле!");
-                return;
+                return false;
             }
             if (cbCriterion.SelectedItem == null)
             {
                 MessageBox.Show("Вы должны выбрать критерий сравнения!");
-                return;
+                return false;
             }
             if (cbExpression.DropDownStyle == ComboBoxStyle.Simple)
             {
                 if (RmvExtrSpaces(cbExpression.Text) == "")
+                {
                     MessageBox.Show("Вы должны выбрать не пустое значение для поиска в строке!");
+                    return false;
+                }
             }
             else if (cbExpression.SelectedItem == null)
             {
@@ -140,9 +143,14 @@ namespace NonStandartRequests
                     MessageBox.Show("Вы должны выбрать значение, с которым будет происходить сравнение!");
                 else
                     MessageBox.Show("Данное поле нельзя добавить, так как нет значений для выбора!");
-                return;
+                return false;
             }
+            return true;
+        }
 
+        private void btAddCondition_Click(object sender, EventArgs e)
+        {
+            if (!IsNewConditionReady()) return;
 
             if (lvConditions.Items.Count > 0)
             {
@@ -188,29 +196,7 @@ namespace NonStandartRequests
         {
             if (lvConditionSelectedItem == null) return;
 
-            if (cbFieldName.SelectedItem == null)
-            {
-                MessageBox.Show("Вы должны выбрать поле!");
-                return;
-            }
-            if (cbCriterion.SelectedItem == null)
-            {
-                MessageBox.Show("Вы должны выбрать критерий сравнения!");
-                return;
-            }
-            if (cbExpression.DropDownStyle == ComboBoxStyle.Simple)
-            {
-                if (RmvExtrSpaces(cbExpression.Text) == "")
-                    MessageBox.Show("Вы должны выбрать не пустое значение для поиска в строке!");
-            }
-            else if (cbExpression.SelectedItem == null)
-            {
-                if (cbExpression.Items.Count > 0)
-                    MessageBox.Show("Вы должны выбрать значение, с которым будет происходить сравнение!");
-                else
-                    MessageBox.Show("Данное поле нельзя добавить, так как нет значений для выбора!");
-                return;
-            }
+            if (!IsNewConditionReady()) return;
 
             var myCnd = new MyCondition(
                 cbFieldName.SelectedIndex,
@@ -309,6 +295,7 @@ namespace NonStandartRequests
             if (lvConditions.SelectedItems == null || lvConditions.SelectedItems.Count < 1)
             {
                 btDeleteCondition.Enabled = false;
+                btChangeCond.Enabled = false;
                 return;
             }
 
