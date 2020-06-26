@@ -62,7 +62,7 @@ namespace NonStandartRequests
         {
             for (int i = 0; i < val.Length; i++)
                 if (val[i] == '\'')
-                    val.Insert(i++, "'");
+                    val = val.Insert(i++, "'");
             return val;
         }
     }

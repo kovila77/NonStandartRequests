@@ -2,8 +2,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -35,6 +37,20 @@ namespace NonStandartRequests
             PrepareCBCriterionAndExpression();
         }
 
+        private void cbCriterion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ((string)cbCriterion.SelectedItem == strBeginsFromConditionText || (string)cbCriterion.SelectedItem == strContainsConditionText)
+            {
+                cbExpression.DropDownStyle = ComboBoxStyle.Simple;
+                cbExpression.AllowDrop = false;
+            }
+            else
+            {
+                cbExpression.DropDownStyle = ComboBoxStyle.DropDownList;
+                cbExpression.AllowDrop = true;
+            }
+        }
+
         private void PrepareCBCriterionAndExpression()
         {
             cbCriterion.Items.Clear();
@@ -63,6 +79,8 @@ namespace NonStandartRequests
             }
 
             expressionList.Sort(new MyComparerForFields(SortOrder.Ascending, fieldType));
+            cbExpression.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbExpression.AllowDrop = true;
             cbExpression.DataSource = expressionList.Select(x => new MyValueHandle(x, fieldType)).ToList();
         }
 
@@ -100,8 +118,6 @@ namespace NonStandartRequests
             return res;
         }
 
-
-
         private void btAddCondition_Click(object sender, EventArgs e)
         {
             if (cbFieldName.SelectedItem == null)
@@ -114,7 +130,12 @@ namespace NonStandartRequests
                 MessageBox.Show("Вы должны выбрать критерий сравнения!");
                 return;
             }
-            if (cbExpression.SelectedItem == null)
+            if (cbExpression.DropDownStyle == ComboBoxStyle.Simple)
+            {
+                if (RmvExtrSpaces(cbExpression.Text) == "")
+                    MessageBox.Show("Вы должны выбрать не пустое значение для поиска в строке!");
+            }
+            else if (cbExpression.SelectedItem == null)
             {
                 if (cbExpression.Items.Count > 0)
                     MessageBox.Show("Вы должны выбрать значение, с которым будет происходить сравнение!");
@@ -138,20 +159,32 @@ namespace NonStandartRequests
             //    ((MyCondition)lvConditionSelectedItem.Tag).LigamentIndex = 0;
             //}
 
-            var newLvi = new ListViewItem(new[] {
-                    cbFieldName.SelectedItem.ToString(),
-                    cbCriterion.SelectedItem.ToString(),
-                    cbExpression.SelectedItem.ToString(),
-                    ""
-                });
-            newLvi.Tag = new MyCondition(
+            var myValueHandle = cbExpression.SelectedItem as MyValueHandle;
+
+            var myCnd = new MyCondition(
                 cbFieldName.SelectedIndex,
                 (MyField)cbFieldName.SelectedItem,
                 cbExpression.SelectedIndex,
-                (MyValueHandle)cbExpression.SelectedItem,
+                cbExpression.DropDownStyle == ComboBoxStyle.Simple ? cbExpression.Text : cbExpression.SelectedItem.ToString(),
+                cbExpression.DropDownStyle == ComboBoxStyle.Simple ? new MyValueHandle(cbExpression.Text, "text") : myValueHandle,
                 cbCriterion.SelectedIndex,
                 -1
                 );
+
+            var newLvi = new ListViewItem(new[] {
+                    cbFieldName.SelectedItem.ToString(),
+                    cbCriterion.SelectedItem.ToString(),
+                    myCnd.cbExpressionText,
+                    ""
+                });
+
+            if (myValueHandle.Value == null || myValueHandle.Value == DBNull.Value)
+            {
+                newLvi.ForeColor = Color.Gray;
+                newLvi.SubItems[2].Font = new System.Drawing.Font(newLvi.SubItems[0].Font, System.Drawing.FontStyle.Italic);
+            }
+
+            newLvi.Tag = myCnd;
             lvConditions.SelectedItems.Clear();
             lvConditions.Items.Add(newLvi).Selected = true;
 
@@ -175,7 +208,12 @@ namespace NonStandartRequests
                 MessageBox.Show("Вы должны выбрать критерий сравнения!");
                 return;
             }
-            if (cbExpression.SelectedItem == null)
+            if (cbExpression.DropDownStyle == ComboBoxStyle.Simple)
+            {
+                if (RmvExtrSpaces(cbExpression.Text) == "")
+                    MessageBox.Show("Вы должны выбрать не пустое значение для поиска в строке!");
+            }
+            else if (cbExpression.SelectedItem == null)
             {
                 if (cbExpression.Items.Count > 0)
                     MessageBox.Show("Вы должны выбрать значение, с которым будет происходить сравнение!");
@@ -184,18 +222,21 @@ namespace NonStandartRequests
                 return;
             }
 
-            lvConditionSelectedItem.SubItems[0].Text = cbFieldName.SelectedItem.ToString();
-            lvConditionSelectedItem.SubItems[1].Text = cbCriterion.SelectedItem.ToString();
-            lvConditionSelectedItem.SubItems[2].Text = cbExpression.SelectedItem.ToString();
-            lvConditionSelectedItem.SubItems[3].Text = cbLigament.SelectedItem == null ? "" : cbLigament.SelectedItem.ToString();
-            lvConditionSelectedItem.Tag = new MyCondition(
+            var myCnd = new MyCondition(
                 cbFieldName.SelectedIndex,
                 (MyField)cbFieldName.SelectedItem,
                 cbExpression.SelectedIndex,
-                (MyValueHandle)cbExpression.SelectedItem,
+                cbExpression.DropDownStyle == ComboBoxStyle.Simple ? cbExpression.Text : cbExpression.SelectedItem.ToString(),
+                cbExpression.DropDownStyle == ComboBoxStyle.Simple ? new MyValueHandle(cbExpression.Text, "text") : (MyValueHandle)cbExpression.SelectedItem,
                 cbCriterion.SelectedIndex,
                 cbLigament.SelectedIndex
                 );
+
+            lvConditionSelectedItem.SubItems[0].Text = cbFieldName.SelectedItem.ToString();
+            lvConditionSelectedItem.SubItems[1].Text = cbCriterion.SelectedItem.ToString();
+            lvConditionSelectedItem.SubItems[2].Text = myCnd.cbExpressionText;
+            lvConditionSelectedItem.SubItems[3].Text = cbLigament.SelectedItem == null ? "" : cbLigament.SelectedItem.ToString();
+            lvConditionSelectedItem.Tag = myCnd;
 
             lvConditions.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             lvConditions.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
@@ -295,7 +336,11 @@ namespace NonStandartRequests
             cbFieldName.SelectedIndexChanged += cbFieldName_SelectedIndexChanged;
 
             cbCriterion.SelectedIndex = myCnd.CriterionIndex;
-            cbExpression.SelectedIndex = myCnd.ExpressionIndex;
+
+            if (cbExpression.DropDownStyle == ComboBoxStyle.Simple)
+                cbExpression.Text = myCnd.cbExpressionText;
+            else
+                cbExpression.SelectedIndex = myCnd.ExpressionIndex;
 
             cbLigament.Items.Clear();
             if (myCnd.LigamentIndex >= 0)
@@ -304,6 +349,14 @@ namespace NonStandartRequests
                 cbLigament.Items.Add("ИЛИ");
             }
             cbLigament.SelectedIndex = myCnd.LigamentIndex;
+        }
+
+        public static string RmvExtrSpaces(string str)
+        {
+            if (str == null) return str;
+            str = str.Trim();
+            str = Regex.Replace(str, @"\s+", " ");
+            return str;
         }
     }
 }

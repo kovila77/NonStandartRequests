@@ -47,6 +47,7 @@ namespace NonStandartRequests
         public fNonStandartRequests()
         {
             InitializeComponent();
+            //this.Font = new Font(this.Font,);
         }
 
         private void fNonStandartRequests_Load(object sender, EventArgs e)
@@ -68,6 +69,8 @@ namespace NonStandartRequests
             lvConditions.Columns.Add("Критерий");
             lvConditions.Columns.Add("Значение");
             lvConditions.Columns.Add("Связка");
+            lvConditions.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            lvConditions.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         private void lbAllFields_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -134,7 +137,10 @@ namespace NonStandartRequests
             btDeleteCondition.Enabled = false;
             btChangeCond.Enabled = false;
             btAllLeftFieldFields_Click(null, null);
-
+            cbExpression.DataSource = null;
+            cbLigament.Items.Clear();
+            cbCriterion.Items.Clear();
+            cbFieldName.SelectedIndex = -1;
         }
 
         private void btFieldNameChange_Click(object sender, EventArgs e)

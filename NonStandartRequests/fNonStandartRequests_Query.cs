@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -401,12 +402,20 @@ namespace NonStandartRequests
                     while (reader.Read())
                     {
                         List<string> fields = new List<string>();
+                        List<int> indexOfNull = new List<int>();
                         for (int i = 0; i < columns.Length; i++)
                         {
                             var val = reader[i];
+                            if (val == null || val == DBNull.Value) indexOfNull.Add(i);
                             fields.Add(MyValueHandle.GetFormattedValue(val, ((MyField)lbSelectedFieldsFields.Items[i]).FieldType));
                         }
-                        lvResult.Items.Add(new ListViewItem(fields.ToArray()));
+                        var lvi = new ListViewItem(fields.ToArray());
+                        foreach (var item in indexOfNull)
+                        {
+                            lvi.SubItems[0].ForeColor = Color.Gray;
+                            lvi.SubItems[0].Font = new System.Drawing.Font(lvi.SubItems[0].Font, System.Drawing.FontStyle.Italic);
+                        }
+                        lvResult.Items.Add(lvi);
                     }
                 }
 
