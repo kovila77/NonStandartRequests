@@ -29,6 +29,9 @@ namespace NonStandartRequests
         private string sqlQuery;
         ListViewItem lvConditionSelectedItem = null;
 
+        private string strContainsConditionText = "Содержит";
+        private string strBeginsFromConditionText = "Начинается с";
+
         NpgsqlCommandBuilder npgsqlCommandBuilder = new NpgsqlCommandBuilder();
         private ColumnHeader sortingColumn = null;
 

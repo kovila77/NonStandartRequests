@@ -237,55 +237,79 @@ namespace NonStandartRequests
             return rulesConnection;
         }
 
-       
-
-        private string GetWhereConditions(out List<NpgsqlParameter> parametrs, bool stringParam)
+        private string GetParamText(MyValueHandle myValueHandlem, string parametrName)
         {
-            parametrs = null;
-
-            if (stringParam)
+            if (parametrName == null)
             {
-                if (lvConditions.Items.Count < 1) return "";
-                string res = "(";
-
-                for (int i = 0; i < lvConditions.Items.Count; i++)
-                {
-                    ListViewItem lvi = lvConditions.Items[i];
-                    var column = npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.TableName)
-                        + "."
-                        + npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.ColumnName);
-                    res += column + " " +
-                        (lvi.SubItems[1].Text == "=" ? "IS NOT DISTINCT FROM" : (lvi.SubItems[1].Text == "<>" ? "IS DISTINCT FROM" : lvi.SubItems[1].Text))
-                        + " " +(((MyCondition)lvi.Tag).Expression).ToStringWithBrakets()
-                        + (i < lvConditions.Items.Count - 1 ? (lvi.SubItems[3].Text == "ИЛИ" ? " OR " : " AND ") : "");
-                }
-
-                return res + ")";
+                return myValueHandlem.ToStringWithBrakets();
             }
             else
             {
-                parametrs = new List<NpgsqlParameter>();
+                return parametrName;
+            }
+        }
 
-                if (lvConditions.Items.Count < 1) return "";
-                string res = "(";
+        private string GetStringParametr(MyValueHandle myValueHandle, string condition, string columnName, string parametrName)
+        {
+            string res = "";
 
+            if (textFieldTypes.Contains(myValueHandle.DBType) && condition != "=" && condition != "<>")
+            {
+                res += "strpos(lower(" + columnName + "), lower(" + GetParamText(myValueHandle, parametrName) + "))";
+                if (condition == strContainsConditionText)
+                {
+                    res += " > 0";
+                }
+                else if (condition == strBeginsFromConditionText)
+                {
+                    res += " = 1";
+                }
+            }
+            else
+            {
+                res += columnName + " ";
+                res += condition == "=" ? "IS NOT DISTINCT FROM" : (condition == "<>" ? "IS DISTINCT FROM" : condition);
+                res += " " + GetParamText(myValueHandle, parametrName);
+            }
+            return res;
+        }
+
+        private string GetWhereConditions(out List<NpgsqlParameter> parametrs, bool useStringParam)
+        {
+            parametrs = new List<NpgsqlParameter>();
+
+            if (lvConditions.Items.Count < 1) return "";
+            string res = "(";
+            if (useStringParam)
+            {
                 for (int i = 0; i < lvConditions.Items.Count; i++)
                 {
                     ListViewItem lvi = lvConditions.Items[i];
                     var column = npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.TableName)
                         + "."
                         + npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.ColumnName);
+
+                    res += res += GetStringParametr(((MyCondition)lvi.Tag).Expression, lvi.SubItems[1].Text, column, null);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < lvConditions.Items.Count; i++)
+                {
+                    ListViewItem lvi = lvConditions.Items[i];
+                    var column = npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.TableName)
+                        + "."
+                        + npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.ColumnName);
+
                     var param = new NpgsqlParameter("@param" + (parametrs.Count() + 1), DbType.Object) { Value = (((MyCondition)lvi.Tag).Expression).Value };
-                    res += column + " " +
-                        (lvi.SubItems[1].Text == "=" ? "IS NOT DISTINCT FROM" : (lvi.SubItems[1].Text == "<>" ? "IS DISTINCT FROM" : lvi.SubItems[1].Text))
-                        + " " + param.ParameterName
-                        + (i < lvConditions.Items.Count - 1 ? (lvi.SubItems[3].Text == "ИЛИ" ? " OR " : " AND ") : "");
+
+                    res += GetStringParametr(((MyCondition)lvi.Tag).Expression, lvi.SubItems[1].Text, column, param.ParameterName);
+
+                    res += (i < lvConditions.Items.Count - 1 ? (lvi.SubItems[3].Text == "ИЛИ" ? " OR " : " AND ") : "");
                     parametrs.Add(param);
                 }
-
-                return res + ")";
-                //return res.Remove(res.Length - (lvConditions.Items[lvConditions.Items.Count - 1].SubItems[3].Text == "ИЛИ" ? 3 : 4)) + ")";
             }
+            return res + ")";
         }
 
         private string GetStringOrderBy()

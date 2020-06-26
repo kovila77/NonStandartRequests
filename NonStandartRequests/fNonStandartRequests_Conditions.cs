@@ -18,6 +18,11 @@ namespace NonStandartRequests
             "interval",
         };
 
+        private string[] textFieldTypes = new string[]
+        {
+            "text", "varchar", "character varying", "char", "character",
+        };
+
         private void cbFieldName_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbFieldName.SelectedItem == null) return;
@@ -50,6 +55,11 @@ namespace NonStandartRequests
                 cbCriterion.Items.Add(">=");
                 cbCriterion.Items.Add("<");
                 cbCriterion.Items.Add("<=");
+            }
+            else if (textFieldTypes.Contains(fieldType))
+            {
+                cbCriterion.Items.Add(strContainsConditionText);
+                cbCriterion.Items.Add(strBeginsFromConditionText);
             }
 
             expressionList.Sort(new MyComparerForFields(SortOrder.Ascending, fieldType));

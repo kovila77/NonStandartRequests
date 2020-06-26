@@ -236,7 +236,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(330, 159);
+            this.label9.Location = new System.Drawing.Point(343, 159);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(66, 13);
             this.label9.TabIndex = 13;
@@ -245,7 +245,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(269, 159);
+            this.label8.Location = new System.Drawing.Point(260, 159);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(55, 13);
             this.label8.TabIndex = 12;
@@ -273,18 +273,18 @@
             // 
             this.cbExpression.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbExpression.FormattingEnabled = true;
-            this.cbExpression.Location = new System.Drawing.Point(330, 175);
+            this.cbExpression.Location = new System.Drawing.Point(346, 175);
             this.cbExpression.Name = "cbExpression";
-            this.cbExpression.Size = new System.Drawing.Size(287, 21);
+            this.cbExpression.Size = new System.Drawing.Size(271, 21);
             this.cbExpression.TabIndex = 9;
             // 
             // cbCriterion
             // 
             this.cbCriterion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCriterion.FormattingEnabled = true;
-            this.cbCriterion.Location = new System.Drawing.Point(278, 175);
+            this.cbCriterion.Location = new System.Drawing.Point(263, 175);
             this.cbCriterion.Name = "cbCriterion";
-            this.cbCriterion.Size = new System.Drawing.Size(46, 21);
+            this.cbCriterion.Size = new System.Drawing.Size(77, 21);
             this.cbCriterion.TabIndex = 8;
             // 
             // cbFieldName
@@ -293,7 +293,7 @@
             this.cbFieldName.FormattingEnabled = true;
             this.cbFieldName.Location = new System.Drawing.Point(8, 175);
             this.cbFieldName.Name = "cbFieldName";
-            this.cbFieldName.Size = new System.Drawing.Size(264, 21);
+            this.cbFieldName.Size = new System.Drawing.Size(249, 21);
             this.cbFieldName.TabIndex = 7;
             this.cbFieldName.SelectedIndexChanged += new System.EventHandler(this.cbFieldName_SelectedIndexChanged);
             // 
