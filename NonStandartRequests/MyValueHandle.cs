@@ -19,18 +19,6 @@ namespace NonStandartRequests
 
         public override string ToString()
         {
-            //if (Value == null || Value == DBNull.Value) return "<null>";
-
-            //if (DBType == "date")
-            //    return ((DateTime)Value).ToString("dd.MM.yyyy");
-
-            //if (DBType == "interval")
-            //    return ((TimeSpan)Value).ToString(@"ddd\ \д\.\ hh\ \ч\.\ mm\ \м\.\ ss\ \с\.");
-
-            ////if (Value.GetType() == typeof(byte[])) return Convert.ToBase64String((byte[])Value);
-            //if (DBType == "bytea") return Convert.ToBase64String((byte[])Value);
-
-            //return Value.ToString();
             return GetFormattedValue(Value, DBType);
         }
 
@@ -47,8 +35,35 @@ namespace NonStandartRequests
             //if (Value.GetType() == typeof(byte[])) return Convert.ToBase64String((byte[])Value);
             if (type == "bytea") return Convert.ToBase64String((byte[])value);
 
+            if (type == "decimal" || type == "numeric" || type == "real" || type == "double precision") return String.Format("{0:0.000}", value);
+
             return value.ToString();
         }
 
+        public string ToStringWithBrakets()
+        {
+            if (Value == null || Value == DBNull.Value) return "NULL";
+
+            if (DBType == "date")
+                return "{" + ((DateTime)Value).ToString("dd.MM.yyyy") + "}";
+
+            if (DBType == "interval")
+                return ((TimeSpan)Value).ToString(@"\'ddd\ \d\a\y\s\ hh\:mm\:ss\'");
+
+            //if (Value.GetType() == typeof(byte[])) return Convert.ToBase64String((byte[])Value);
+            if (DBType == "bytea") return ("'" + Convert.ToBase64String((byte[])Value) + "'");
+
+            if (Value.GetType() == typeof(string)) return ("'" + MyQuoteLiteral((string)Value) + "'");
+
+            return Value.ToString();
+        }
+
+        private string MyQuoteLiteral(string val)
+        {
+            for (int i = 0; i < val.Length; i++)
+                if (val[i] == '\'')
+                    val.Insert(i++, "'");
+            return val;
+        }
     }
 }

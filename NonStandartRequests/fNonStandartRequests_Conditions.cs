@@ -11,6 +11,13 @@ namespace NonStandartRequests
 {
     public partial class fNonStandartRequests : Form
     {
+        private string[] comparedFieldTypes = new string[]
+        {
+            "smallint", "integer", "bigint", "decimal", "numeric", "real", "double precision", "smallserial", "serial", "bigserial",
+            "date",
+            "interval",
+        };
+
         private void cbFieldName_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbFieldName.SelectedItem == null) return;
@@ -36,7 +43,8 @@ namespace NonStandartRequests
                                         ((MyField)cbFieldName.SelectedItem).TableName,
                                         out fieldType);
 
-            if (fieldType == "integer" || fieldType == "date" || fieldType == "interval")
+            //if (fieldType == "integer" || fieldType == "numeric" || fieldType == "date" || fieldType == "interval")
+            if (comparedFieldTypes.Contains(fieldType))
             {
                 cbCriterion.Items.Add(">");
                 cbCriterion.Items.Add(">=");

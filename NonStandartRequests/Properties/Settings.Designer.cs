@@ -61,19 +61,19 @@ namespace NonStandartRequests.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("adhoc")]
-        public string Database {
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\transcription.sqlite")]
+        public string TranslationPath {
             get {
-                return ((string)(this["Database"]));
+                return ((string)(this["TranslationPath"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".\\transcription.sqlite")]
-        public string TranslationPath {
+        [global::System.Configuration.DefaultSettingValueAttribute("outpost")]
+        public string Database {
             get {
-                return ((string)(this["TranslationPath"]));
+                return ((string)(this["Database"]));
             }
         }
     }

@@ -237,29 +237,55 @@ namespace NonStandartRequests
             return rulesConnection;
         }
 
-        private string GetWhereConditions(out List<NpgsqlParameter> parametrs)
+       
+
+        private string GetWhereConditions(out List<NpgsqlParameter> parametrs, bool stringParam)
         {
-            parametrs = new List<NpgsqlParameter>();
+            parametrs = null;
 
-            if (lvConditions.Items.Count < 1) return "";
-            string res = "(";
-
-            for (int i = 0; i < lvConditions.Items.Count; i++)
+            if (stringParam)
             {
-                ListViewItem lvi = lvConditions.Items[i];
-                var column = npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.TableName)
-                    + "."
-                    + npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.ColumnName);
-                var param = new NpgsqlParameter("@param" + (parametrs.Count() + 1), DbType.Object) { Value = (((MyCondition)lvi.Tag).Expression).Value };
-                res += column + " " +
-                    (lvi.SubItems[1].Text == "=" ? "IS NOT DISTINCT FROM" : (lvi.SubItems[1].Text == "<>" ? "IS DISTINCT FROM" : lvi.SubItems[1].Text))
-                    + " " + param.ParameterName
-                    + (i < lvConditions.Items.Count - 1 ? (lvi.SubItems[3].Text == "ИЛИ" ? " OR " : " AND ") : "");
-                parametrs.Add(param);
-            }
+                if (lvConditions.Items.Count < 1) return "";
+                string res = "(";
 
-            return res + ")";
-            //return res.Remove(res.Length - (lvConditions.Items[lvConditions.Items.Count - 1].SubItems[3].Text == "ИЛИ" ? 3 : 4)) + ")";
+                for (int i = 0; i < lvConditions.Items.Count; i++)
+                {
+                    ListViewItem lvi = lvConditions.Items[i];
+                    var column = npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.TableName)
+                        + "."
+                        + npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.ColumnName);
+                    res += column + " " +
+                        (lvi.SubItems[1].Text == "=" ? "IS NOT DISTINCT FROM" : (lvi.SubItems[1].Text == "<>" ? "IS DISTINCT FROM" : lvi.SubItems[1].Text))
+                        + " " +(((MyCondition)lvi.Tag).Expression).ToStringWithBrakets()
+                        + (i < lvConditions.Items.Count - 1 ? (lvi.SubItems[3].Text == "ИЛИ" ? " OR " : " AND ") : "");
+                }
+
+                return res + ")";
+            }
+            else
+            {
+                parametrs = new List<NpgsqlParameter>();
+
+                if (lvConditions.Items.Count < 1) return "";
+                string res = "(";
+
+                for (int i = 0; i < lvConditions.Items.Count; i++)
+                {
+                    ListViewItem lvi = lvConditions.Items[i];
+                    var column = npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.TableName)
+                        + "."
+                        + npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.ColumnName);
+                    var param = new NpgsqlParameter("@param" + (parametrs.Count() + 1), DbType.Object) { Value = (((MyCondition)lvi.Tag).Expression).Value };
+                    res += column + " " +
+                        (lvi.SubItems[1].Text == "=" ? "IS NOT DISTINCT FROM" : (lvi.SubItems[1].Text == "<>" ? "IS DISTINCT FROM" : lvi.SubItems[1].Text))
+                        + " " + param.ParameterName
+                        + (i < lvConditions.Items.Count - 1 ? (lvi.SubItems[3].Text == "ИЛИ" ? " OR " : " AND ") : "");
+                    parametrs.Add(param);
+                }
+
+                return res + ")";
+                //return res.Remove(res.Length - (lvConditions.Items[lvConditions.Items.Count - 1].SubItems[3].Text == "ИЛИ" ? 3 : 4)) + ")";
+            }
         }
 
         private string GetStringOrderBy()
@@ -280,6 +306,8 @@ namespace NonStandartRequests
             return result;
         }
 
+
+
         private void CreateQuery(bool executeQuery)
         {
             string[] columns = lbSelectedFieldsFields.Items.Cast<MyField>().Select(x => npgsqlCommandBuilder.QuoteIdentifier(x.TableName) + "." +
@@ -292,7 +320,7 @@ namespace NonStandartRequests
                 return;
             }
 
-            sqlQuery = "SELECT " + GetStringColumnsToSelect(columns) + " ";
+            sqlQuery = "SELECT DISTINCT " + GetStringColumnsToSelect(columns) + " ";
 
             List<MyTableFLink> allMyTableLinks = GetMyTableLinks();
             List<NpgsqlParameter> parameters = null;
@@ -306,7 +334,7 @@ namespace NonStandartRequests
                     sqlQuery += "WHERE ";
                     sqlQuery += rules;
                 }
-                string conditions = GetWhereConditions(out parameters);
+                string conditions = GetWhereConditions(out parameters, !executeQuery);
                 if (!string.IsNullOrEmpty(rules) && !string.IsNullOrEmpty(conditions))
                     sqlQuery += " AND " + conditions;
                 else if (!string.IsNullOrEmpty(conditions))
@@ -315,7 +343,7 @@ namespace NonStandartRequests
             else
             {
                 sqlQuery += "FROM " + GetStringAreaFrom(tables) + " ";
-                string conditions = GetWhereConditions(out parameters);
+                string conditions = GetWhereConditions(out parameters, !executeQuery);
                 if (!string.IsNullOrEmpty(conditions))
                     sqlQuery += "WHERE " + conditions;
             }

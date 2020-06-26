@@ -64,6 +64,7 @@ namespace TranslationColumns
             }
 
             загрузитьToolStripMenuItem.Enabled = false;
+            загрузитьToolStripMenuItem.Visible = false;
         }
 
         private void Initialize()
