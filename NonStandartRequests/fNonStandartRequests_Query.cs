@@ -257,6 +257,7 @@ namespace NonStandartRequests
             if (textFieldTypes.Contains(myValueHandle.DBType) && condition != "=" && condition != "<>")
             {
                 res += "strpos(lower(" + columnName + "), lower(" + GetParamText(myValueHandle, parametrName) + "))";
+                //res += "strpos(lower(" + columnName + "), " + GetParamText(myValueHandle, parametrName).ToLower() + ")";
                 if (condition == strContainsConditionText)
                 {
                     res += " > 0";
@@ -290,7 +291,7 @@ namespace NonStandartRequests
                         + "."
                         + npgsqlCommandBuilder.QuoteIdentifier(((MyCondition)lvi.Tag).Field.ColumnName);
 
-                    res += res += GetStringParametr(((MyCondition)lvi.Tag).Expression, lvi.SubItems[1].Text, column, null);
+                    res += GetStringParametr(((MyCondition)lvi.Tag).Expression, lvi.SubItems[1].Text, column, null) + " ";
                 }
             }
             else

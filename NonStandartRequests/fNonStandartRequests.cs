@@ -31,6 +31,7 @@ namespace NonStandartRequests
 
         private string strContainsConditionText = "Содержит";
         private string strBeginsFromConditionText = "Начинается с";
+        private bool useQuotions = false;
 
         NpgsqlCommandBuilder npgsqlCommandBuilder = new NpgsqlCommandBuilder();
         private ColumnHeader sortingColumn = null;
@@ -71,6 +72,10 @@ namespace NonStandartRequests
             lvConditions.Columns.Add("Связка");
             lvConditions.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             lvConditions.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+
+            ToolTip tt = new ToolTip();
+            tt.SetToolTip(checkBoxGetOutSpace,"Если отмечено, при иземении/добалении в начале и конце строки убераются пробелы. Кроме того исключаются дублирующие пробелы");
+            tt.SetToolTip(checkBoxUseBracked, "Если отмечено, обрамляет значения в условиях знаками < и >");
         }
         private void lbAllFields_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -216,6 +221,53 @@ namespace NonStandartRequests
         {
             listBoxBiginDraggingIndex = -1;
             lbValueDragging = null;
+        }
+
+        private void cbExpression_DropDownStyleChanged(object sender, EventArgs e)
+        {
+            checkBoxGetOutSpace.Enabled = cbExpression.DropDownStyle == ComboBoxStyle.Simple;
+        }
+        //private string GetListViewExpresion(string text)
+        //{
+        //    string strViewExpr;
+        //    if (cbExpression.DropDownStyle == ComboBoxStyle.Simple)
+        //    {
+        //        strViewExpr = checkBoxGetOutSpace.Checked ? RmvExtrSpaces(cbExpression.Text) : cbExpression.Text;
+        //        if (useQuotions) strViewExpr = "<" + strViewExpr + ">";
+        //        else strViewExpr = strViewExpr;
+        //    }
+        //    else
+        //    {
+        //        strViewExpr = cbExpression.SelectedItem.ToString();
+        //        if (((MyValueHandle)cbExpression.SelectedItem).Value == null || ((MyValueHandle)cbExpression.SelectedItem).Value == DBNull.Value)
+        //            strViewExpr = "null";
+        //        else if (useQuotions) strViewExpr = "<" + strViewExpr + ">";
+        //    }
+        //    return strViewExpr;
+        //}
+        private string GetListViewExpresion(string text, string operation, MyCondition mCnd)
+        {
+            if ((mCnd.Expression.Value == null || mCnd.Expression.Value == DBNull.Value) && useQuotions)
+                return "null";
+
+            if (useQuotions) 
+                text = "<" + text + ">";
+            else
+                text = text.Substring(1, text.Length - 2);
+
+            return text;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            useQuotions = checkBoxUseBracked.Checked;
+            foreach (ListViewItem lvi in lvConditions.Items)
+            {
+                MyCondition mCnd = lvi.Tag as MyCondition;
+                if (mCnd == null) continue;
+
+                lvi.SubItems[2].Text = GetListViewExpresion(lvi.SubItems[2].Text, lvi.SubItems[1].Text, mCnd);
+            }
         }
     }
 }

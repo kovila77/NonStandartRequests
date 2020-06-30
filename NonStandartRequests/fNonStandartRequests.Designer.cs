@@ -39,6 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tpCondition = new System.Windows.Forms.TabPage();
+            this.checkBoxGetOutSpace = new System.Windows.Forms.CheckBox();
             this.btChangeCond = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -72,6 +73,7 @@
             this.btCancel = new System.Windows.Forms.Button();
             this.btExecute = new System.Windows.Forms.Button();
             this.btShowSQL = new System.Windows.Forms.Button();
+            this.checkBoxUseBracked = new System.Windows.Forms.CheckBox();
             this.tcQuery.SuspendLayout();
             this.tpFields.SuspendLayout();
             this.tpCondition.SuspendLayout();
@@ -89,7 +91,7 @@
             this.tcQuery.Controls.Add(this.tpRestult);
             this.tcQuery.Dock = System.Windows.Forms.DockStyle.Top;
             this.tcQuery.Location = new System.Drawing.Point(0, 0);
-            this.tcQuery.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tcQuery.Margin = new System.Windows.Forms.Padding(4);
             this.tcQuery.Name = "tcQuery";
             this.tcQuery.SelectedIndex = 0;
             this.tcQuery.Size = new System.Drawing.Size(949, 316);
@@ -106,9 +108,9 @@
             this.tpFields.Controls.Add(this.label2);
             this.tpFields.Controls.Add(this.label1);
             this.tpFields.Location = new System.Drawing.Point(4, 25);
-            this.tpFields.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpFields.Margin = new System.Windows.Forms.Padding(4);
             this.tpFields.Name = "tpFields";
-            this.tpFields.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpFields.Padding = new System.Windows.Forms.Padding(4);
             this.tpFields.Size = new System.Drawing.Size(941, 287);
             this.tpFields.TabIndex = 0;
             this.tpFields.Text = "Поля";
@@ -119,7 +121,7 @@
             this.lbSelectedFieldsFields.FormattingEnabled = true;
             this.lbSelectedFieldsFields.ItemHeight = 16;
             this.lbSelectedFieldsFields.Location = new System.Drawing.Point(521, 41);
-            this.lbSelectedFieldsFields.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lbSelectedFieldsFields.Margin = new System.Windows.Forms.Padding(4);
             this.lbSelectedFieldsFields.Name = "lbSelectedFieldsFields";
             this.lbSelectedFieldsFields.Size = new System.Drawing.Size(406, 228);
             this.lbSelectedFieldsFields.TabIndex = 9;
@@ -133,7 +135,7 @@
             this.lbAllFields.FormattingEnabled = true;
             this.lbAllFields.ItemHeight = 16;
             this.lbAllFields.Location = new System.Drawing.Point(16, 41);
-            this.lbAllFields.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lbAllFields.Margin = new System.Windows.Forms.Padding(4);
             this.lbAllFields.Name = "lbAllFields";
             this.lbAllFields.Size = new System.Drawing.Size(388, 228);
             this.lbAllFields.TabIndex = 8;
@@ -142,7 +144,7 @@
             // btAllLeftFieldFields
             // 
             this.btAllLeftFieldFields.Location = new System.Drawing.Point(413, 194);
-            this.btAllLeftFieldFields.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btAllLeftFieldFields.Margin = new System.Windows.Forms.Padding(4);
             this.btAllLeftFieldFields.Name = "btAllLeftFieldFields";
             this.btAllLeftFieldFields.Size = new System.Drawing.Size(100, 28);
             this.btAllLeftFieldFields.TabIndex = 7;
@@ -153,7 +155,7 @@
             // btAllRightFieldFields
             // 
             this.btAllRightFieldFields.Location = new System.Drawing.Point(413, 158);
-            this.btAllRightFieldFields.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btAllRightFieldFields.Margin = new System.Windows.Forms.Padding(4);
             this.btAllRightFieldFields.Name = "btAllRightFieldFields";
             this.btAllRightFieldFields.Size = new System.Drawing.Size(100, 28);
             this.btAllRightFieldFields.TabIndex = 6;
@@ -164,7 +166,7 @@
             // btLeftFieldFields
             // 
             this.btLeftFieldFields.Location = new System.Drawing.Point(413, 122);
-            this.btLeftFieldFields.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btLeftFieldFields.Margin = new System.Windows.Forms.Padding(4);
             this.btLeftFieldFields.Name = "btLeftFieldFields";
             this.btLeftFieldFields.Size = new System.Drawing.Size(100, 28);
             this.btLeftFieldFields.TabIndex = 5;
@@ -175,7 +177,7 @@
             // btRightFieldFields
             // 
             this.btRightFieldFields.Location = new System.Drawing.Point(413, 86);
-            this.btRightFieldFields.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btRightFieldFields.Margin = new System.Windows.Forms.Padding(4);
             this.btRightFieldFields.Name = "btRightFieldFields";
             this.btRightFieldFields.Size = new System.Drawing.Size(100, 28);
             this.btRightFieldFields.TabIndex = 4;
@@ -205,6 +207,8 @@
             // 
             // tpCondition
             // 
+            this.tpCondition.Controls.Add(this.checkBoxUseBracked);
+            this.tpCondition.Controls.Add(this.checkBoxGetOutSpace);
             this.tpCondition.Controls.Add(this.btChangeCond);
             this.tpCondition.Controls.Add(this.label10);
             this.tpCondition.Controls.Add(this.label9);
@@ -218,19 +222,30 @@
             this.tpCondition.Controls.Add(this.btAddCondition);
             this.tpCondition.Controls.Add(this.lvConditions);
             this.tpCondition.Location = new System.Drawing.Point(4, 25);
-            this.tpCondition.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpCondition.Margin = new System.Windows.Forms.Padding(4);
             this.tpCondition.Name = "tpCondition";
-            this.tpCondition.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpCondition.Padding = new System.Windows.Forms.Padding(4);
             this.tpCondition.Size = new System.Drawing.Size(941, 287);
             this.tpCondition.TabIndex = 1;
             this.tpCondition.Text = "Условия";
             this.tpCondition.UseVisualStyleBackColor = true;
             // 
+            // checkBoxGetOutSpace
+            // 
+            this.checkBoxGetOutSpace.AutoSize = true;
+            this.checkBoxGetOutSpace.Enabled = false;
+            this.checkBoxGetOutSpace.Location = new System.Drawing.Point(382, 256);
+            this.checkBoxGetOutSpace.Name = "checkBoxGetOutSpace";
+            this.checkBoxGetOutSpace.Size = new System.Drawing.Size(226, 20);
+            this.checkBoxGetOutSpace.TabIndex = 16;
+            this.checkBoxGetOutSpace.Text = "Убирать незначащие пробелы";
+            this.checkBoxGetOutSpace.UseVisualStyleBackColor = true;
+            // 
             // btChangeCond
             // 
             this.btChangeCond.Enabled = false;
             this.btChangeCond.Location = new System.Drawing.Point(615, 251);
-            this.btChangeCond.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btChangeCond.Margin = new System.Windows.Forms.Padding(4);
             this.btChangeCond.Name = "btChangeCond";
             this.btChangeCond.Size = new System.Drawing.Size(100, 28);
             this.btChangeCond.TabIndex = 15;
@@ -283,7 +298,7 @@
             this.cbLigament.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLigament.FormattingEnabled = true;
             this.cbLigament.Location = new System.Drawing.Point(830, 215);
-            this.cbLigament.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbLigament.Margin = new System.Windows.Forms.Padding(4);
             this.cbLigament.Name = "cbLigament";
             this.cbLigament.Size = new System.Drawing.Size(98, 24);
             this.cbLigament.TabIndex = 10;
@@ -293,17 +308,18 @@
             this.cbExpression.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbExpression.FormattingEnabled = true;
             this.cbExpression.Location = new System.Drawing.Point(475, 215);
-            this.cbExpression.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbExpression.Margin = new System.Windows.Forms.Padding(4);
             this.cbExpression.Name = "cbExpression";
             this.cbExpression.Size = new System.Drawing.Size(346, 24);
             this.cbExpression.TabIndex = 9;
+            this.cbExpression.DropDownStyleChanged += new System.EventHandler(this.cbExpression_DropDownStyleChanged);
             // 
             // cbCriterion
             // 
             this.cbCriterion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCriterion.FormattingEnabled = true;
             this.cbCriterion.Location = new System.Drawing.Point(335, 215);
-            this.cbCriterion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbCriterion.Margin = new System.Windows.Forms.Padding(4);
             this.cbCriterion.Name = "cbCriterion";
             this.cbCriterion.Size = new System.Drawing.Size(132, 24);
             this.cbCriterion.TabIndex = 8;
@@ -314,7 +330,7 @@
             this.cbFieldName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFieldName.FormattingEnabled = true;
             this.cbFieldName.Location = new System.Drawing.Point(11, 215);
-            this.cbFieldName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbFieldName.Margin = new System.Windows.Forms.Padding(4);
             this.cbFieldName.Name = "cbFieldName";
             this.cbFieldName.Size = new System.Drawing.Size(316, 24);
             this.cbFieldName.TabIndex = 7;
@@ -324,7 +340,7 @@
             // 
             this.btDeleteCondition.Enabled = false;
             this.btDeleteCondition.Location = new System.Drawing.Point(830, 251);
-            this.btDeleteCondition.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btDeleteCondition.Margin = new System.Windows.Forms.Padding(4);
             this.btDeleteCondition.Name = "btDeleteCondition";
             this.btDeleteCondition.Size = new System.Drawing.Size(100, 28);
             this.btDeleteCondition.TabIndex = 6;
@@ -335,7 +351,7 @@
             // btAddCondition
             // 
             this.btAddCondition.Location = new System.Drawing.Point(722, 251);
-            this.btAddCondition.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btAddCondition.Margin = new System.Windows.Forms.Padding(4);
             this.btAddCondition.Name = "btAddCondition";
             this.btAddCondition.Size = new System.Drawing.Size(100, 28);
             this.btAddCondition.TabIndex = 5;
@@ -348,7 +364,7 @@
             this.lvConditions.FullRowSelect = true;
             this.lvConditions.HideSelection = false;
             this.lvConditions.Location = new System.Drawing.Point(8, 7);
-            this.lvConditions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lvConditions.Margin = new System.Windows.Forms.Padding(4);
             this.lvConditions.Name = "lvConditions";
             this.lvConditions.Size = new System.Drawing.Size(919, 184);
             this.lvConditions.TabIndex = 0;
@@ -369,10 +385,10 @@
             this.tpOrder.Controls.Add(this.btRightFieldOrder);
             this.tpOrder.Controls.Add(this.label11);
             this.tpOrder.Controls.Add(this.label12);
-            this.tpOrder.Location = new System.Drawing.Point(4, 29);
-            this.tpOrder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpOrder.Location = new System.Drawing.Point(4, 25);
+            this.tpOrder.Margin = new System.Windows.Forms.Padding(4);
             this.tpOrder.Name = "tpOrder";
-            this.tpOrder.Size = new System.Drawing.Size(941, 283);
+            this.tpOrder.Size = new System.Drawing.Size(941, 287);
             this.tpOrder.TabIndex = 2;
             this.tpOrder.Text = "Порядок";
             this.tpOrder.UseVisualStyleBackColor = true;
@@ -381,7 +397,7 @@
             // 
             this.btDown.Enabled = false;
             this.btDown.Location = new System.Drawing.Point(795, 74);
-            this.btDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btDown.Margin = new System.Windows.Forms.Padding(4);
             this.btDown.Name = "btDown";
             this.btDown.Size = new System.Drawing.Size(43, 28);
             this.btDown.TabIndex = 20;
@@ -393,7 +409,7 @@
             // 
             this.btUp.Enabled = false;
             this.btUp.Location = new System.Drawing.Point(795, 38);
-            this.btUp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btUp.Margin = new System.Windows.Forms.Padding(4);
             this.btUp.Name = "btUp";
             this.btUp.Size = new System.Drawing.Size(43, 28);
             this.btUp.TabIndex = 19;
@@ -406,7 +422,7 @@
             this.lbOrder.FormattingEnabled = true;
             this.lbOrder.ItemHeight = 16;
             this.lbOrder.Location = new System.Drawing.Point(445, 28);
-            this.lbOrder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lbOrder.Margin = new System.Windows.Forms.Padding(4);
             this.lbOrder.Name = "lbOrder";
             this.lbOrder.Size = new System.Drawing.Size(340, 244);
             this.lbOrder.TabIndex = 18;
@@ -421,7 +437,7 @@
             this.lbSelectedFieldsOrder.FormattingEnabled = true;
             this.lbSelectedFieldsOrder.ItemHeight = 16;
             this.lbSelectedFieldsOrder.Location = new System.Drawing.Point(11, 28);
-            this.lbSelectedFieldsOrder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lbSelectedFieldsOrder.Margin = new System.Windows.Forms.Padding(4);
             this.lbSelectedFieldsOrder.Name = "lbSelectedFieldsOrder";
             this.lbSelectedFieldsOrder.Size = new System.Drawing.Size(380, 244);
             this.lbSelectedFieldsOrder.TabIndex = 17;
@@ -432,9 +448,9 @@
             this.gbOrder.Controls.Add(this.rbDecreasing);
             this.gbOrder.Controls.Add(this.rbIncreasing);
             this.gbOrder.Location = new System.Drawing.Point(795, 174);
-            this.gbOrder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbOrder.Margin = new System.Windows.Forms.Padding(4);
             this.gbOrder.Name = "gbOrder";
-            this.gbOrder.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbOrder.Padding = new System.Windows.Forms.Padding(4);
             this.gbOrder.Size = new System.Drawing.Size(140, 106);
             this.gbOrder.TabIndex = 16;
             this.gbOrder.TabStop = false;
@@ -445,7 +461,7 @@
             this.rbDecreasing.AutoSize = true;
             this.rbDecreasing.Enabled = false;
             this.rbDecreasing.Location = new System.Drawing.Point(8, 59);
-            this.rbDecreasing.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbDecreasing.Margin = new System.Windows.Forms.Padding(4);
             this.rbDecreasing.Name = "rbDecreasing";
             this.rbDecreasing.Size = new System.Drawing.Size(103, 20);
             this.rbDecreasing.TabIndex = 1;
@@ -459,7 +475,7 @@
             this.rbIncreasing.Checked = true;
             this.rbIncreasing.Enabled = false;
             this.rbIncreasing.Location = new System.Drawing.Point(8, 27);
-            this.rbIncreasing.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbIncreasing.Margin = new System.Windows.Forms.Padding(4);
             this.rbIncreasing.Name = "rbIncreasing";
             this.rbIncreasing.Size = new System.Drawing.Size(124, 20);
             this.rbIncreasing.TabIndex = 0;
@@ -471,7 +487,7 @@
             // btAllLeftFieldOrder
             // 
             this.btAllLeftFieldOrder.Location = new System.Drawing.Point(400, 194);
-            this.btAllLeftFieldOrder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btAllLeftFieldOrder.Margin = new System.Windows.Forms.Padding(4);
             this.btAllLeftFieldOrder.Name = "btAllLeftFieldOrder";
             this.btAllLeftFieldOrder.Size = new System.Drawing.Size(37, 28);
             this.btAllLeftFieldOrder.TabIndex = 15;
@@ -482,7 +498,7 @@
             // btAllRightFieldOrder
             // 
             this.btAllRightFieldOrder.Location = new System.Drawing.Point(400, 158);
-            this.btAllRightFieldOrder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btAllRightFieldOrder.Margin = new System.Windows.Forms.Padding(4);
             this.btAllRightFieldOrder.Name = "btAllRightFieldOrder";
             this.btAllRightFieldOrder.Size = new System.Drawing.Size(37, 28);
             this.btAllRightFieldOrder.TabIndex = 14;
@@ -493,7 +509,7 @@
             // btLeftFieldOrder
             // 
             this.btLeftFieldOrder.Location = new System.Drawing.Point(400, 123);
-            this.btLeftFieldOrder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btLeftFieldOrder.Margin = new System.Windows.Forms.Padding(4);
             this.btLeftFieldOrder.Name = "btLeftFieldOrder";
             this.btLeftFieldOrder.Size = new System.Drawing.Size(37, 28);
             this.btLeftFieldOrder.TabIndex = 13;
@@ -504,7 +520,7 @@
             // btRightFieldOrder
             // 
             this.btRightFieldOrder.Location = new System.Drawing.Point(400, 87);
-            this.btRightFieldOrder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btRightFieldOrder.Margin = new System.Windows.Forms.Padding(4);
             this.btRightFieldOrder.Name = "btRightFieldOrder";
             this.btRightFieldOrder.Size = new System.Drawing.Size(37, 28);
             this.btRightFieldOrder.TabIndex = 12;
@@ -535,10 +551,10 @@
             // tpRestult
             // 
             this.tpRestult.Controls.Add(this.lvResult);
-            this.tpRestult.Location = new System.Drawing.Point(4, 29);
-            this.tpRestult.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpRestult.Location = new System.Drawing.Point(4, 25);
+            this.tpRestult.Margin = new System.Windows.Forms.Padding(4);
             this.tpRestult.Name = "tpRestult";
-            this.tpRestult.Size = new System.Drawing.Size(941, 283);
+            this.tpRestult.Size = new System.Drawing.Size(941, 287);
             this.tpRestult.TabIndex = 3;
             this.tpRestult.Text = "Результат";
             this.tpRestult.UseVisualStyleBackColor = true;
@@ -549,9 +565,9 @@
             this.lvResult.GridLines = true;
             this.lvResult.HideSelection = false;
             this.lvResult.Location = new System.Drawing.Point(0, 0);
-            this.lvResult.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lvResult.Margin = new System.Windows.Forms.Padding(4);
             this.lvResult.Name = "lvResult";
-            this.lvResult.Size = new System.Drawing.Size(941, 283);
+            this.lvResult.Size = new System.Drawing.Size(941, 287);
             this.lvResult.TabIndex = 0;
             this.lvResult.UseCompatibleStateImageBehavior = false;
             this.lvResult.View = System.Windows.Forms.View.Details;
@@ -565,7 +581,7 @@
             this.panel1.Controls.Add(this.btShowSQL);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 320);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(949, 42);
             this.panel1.TabIndex = 1;
@@ -573,7 +589,7 @@
             // btFieldNameChange
             // 
             this.btFieldNameChange.Location = new System.Drawing.Point(5, 10);
-            this.btFieldNameChange.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btFieldNameChange.Margin = new System.Windows.Forms.Padding(4);
             this.btFieldNameChange.Name = "btFieldNameChange";
             this.btFieldNameChange.Size = new System.Drawing.Size(235, 28);
             this.btFieldNameChange.TabIndex = 3;
@@ -584,7 +600,7 @@
             // btCancel
             // 
             this.btCancel.Location = new System.Drawing.Point(844, 10);
-            this.btCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(100, 28);
             this.btCancel.TabIndex = 2;
@@ -595,7 +611,7 @@
             // btExecute
             // 
             this.btExecute.Location = new System.Drawing.Point(685, 10);
-            this.btExecute.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btExecute.Margin = new System.Windows.Forms.Padding(4);
             this.btExecute.Name = "btExecute";
             this.btExecute.Size = new System.Drawing.Size(151, 28);
             this.btExecute.TabIndex = 1;
@@ -606,13 +622,24 @@
             // btShowSQL
             // 
             this.btShowSQL.Location = new System.Drawing.Point(551, 10);
-            this.btShowSQL.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btShowSQL.Margin = new System.Windows.Forms.Padding(4);
             this.btShowSQL.Name = "btShowSQL";
             this.btShowSQL.Size = new System.Drawing.Size(126, 28);
             this.btShowSQL.TabIndex = 0;
             this.btShowSQL.Text = "Показать SQL";
             this.btShowSQL.UseVisualStyleBackColor = true;
             this.btShowSQL.Click += new System.EventHandler(this.btShowSQL_Click);
+            // 
+            // checkBox1
+            // 
+            this.checkBoxUseBracked.AutoSize = true;
+            this.checkBoxUseBracked.Location = new System.Drawing.Point(11, 256);
+            this.checkBoxUseBracked.Name = "checkBox1";
+            this.checkBoxUseBracked.Size = new System.Drawing.Size(138, 20);
+            this.checkBoxUseBracked.TabIndex = 17;
+            this.checkBoxUseBracked.Text = "Показать скобки";
+            this.checkBoxUseBracked.UseVisualStyleBackColor = true;
+            this.checkBoxUseBracked.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // fNonStandartRequests
             // 
@@ -623,7 +650,7 @@
             this.Controls.Add(this.tcQuery);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "fNonStandartRequests";
             this.Text = "Новый запрос";
             this.Load += new System.EventHandler(this.fNonStandartRequests_Load);
@@ -688,6 +715,8 @@
         private System.Windows.Forms.Button btUp;
         private System.Windows.Forms.Button btChangeCond;
         private System.Windows.Forms.Button btFieldNameChange;
+        private System.Windows.Forms.CheckBox checkBoxGetOutSpace;
+        private System.Windows.Forms.CheckBox checkBoxUseBracked;
     }
 }
 

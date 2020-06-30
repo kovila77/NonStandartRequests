@@ -70,7 +70,7 @@ namespace NonStandartRequests.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("outpost")]
+        [global::System.Configuration.DefaultSettingValueAttribute("adhoc3")]
         public string Database {
             get {
                 return ((string)(this["Database"]));

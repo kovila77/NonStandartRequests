@@ -131,7 +131,7 @@ namespace NonStandartRequests
             }
             if (cbExpression.DropDownStyle == ComboBoxStyle.Simple)
             {
-                if (RmvExtrSpaces(cbExpression.Text) == "")
+                if (RmvExtrSpaces(cbExpression.Text) == "" && checkBoxGetOutSpace.Checked || cbExpression.Text == "" && !checkBoxGetOutSpace.Checked)
                 {
                     MessageBox.Show("Вы должны выбрать не пустое значение для поиска в строке!");
                     return false;
@@ -147,6 +147,8 @@ namespace NonStandartRequests
             }
             return true;
         }
+
+       
 
         private void btAddCondition_Click(object sender, EventArgs e)
         {
@@ -165,13 +167,29 @@ namespace NonStandartRequests
             //    cbLigament.Items.Add("ИЛИ");
             //    ((MyCondition)lvConditionSelectedItem.Tag).LigamentIndex = 0;
             //}
+            string strExpr;
+            string strViewExpr;
+            if (cbExpression.DropDownStyle == ComboBoxStyle.Simple)
+            {
+                strExpr = checkBoxGetOutSpace.Checked ? RmvExtrSpaces(cbExpression.Text) : cbExpression.Text;
+                if (useQuotions) strViewExpr = "<" + strExpr + ">";
+                else strViewExpr = strExpr;
+            }
+            else
+            {
+                strExpr = null;
+                strViewExpr = cbExpression.SelectedItem.ToString();
+                if (((MyValueHandle)cbExpression.SelectedItem).Value == null || ((MyValueHandle)cbExpression.SelectedItem).Value == DBNull.Value)
+                    strViewExpr = "null";
+                else if (useQuotions) strViewExpr = "<" + strViewExpr + ">";
+            }
 
             var myCnd = new MyCondition(
                 cbFieldName.SelectedIndex,
                 (MyField)cbFieldName.SelectedItem,
                 cbExpression.SelectedIndex,
-                cbExpression.DropDownStyle == ComboBoxStyle.Simple ? cbExpression.Text : cbExpression.SelectedItem.ToString(),
-                cbExpression.DropDownStyle == ComboBoxStyle.Simple ? new MyValueHandle(cbExpression.Text, "text") : (MyValueHandle)cbExpression.SelectedItem,
+                strExpr,
+                cbExpression.DropDownStyle == ComboBoxStyle.Simple ? new MyValueHandle(strExpr, "text") : (MyValueHandle)cbExpression.SelectedItem,
                 cbCriterion.SelectedIndex,
                 -1
                 );
@@ -179,7 +197,7 @@ namespace NonStandartRequests
             var newLvi = new ListViewItem(new[] {
                     cbFieldName.SelectedItem.ToString(),
                     cbCriterion.SelectedItem.ToString(),
-                    myCnd.cbExpressionText,
+                    strViewExpr,
                     ""
                 });
             newLvi.Tag = myCnd;
@@ -198,19 +216,36 @@ namespace NonStandartRequests
 
             if (!IsNewConditionReady()) return;
 
+            string strExpr;
+            string strViewExpr;
+            if (cbExpression.DropDownStyle == ComboBoxStyle.Simple)
+            {
+                strExpr = checkBoxGetOutSpace.Checked ? RmvExtrSpaces(cbExpression.Text) : cbExpression.Text;
+                if (useQuotions) strViewExpr = "<" + strExpr + ">";
+                else strViewExpr = strExpr;
+            }
+            else
+            {
+                strExpr = null;
+                strViewExpr = cbExpression.SelectedItem.ToString();
+                if (((MyValueHandle)cbExpression.SelectedItem).Value == null || ((MyValueHandle)cbExpression.SelectedItem).Value == DBNull.Value)
+                    strViewExpr = "null";
+                else if (useQuotions) strViewExpr = "<" + strViewExpr + ">";
+            }
+
             var myCnd = new MyCondition(
                 cbFieldName.SelectedIndex,
                 (MyField)cbFieldName.SelectedItem,
                 cbExpression.SelectedIndex,
-                cbExpression.DropDownStyle == ComboBoxStyle.Simple ? cbExpression.Text : cbExpression.SelectedItem.ToString(),
-                cbExpression.DropDownStyle == ComboBoxStyle.Simple ? new MyValueHandle(cbExpression.Text, "text") : (MyValueHandle)cbExpression.SelectedItem,
+                strExpr,
+                cbExpression.DropDownStyle == ComboBoxStyle.Simple ? new MyValueHandle(strExpr, "text") : (MyValueHandle)cbExpression.SelectedItem,
                 cbCriterion.SelectedIndex,
                 cbLigament.SelectedIndex
                 );
 
             lvConditionSelectedItem.SubItems[0].Text = cbFieldName.SelectedItem.ToString();
             lvConditionSelectedItem.SubItems[1].Text = cbCriterion.SelectedItem.ToString();
-            lvConditionSelectedItem.SubItems[2].Text = myCnd.cbExpressionText;
+            lvConditionSelectedItem.SubItems[2].Text = strViewExpr;
             lvConditionSelectedItem.SubItems[3].Text = cbLigament.SelectedItem == null ? "" : cbLigament.SelectedItem.ToString();
             lvConditionSelectedItem.Tag = myCnd;
 
@@ -315,7 +350,12 @@ namespace NonStandartRequests
             cbCriterion.SelectedIndex = myCnd.CriterionIndex;
 
             if (cbExpression.DropDownStyle == ComboBoxStyle.Simple)
+            {
+                //if (USE_QUOTIONS)
+                //   cbExpression.Text = myCnd.cbExpressionText.Substring(1, myCnd.cbExpressionText.Length - 2);
+                //else
                 cbExpression.Text = myCnd.cbExpressionText;
+            }
             else
                 cbExpression.SelectedIndex = myCnd.ExpressionIndex;
 

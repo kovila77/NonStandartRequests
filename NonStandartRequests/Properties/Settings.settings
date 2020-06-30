@@ -18,7 +18,7 @@
       <Value Profile="(Default)">.\transcription.sqlite</Value>
     </Setting>
     <Setting Name="Database" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">outpost</Value>
+      <Value Profile="(Default)">adhoc3</Value>
     </Setting>
   </Settings>
 </SettingsFile>
